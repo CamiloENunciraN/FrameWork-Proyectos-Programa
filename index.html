@@ -4,6 +4,8 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" type="text/css" href="css/index.css">
+	<link rel="shortcut icon" href="https://ww2.ufps.edu.co/public/imagenes/template/footer/logoufpsvertical.png" />
+
 	<title>Proyectos de Ingeniera de Sistemas</title>
 </head>
 <body>
@@ -16,7 +18,7 @@
 		<h1>Proyectos de Ingeniera de Sistemas</h1>
 		</div>
 		<div class="head_login">
-		<a href="">Login ɸ</a>
+		<a id="login" onclick="abrirLogin()">Login ɸ</a>
 		</div>
 	</div>
 
@@ -57,5 +59,31 @@
 		<a>2023 © All Rights Reserved. Desarrollado por: Camilo Nuncira</a>
 	</div>
 
+
+
+  <dialog id="ventanaLogin">
+
+      <div class="login">
+      	<div class="login_cerrar" >
+      		<input type="button" value="X" onclick="cerrarLogin()">
+      	</div>
+      <div class="login_caja" id="form">
+      	  <h1 id="titulo_inicio" >Inicia sesión</h1>
+          <input type="text" name="correo" value="" placeholder="Correo" id="correo">
+          <input type="password" name="contraseña" value="" placeholder="Contraseña" id="contrasena">
+          <input type="button" name="entrar" value="Entrar" id="entrar" onclick="ingresarLogin()">
+      </div>
+        <div class="login_registrar" >
+      		
+      	</div>
+      </div>
+
+  </dialog>
+
+
+
+
+
 </body>
+<script type="text/javascript" src="js/index.js"></script>
 </html>

@@ -4,6 +4,8 @@
 	margin: 0px;
 }
 
+
+/***********************cabecera de pag*************************/
 .head{
 	width: 100%;
 	height: 50px;
@@ -22,7 +24,13 @@
 .head_login{
 	width: 10%;
 }
-
+.head_login a{
+	cursor: pointer;
+}
+.head_login a:hover{
+	color: white;
+}
+/****************seccion de proyectos*****************/
 .proyectos{
 	width: 100%;
 	height: 80vh;
@@ -47,7 +55,7 @@
 	border-top-right-radius: 10px;
 }
 
-
+/*******************seccion de noticias****************************/
 .noticias{
 	background: red;
 	width: 100%;
@@ -82,15 +90,6 @@
 	color: white;
 }
 
-.vinculo{
-	margin-left: 10px;
-	text-decoration: none;
-}
-
-.vinculo:hover{
-	color: grey;
-}
-
 .noticias_redes{
 	width: 5%;
 	height: 100%;
@@ -118,7 +117,15 @@
 	margin: 5%;
 	filter: brightness(120%);
 }
+.vinculo{
+	margin-left: 10px;
+	text-decoration: none;
+}
 
+.vinculo:hover{
+	color: grey;
+}
+/************************el pie de pag*******************************/
 .footer{
 	width: 100%;
 	height: 50px;
@@ -128,3 +135,82 @@
 .footer a{
 	margin-left: 10px;
 }
+
+/*********************** Login Ventana********************************/
+
+dialog[open] {
+  position: fixed; 
+  background-color: white;
+  margin: auto; /* Centrada */
+  padding: 20px;
+}
+#ventanaLogin::backdrop{
+	background-color: rgba(0, 0, 0, .50);
+}
+
+.login{
+  width: 300px;
+  height: 300px;
+  background-color: red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.login_cerrar{
+width: 95%;
+height: 10%;
+background-color: white;
+display: flex;
+align-items: center;
+border: 1px solid black;
+border-bottom: none;
+}
+
+
+.login_cerrar [type=button]{
+  margin-left: auto;
+  margin-right: 5px;
+  width: 10%;
+}
+
+.login_caja{
+width: 95%;
+height: 85%;
+background-color: white;
+justify-content: center;
+display: flex;
+flex-direction: column;
+text-align: center;
+border: 1px solid black;
+border-top: none;
+border-bottom: none;
+}
+.login_registrar{
+width: 95%;
+height: 10%;
+background-color: white;
+display: flex;
+align-items: center;
+border: 1px solid black;
+border-top: none;
+}
+#form input{
+
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
+  height: 15%;
+}
+.login [type=button]{
+  background-color: lightgrey;
+  border: 1px solid black;
+}
+.login [type=button]:hover{
+  background-color: red;
+  border: 2px solid black;
+  cursor: pointer;
+  color: white;
+}
+/**********************************************************/

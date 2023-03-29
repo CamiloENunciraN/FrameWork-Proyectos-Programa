@@ -18,7 +18,7 @@
 		<h1>Proyectos de Ingeniera de Sistemas</h1>
 		</div>
 		<div class="head_login">
-		<a id="login" onclick="abrirLogin()">Login ɸ</a>
+		<a id="login" onclick="abrirLogin()" title="Inicia sesión">Login ɸ</a>
 		</div>
 	</div>
 
@@ -35,23 +35,29 @@
 
 	<div class="noticias">
 		<div class="noticias_panel">
+			<div class="noticias_panel_titulo">
+				<h1>Ultimas Noticias</h1>
+			</div>
 			<div class="noticias_panel_carrusel">
 				
 			</div>
+			<div class="noticias_panel_todas">
+				<input type="button" value=" Todas las noticias ▶ " title="Ver todas las noticias" class="boton">
+			</div>
 			<div class="noticias_panel_vinculos">
 				<a>Enlaces de Interes: </a>
-				<a href="https://ww2.ufps.edu.co/" class="vinculo">UFPS</a>
+				<a href="https://ww2.ufps.edu.co/" class="vinculo" title="Universidad Francisco de Paula Santander">UFPS</a>
 				<a> | </a>
-				<a href="https://ingsistemas.cloud.ufps.edu.co" class="vinculo">Ing. Sistemas</a>
+				<a href="https://ingsistemas.cloud.ufps.edu.co" class="vinculo" title="Ingenieria de Sistemas">Ing. Sistemas</a>
 				<a> | </a>
-				<a href="https://divisist.ufps.edu.co/" class="vinculo">Divisist</a>
+				<a href="https://divisist.ufps.edu.co/" class="vinculo" title="Division de Sistemas">Divisist</a>
 			</div>
 		</div>
 		<div class="noticias_redes">
-			<input type="image" src="https://upload.wikimedia.org/wikipedia/commons/e/ee/Logo_de_Facebook.png" onclick="window.location.href='https://facebook.com'">
-			<input type="image" src="https://w7.pngwing.com/pngs/194/528/png-transparent-logo-computer-icons-twitter-miscellaneous-blue-text.png" onclick="window.location.href='https://twitter.com'" >
-			<input type="image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/768px-Instagram_logo_2016.svg.png" onclick="window.location.href='https://instagram.com'" >
-			<input type="image" src="https://logosenvector.com/logo/img/youtube-228.jpg" onclick="window.location.href='https://youtube.com'" >
+			<input type="image" src="https://upload.wikimedia.org/wikipedia/commons/e/ee/Logo_de_Facebook.png" title="Facebook" onclick="window.location.href='https://facebook.com'" >
+			<input type="image" src="https://w7.pngwing.com/pngs/194/528/png-transparent-logo-computer-icons-twitter-miscellaneous-blue-text.png" title="twitter" onclick="window.location.href='https://twitter.com'" >
+			<input type="image" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/768px-Instagram_logo_2016.svg.png" title="Instagram" onclick="window.location.href='https://instagram.com'" >
+			<input type="image" src="https://logosenvector.com/logo/img/youtube-228.jpg" title="Youtube" onclick="window.location.href='https://youtube.com'" >
 		</div>
 	</div>
 
@@ -61,21 +67,28 @@
 
 
 
-  <dialog id="ventanaLogin">
+   <dialog class="modal_formulario" id="ventana_Login">
 
-      <div class="login">
-      	<div class="login_cerrar" >
-      		<input type="button" value="X" onclick="cerrarLogin()">
-      	</div>
-      <div class="login_caja" id="form">
-      	  <h1 id="titulo_inicio" >Inicia sesión</h1>
-          <input type="text" name="correo" value="" placeholder="Correo" id="correo">
-          <input type="password" name="contraseña" value="" placeholder="Contraseña" id="contrasena">
-          <input type="button" name="entrar" value="Entrar" id="entrar" onclick="ingresarLogin()">
+      <div class="formulario">
+        <div class="formulario_cerrar" >
+          <input type="button" value="X" onclick="cerrarLogin()" title="Cerrar">
+        </div>
+      <div class="formulario_caja" >
+
+          <h1 id="titulo_inicio" >Iniciar sesion</h1>
+
+          <input type="email" name="correo" placeholder="Correo" id="correo" title="Correo" maxlength="50">
+
+          <input type="password" name="contraseña"  placeholder="Contraseña" id="contrasena" title="Contrasena" maxlength="12">
+
+          <div class="formulario_accion">
+               <input type="button" name="entrar" value="Entrar" id="entrar" onclick="ingresarLogin()" title="Entrar">
+          </div>
+          
       </div>
-        <div class="login_registrar" >
-      		
-      	</div>
+        <div class="formulario_pie" >
+          
+        </div>
       </div>
 
   </dialog>

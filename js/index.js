@@ -1,11 +1,11 @@
 
 function cerrarLogin(){
-  var modal = document.getElementById("ventanaLogin");
+  var modal = document.getElementById("ventana_Login");
    modal.close();
 }
 
 function abrirLogin(){
-  var modal = document.getElementById("ventanaLogin");
+  var modal = document.getElementById("ventana_Login");
   modal.showModal();
 }
 
@@ -23,5 +23,6 @@ if(correo==""){
 }else{
 
 }
+location.href='html/manage.html';
 }
 

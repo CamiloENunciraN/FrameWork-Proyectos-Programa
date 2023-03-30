@@ -1,11 +1,11 @@
 
 function cerrarLogin(){
-  var modal = document.getElementById("ventana_Login");
+  var modal = document.getElementById("modal_formulario");
    modal.close();
 }
 
 function abrirLogin(){
-  var modal = document.getElementById("ventana_Login");
+  var modal = document.getElementById("modal_formulario");
   modal.showModal();
 }
 

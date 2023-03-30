@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="../css/index.css">
+	<title>Registrar Tipo Proyecto</title>
+</head>
+<body>
+
+
+      <div class="formulario_caja" >
+
+          <h1 id="titulo_inicio" >Registrar Tipo Proyecto</h1>
+
+          <input type="text" name="Nombre" placeholder="Nombre" id="Nombre" title="Nombre tipo de proyecto" maxlength="50">
+
+          <textarea name="Descripcion" placeholder="Descripcion" id="Descripcion" title="Descripcion tipo de proyecto" maxlength="500"></textarea>
+          
+          <div class="formulario_imagen">
+            <a>Imagen</a>  
+            <input type="file" name="Imagen" value="Imagen" placeholder="Imagen" id="Imagen" title="Imagen tipo de proyecto" accept=".png, .jpeg, .jpg">
+          </div>
+
+          <div class="formulario_accion">
+               <input type="button" name="Registrar" value="Registrar" id="Registrar" onclick="registrar()" title="Registrar tipo de proyecto">
+          </div>
+      </div>
+
+
+</body>
+<script type="text/javascript" src="../js/formRegistrarTipoProyecto.js"></script>
+</html>

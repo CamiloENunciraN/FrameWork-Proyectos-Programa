@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="../css/index.css">
+	<title>Registrar Noticia</title>
+</head>
+<body>
+
+
+      <div class="formulario_caja" >
+
+          <h1 id="titulo_inicio" >Registrar Noticia</h1>
+
+          <input type="text" name="Nombre" placeholder="Nombre" id="Nombre" title="Nombre Noticia" maxlength="50">
+
+          <input type="text" name="Enlace" placeholder="Enlace" id="Enlace" title="Enlace Noticia" maxlength="200">
+
+          <textarea name="Descripcion" placeholder="Descripcion" id="Descripcion" title="Descripcion Noticia" maxlength="500"></textarea>
+          
+          <div class="formulario_fecha">
+            <a>Fecha</a> 
+            <input type="date" name="Fecha"  placeholder="Fecha" id="Fecha" title="Fecha Noticia"> 
+          </div>  
+          
+          <div class="formulario_imagen">
+            <a>Imagen</a>  
+            <input type="file" name="Imagen" value="Imagen" placeholder="Imagen" id="Imagen" title="Imagen Noticia" accept=".png, .jpeg, .jpg">
+          </div>
+
+          <div class="formulario_accion">
+               <input type="button" name="Registrar" value="Registrar" id="Registrar" onclick="registrar()" title="Registrar Noticia">
+          </div>
+      </div>
+
+
+</body>
+<script type="text/javascript" src="../js/formRegistrarNoticia.js"></script>
+</html>

@@ -1,41 +1,21 @@
 
 
+
 function salir(){
 location.href='../index.html';
 }
 
-//al dar en ingresar del login
- function registrarNoticia() {
 
-let correo=document.getElementById('correo').value;
-let contra=document.getElementById('contrasena').value;
-
-//validacion de los datos
-if(correo==""){
-  alert("ingrese correo");
-}else if(contra==""){
-  alert("ingrese contraseña");
-}else{
-
-}
+function abrirModal(direccion){
+    var modal = document.getElementById("modal_formulario");
+    var frame = document.getElementById("formulario");
+    frame.className=direccion;/*cambio la clase del frame para darle el stilo css para cada form*/
+    frame.src=direccion+".html";/*le agrego html para que la direccion este completa*/
+    modal.showModal();
 }
 
-function AgregarNoticia(){
-    var modal = document.getElementById("formularioAgregarNoticia");
-  modal.showModal();
-}
-
-function cerrarNoticia(){
-    var modal = document.getElementById("formularioAgregarNoticia");
-  modal.close();
-}
-function abrirTipoProyecto(){
-    var modal = document.getElementById("formularioAgregarTipoProyecto");
-  modal.showModal();
-}
-
-function cerrarTipoProyecto(){
-    var modal = document.getElementById("formularioAgregarTipoProyecto");
-  modal.close();
+function cerrarModal(){
+    var modal = document.getElementById("modal_formulario");
+    modal.close();
 }
 

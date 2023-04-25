@@ -12,19 +12,56 @@ Desarrollar un aplicativo Web que permita administrar los proyectos del programa
 ## Structure:
 
 ꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖ
+
 ꔖ **Front-end** ꔖ
+
 ꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖ
+
 ꔖꔖꔖꔖ> HTML
+
 ꔖꔖꔖꔖ> CSS
+
 ꔖꔖꔖꔖ> Javascript
+
 ꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖ
+
 ꔖ **Back-end**ꔖ
+
 ꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖ
+
 ꔖꔖꔖꔖ>
+
 ꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖ
+
 ꔖ **Data Base**ꔖ
+
 ꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖ
+
 ꔖꔖꔖꔖ>
+
 ꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖ
+
+
+Instalacion:
+
+necesita NodeJs + NPM
+
+Comandos:
+
+**npm init**
+
+**npm i express mysql dotenv**
+
+crear un archivo .env en la raiz del proyecto con:
+
+PORT=
+
+DBHOST=
+
+DBUSER=
+
+DBPASS=
+
+DBNAME=
 
 ### 2023

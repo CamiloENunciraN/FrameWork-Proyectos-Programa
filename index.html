@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" type="text/css" href="css/index.css">
+	<link rel="stylesheet" type="text/css" href="src/css/index.css">
 	<link rel="shortcut icon" href="https://ww2.ufps.edu.co/public/imagenes/template/footer/logoufpsvertical.png" />
 
 	<title>Proyectos de Ingeniera de Sistemas</title>
@@ -18,7 +18,7 @@
 		<h1>Proyectos de Ingeniera de Sistemas</h1>
 		</div>
 		<div class="head_login">
-		<a id="login" onclick="abrirLogin()" title="Inicia sesión">Login ɸ</a>
+		<a id="login" title="Inicia sesión">Login ɸ</a>
 		</div>
 	</div>
 
@@ -38,7 +38,12 @@
 			<div class="noticias_panel_titulo">
 				<h1>Ultimas Noticias</h1>
 			</div>
-			<div class="noticias_panel_carrusel">
+			<div class="noticias_panel_carrusel" id="noticias_panel_carrusel">
+				
+
+
+
+
 				
 			</div>
 			<div class="noticias_panel_todas">
@@ -54,10 +59,10 @@
 			</div>
 		</div>
 <div class="noticias_redes">
-			<input type="image" src="icon/f.png" title="Facebook" onclick="window.open('https://facebook.com')" >
-			<input type="image" src="icon/t.png" title="twitter" onclick="window.open('https://twitter.com')" >
-			<input type="image" src="icon/i.png" title="Instagram" onclick="window.open('https://instagram.com')" >
-			<input type="image" src="icon/y.png" title="Youtube" onclick="window.open('https://youtube.com')" >
+			<input type="image" src="src/iconos/Facebook.png" title="Facebook" id="facebook" >
+			<input type="image" src="src/iconos/Twitter.png" title="twitter" id="twitter" >
+			<input type="image" src="src/iconos/Instagram.png" title="Instagram" id="instagram" >
+			<input type="image" src="src/iconos/Youtube.png" title="Youtube" id="youtube" >
 		</div>
 	</div>
 	</div>
@@ -72,7 +77,7 @@
 
       <div class="login">
         <div class="formulario_cerrar" >
-          <input type="button" value="X" onclick="cerrarLogin()" title="Cerrar">
+          <input type="button" value="X" id="cerrarModal" title="Cerrar">
         </div>
       <div class="formulario_caja" >
 
@@ -83,7 +88,7 @@
           <input type="password" name="contraseña"  placeholder="Contraseña" id="contrasena" title="Contrasena" maxlength="12">
 
           <div class="formulario_accion">
-               <input type="button" name="entrar" value="Entrar" id="entrar" onclick="ingresarLogin()" title="Entrar">
+               <input type="button" name="entrar" value="Entrar" id="entrar" title="Entrar">
           </div>
           
       </div>
@@ -91,10 +96,6 @@
 
   </dialog>
 
-
-
-
-
 </body>
-<script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript" src="/src/js/index.js"></script>
 </html>

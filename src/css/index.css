@@ -5,7 +5,7 @@
 }
 
 
-/***********************cabecera de pag*************************/
+/*********************** cabecera de pagina *************************/
 .head{
 	width: 100%;
 	height: 50px;
@@ -31,7 +31,7 @@
 .head_login a:hover{
 	color: white;
 }
-/****************seccion de proyectos*****************/
+/**************** seccion de proyectos *****************/
 .proyectos{
 	width: 100%;
 	height: 90vh;
@@ -70,7 +70,7 @@
 	border-radius: 10px;
 }
 
-/*******************seccion de noticias****************************/
+/******************* seccion de noticias ****************************/
 .noticias{
 	background: #b43432;
 	width: 100%;
@@ -91,11 +91,36 @@ text-align: center;
 color: #eeeeee;
 border-bottom: 1px solid #eeeeee;
 }
-
+/******** carrusel de ultimas nooticias *****************/
 .noticias_panel_carrusel{
 	width: 100%;
-	height: 90%;
+	height: 75%;
+	display: flex;
 }
+.UNoticia{
+	width: 18%;
+	height: 90%;
+	margin: 1%;
+	background-color: darkred;
+	border: 1px solid black;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+}
+.UNoticia:hover{
+	background-color: #AA0000FF;
+		border: 3px solid black;
+}
+.UNoticia_titulo {
+	font-size: 25px;
+}
+.UNoticia_imagen {
+	width: 95%;
+	height: 70%;
+}
+/*************************************************/
 .boton{
 color: #eeeeee;
 background-color: darkred;
@@ -141,8 +166,7 @@ cursor: pointer;
 .noticias_redes input[type=image]{
 	width: 70%;
 	height: auto;
-	border: 1px solid black;
-	border-radius: 50%;
+	border-radius: 10px;
 	margin: 5%;
 	filter: brightness(90%);
 }
@@ -150,8 +174,7 @@ cursor: pointer;
 .noticias_redes input[type=image]:hover{
 	width: 80%;
 	height: auto;
-	border: 2px solid black;
-	border-radius: 50%;
+	border-radius: 10px;
 	margin: 5%;
 	filter: brightness(120%);
 }
@@ -163,7 +186,7 @@ cursor: pointer;
 .vinculo:hover{
 	color: grey;
 }
-/************************el pie de pag*******************************/
+/************************ el pie de pagina *******************************/
 .footer{
 	width: 100%;
 	height: 50px;
@@ -174,7 +197,7 @@ cursor: pointer;
 	margin-left: 10px;
 }
 
-/*********************** formulario Ventana********************************/
+/*********************** formulario Ventana ********************************/
 
 dialog[open] {
   position: fixed; 

@@ -18,17 +18,17 @@
 		<h1>Proyectos de Ingeniera de Sistemas</h1>
 		</div>
 		<div class="head_login">
-		<a id="login" onclick="salir()" title="Inicia sesión">Salir ɸ</a>
+		<a id="login_salir" onclick="salir()" title="cerrar sesión">Salir ɸ</a>
 		</div>
 	</div>
 
 	<div class="proyectos">
 		<div class="proyectos_panel">
 			<div class="proyectos_panel_tipo">
-				<input type="button" name="" value="   +   " onclick="abrirModal('formRegistrarTipoProyecto')" class="boton" title="Agregar nuevo tipo de proyecto">
+				<input type="button" name="" value="   +   " id="AgregarTipoProyecto" class="boton" title="Agregar nuevo tipo de proyecto">
 			</div>
 			<div class="proyectos_panel_visualizacion">
-							<input type="button" name="" value="   +   " onclick="abrirModal('formRegistrarProyecto')" class="boton" title="Agregar nuevo proyecto">
+							<input type="button" name="" value="   +   " id="AgregarProyecto"  class="boton" title="Agregar nuevo proyecto">
 			</div>
 		</div>
 	</div>
@@ -42,7 +42,7 @@
 				
 			</div>
 			<div class="noticias_panel_todas">
-				<input type="button" value=" Agregar Noticia " title="Agrega una nueva noticia" onclick="abrirModal('formRegistrarNoticia')" class="boton">
+				<input type="button" value=" Agregar Noticia " title="Agrega una nueva noticia" id="AgregarNoticia" class="boton">
 				<input type="button" value=" Todas las noticias ▶ " title="Ver todas las noticias" class="boton">
 			</div>
 			<div class="noticias_panel_vinculos">
@@ -55,10 +55,10 @@
 			</div>
 		</div>
 <div class="noticias_redes">
-			<input type="image" src="../icon/f.png" title="Facebook" onclick="window.open('https://facebook.com')" >
-			<input type="image" src="../icon/t.png" title="twitter" onclick="window.open('https://twitter.com')" >
-			<input type="image" src="../icon/i.png" title="Instagram" onclick="window.open('https://instagram.com')" >
-			<input type="image" src="../icon/y.png" title="Youtube" onclick="window.open('https://youtube.com')" >
+			<input type="image" src="../iconos/Facebook.png" title="Facebook" id="facebook" >
+			<input type="image" src="../iconos/Twitter.png" title="twitter" id="twitter" >
+			<input type="image" src="../iconos/Instagram.png" title="Instagram" id="instagram" >
+			<input type="image" src="../iconos/Youtube.png" title="Youtube" id="youtube" >
 		</div>
 	</div>
 
@@ -68,7 +68,7 @@
 
 <dialog id="modal_formulario">
 	<div class="formulario_cerrar" >
-    <input type="button" value="X" onclick="cerrarModal()" title="Cerrar">
+    <input type="button" value="X" id="cerrarModal" title="Cerrar">
   </div>
 	<iframe src="" id="formulario"></iframe>
 </dialog>

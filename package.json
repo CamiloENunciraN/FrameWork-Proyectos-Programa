@@ -1,0 +1,24 @@
+{
+  "name": "framework-proyectos-programa",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CamiloENunciraN/FrameWork-Proyectos-Programa.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CamiloENunciraN/FrameWork-Proyectos-Programa/issues"
+  },
+  "homepage": "https://github.com/CamiloENunciraN/FrameWork-Proyectos-Programa#readme",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mysql": "^2.18.1"
+  }
+}

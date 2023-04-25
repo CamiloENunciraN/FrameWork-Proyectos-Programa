@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="../css/formNoticias.css">
+	<title>Noticias</title>
+</head>
+<body>
+
+	<div class="noticias">
+		<div class="noticias_panel">
+			<div class="noticias_panel_titulo">
+				<h1>Noticias</h1>
+			</div>
+			<div class="noticias_panel_visualizacion">
+
+				<div class="noticia">
+					<div class="noticia_panel_imagen">
+						<img class="noticia_imagen" onclick="verImagenAumentada(0)" id="0" src="https://steamuserimages-a.akamaihd.net/ugc/950731295326918819/372E60AE044FD2BDE18A52CC06F8BA88AD9EC305/?imw=5000&imh=5000&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false">
+					</div>
+					<div class="noticia_datos">
+						<div class="noticia_titulo">
+							<h1 >titulo de la noticia</h1>
+						</div>
+						<div class="noticia_descripcion">
+							<a class="negrilla">Fecha: </a>
+							<a>aqui la fecha</a>
+							<br><br>
+							<a class="negrilla">Descripcion: </a>
+							<a>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+							tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+							quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+							consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+							cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+							proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</a>
+						</div>
+						<div class="noticia_enlace">
+							<a href="" target="_blank"> ▶ Mas informacion click aqui ...</a>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+<dialog id="imagen_aumentada">
+	<div class="imagen_aumentada_div">
+		<input type="button" id="imagen_aumentada_div_cerrar" value="X">
+		<img id="imagen_aumentada_div_grande">
+	</div>
+</dialog>
+
+
+
+
+</body>
+
+<script type="text/javascript" src="../js/formNoticias.js"></script>
+</html>

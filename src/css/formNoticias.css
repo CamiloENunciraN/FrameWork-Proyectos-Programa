@@ -1,36 +1,71 @@
+*{
+	padding: 0px;
+	margin: 0px;
+}
+/*********************** cabecera de pagina *************************/
+.head{
+	width: 100%;
+	height: 50px;
+	background: #aa1916;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	color: #eeeeee;
+}
+.head_logo{
+	width: 10%;
+}
+.head_titulo{
+	width: 80%;
+}
+.head_login{
+	width: 10%;
+}
+.head_login a{
+	cursor: pointer;
+}
+.head_login a:hover{
+	color: white;
+}
+#titulo{
+		cursor: pointer;
+}
+/******************* noticias *************************/
 .noticias{
 	width: 100%;
-	height: 90vh;
+	height: auto;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	margin-top: 10px;
 }
 
 .noticias_panel{
-	background: #e8e8e8;
+	background: transparent;
 	width: 90%;
 	height: 90%;
 	border-radius: 10px;
-	border: 1px solid #cbcbcb;
 }
 
 .noticias_panel_titulo{
 	background:  #aa1916;
 	width: 100%;
 	height: 50px;
-	border-top-left-radius: 10px;
-	border-top-right-radius: 10px;
+	border-radius: 10px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 }
+
 /************************* noticias individuales ***********************/
 .noticia{
 	width: 100%;
 	height: 200px;
 	background-color: darkgrey;
 	display: flex;
-	border-bottom: 1px solid black;
+	border-radius: 10px;
+	border: 1px solid grey;
 }
 .noticia_panel_imagen{
 	width: 30%;
@@ -40,8 +75,9 @@
 }
 .noticia_imagen{
 	width: 90%;
-	height: auto;
+	height: 90%;
 	cursor: pointer;
+	border-radius: 10px;
 }
 .noticia_datos{
 	width: 70%;
@@ -107,4 +143,14 @@ dialog::backdrop{
   border: none;
   cursor: pointer;
   position: absolute;
+}
+/************************ el pie de pagina *******************************/
+.footer{
+	width: 100%;
+	height: 50px;
+	display: flex;
+	align-items: center;
+}
+.footer a{
+	margin-left: 10px;
 }

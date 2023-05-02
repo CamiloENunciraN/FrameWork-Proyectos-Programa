@@ -15,6 +15,7 @@ const getNoticias = (request, response) => {
     (error, results) => {
         if(error)
             throw error;
+        console.log("peticion de noticias realizada");
         response.status(200).json(results);
     });
 };
@@ -37,20 +38,84 @@ const getUltimasNoticias = (request, response) => {
 app.route("/UltimasNoticias").get(getUltimasNoticias);
 
 
-const postCarta = (request, response) => {
-    const {plato, descripcion, precio, disponible} = request.body;
-    connection.query("INSERT INTO carta(plato, descripcion, precio, disponible) VALUES (?,?,?,?) ", 
-    [plato, descripcion, precio, disponible],
+const iniciarSesion = (request, response) => {
+    console.log('peticion de inicio de sesion');
+    const datos = request.body;
+    var respuesta = { "message": "no se ha iniciado la sesion",
+                      "sesion": "Inactiva",
+                      "Id": ""};
+    //validar el administrador
+    var consulta='SELECT Id, Nombre FROM Administrador WHERE Correo='+'"'+datos.email+'"'+'AND Contrasena='+datos.contrasena;
+    
+
+    connection.query(consulta, 
     (error, results) => {
-        if(error)
+        if(error){
             throw error;
-        response.status(201).json({"Item añadido correctamente": results.affectedRows});
+        }
+
+        //valida si coinciden los datos
+        if(results.length==0){
+            console.log('Administrador no encontrado');
+            response.status(200).json(respuesta);
+        }else{
+            //iniciar sesion
+           var  bdDatos = results.map(v => Object.assign({}, v));
+           console.log('Administrador '+bdDatos[0].Nombre+' encontrado');
+           //fecha actual
+           fechaAct=new Date();
+           //convertir la fecha en string
+           var fechaString=fechaAct.getFullYear()+"-"+fechaAct.getMonth()+"-"+fechaAct.getDate();
+           consulta = 'UPDATE Sesion SET Fecha="'+fechaString+'" , Estado=1 WHERE IdAdministrador='+bdDatos[0].Id;
+
+            connection.query(consulta, 
+            (error, results) => {
+            if(error){
+                throw error;
+            }
+
+            respuesta = { "message": "se ha iniciado la sesion",
+                            "sesion": "Activa",
+                            "Id": bdDatos[0].Id};
+
+            console.log('sesion iniciada');
+            response.status(200).json(respuesta);
+            });
+        }
     });
 };
 
 //ruta
-app.route("/carta")
-.post(postCarta);
+app.route("/iniciarSesion").post(iniciarSesion);
+
+
+const cerrarSesion = (request, response) => {
+    console.log('peticion de cierre de sesion');
+    const datos = request.body;
+    //modificar la sesion guardar llos datos
+    //fecha actual
+    fechaAct=new Date();
+    //convertir la fecha en string
+    var fechaString=fechaAct.getFullYear()+"-"+fechaAct.getMonth()+"-"+fechaAct.getDate();
+    consulta = 'UPDATE Sesion SET UltimaSesion="'+fechaString+'" , Estado=0 WHERE IdAdministrador='+datos.id;
+
+            connection.query(consulta, 
+            (error, results) => {
+            if(error){
+                throw error;
+            }
+            var respuesta = { "message": "se ha cerrado la sesion",
+                                "sesion": "Inactiva" };
+
+            console.log('sesion cerrada');
+            response.status(200).json(respuesta);
+            });
+};
+
+
+//ruta
+app.route("/cerrarSesion").post(cerrarSesion);
+
 
 
 const delCarta = (request, response) => {

@@ -11,38 +11,13 @@ Desarrollar un aplicativo Web que permita administrar los proyectos del programa
 
 ## Structure:
 
-ꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖ
+ꔖ **Front-end** ꔖꔖ> HTML ꔖꔖ> CSS ꔖꔖ> Javascript
 
-ꔖ **Front-end** ꔖ
+ꔖ **Back-end**  ꔖꔖ> NodeJS
 
-ꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖ
+ꔖ **Data Base** ꔖꔖ> Mysql
 
-ꔖꔖꔖꔖ> HTML
-
-ꔖꔖꔖꔖ> CSS
-
-ꔖꔖꔖꔖ> Javascript
-
-ꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖ
-
-ꔖ **Back-end**ꔖ
-
-ꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖ
-
-ꔖꔖꔖꔖ>
-
-ꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖ
-
-ꔖ **Data Base**ꔖ
-
-ꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖ
-
-ꔖꔖꔖꔖ>
-
-ꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖꔖ
-
-
-Instalacion:
+## Instalacion:
 
 necesita NodeJs + NPM
 

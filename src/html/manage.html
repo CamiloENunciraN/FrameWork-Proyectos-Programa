@@ -18,7 +18,7 @@
 		<h1>Proyectos de Ingeniera de Sistemas</h1>
 		</div>
 		<div class="head_login">
-		<a id="login_salir" onclick="salir()" title="cerrar sesión">Salir ɸ</a>
+		<a id="login_salir" title="cerrar sesión">Salir ɸ</a>
 		</div>
 	</div>
 
@@ -43,7 +43,7 @@
 			</div>
 			<div class="noticias_panel_todas">
 				<input type="button" value=" Agregar Noticia " title="Agrega una nueva noticia" id="AgregarNoticia" class="boton">
-				<input type="button" value=" Todas las noticias ▶ " title="Ver todas las noticias" class="boton">
+				<input type="button" value=" Todas las noticias ▶ " title="Ver todas las noticias" class="boton" id="noticias">
 			</div>
 			<div class="noticias_panel_vinculos">
 				<a>Enlaces de Interes: </a>
@@ -73,7 +73,12 @@
 	<iframe src="" id="formulario"></iframe>
 </dialog>
 
-
+<dialog id="imagen_aumentada">
+	<div class="imagen_aumentada_div">
+		<input type="button" id="imagen_aumentada_div_cerrar" value="X">
+		<img id="imagen_aumentada_div_grande">
+	</div>
+</dialog>
 
 </body>
 <script type="text/javascript" src="../js/manage.js"></script>

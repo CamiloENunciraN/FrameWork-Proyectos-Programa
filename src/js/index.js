@@ -1,4 +1,9 @@
+getUltimasNoticias();
 
+/********************** Abre las noticias ************************/
+document.getElementById("noticias").onclick = function() {
+  location.href='src/html/formNoticias.html';
+};
 /***********  mostrar u oocultar login  ****************/
 document.getElementById("login").onclick = function() {
   var modal = document.getElementById("modal_formulario");
@@ -7,6 +12,12 @@ document.getElementById("login").onclick = function() {
 document.getElementById("cerrarModal").onclick = function() {
   var modal = document.getElementById("modal_formulario");
    modal.close();
+   let span=document.getElementById('notificacion_login');
+   span.innerHTML="";
+    let correo=document.getElementById('correo');
+    correo.value="";
+    let contra=document.getElementById('contrasena');
+    contra.value="";
 };
 /************************** Redes ************************/
 document.getElementById("facebook").onclick = function() {
@@ -29,11 +40,11 @@ document.getElementById("entrar").onclick = function() {
 
   //validacion de los datos
   if(correo==""){
-    alert("ingrese correo");
+    notificarLogin("Ingrese un correo");
   }else if(validarEmail(correo)=="incorrecto"){
-    alert("correo no valido");
+    notificarLogin("El correo no es valido");
   }else if(contra==""){
-    alert("ingrese contraseña");
+    notificarLogin("Ingrese la contraseña");
   }else{
 
     var url = 'http://localhost:3000/iniciarSesion';
@@ -46,13 +57,25 @@ document.getElementById("entrar").onclick = function() {
         headers:{
             'Content-Type': 'application/json'
         }
-    }).then(res => res.json())
-    .catch(error => console.error('Error:', error))
-    .then(response => console.log('Success:', response));
-    
-  //location.href='html/manage.html';
+    }).then(response => response.json())
+    .then(data => {
+
+        if(data.sesion==='Activa'){
+          localStorage.setItem('Id', data.Id);
+          localStorage.setItem('sesion', data.sesion);
+          location.href='src/html/manage.html';
+        }
+    });
+
 }
 };
+/******************** muestra los mensajes de error **********************/
+function notificarLogin(mensaje){
+     let span=document.getElementById('notificacion_login');
+     span.innerHTML="<a>"+mensaje+"</a>";
+     span.style.backgroundColor = 'darkred';
+     span.style.color = 'white';
+}
 
 /******************* funcion que valida la estructura de un correo ************************/
 function validarEmail(valor) {
@@ -63,19 +86,6 @@ function validarEmail(valor) {
   }
 }
 /**************************funcion para ultimas noticias********************************************/
-getUltimasNoticias();
-
-function geUltimasNoticias(){
-  fetch('http://localhost:3000/UltimasNoticias')
-  .then(response => response.json())
-  .then(data => {
-    console.log(data);
-        if(data[0].Imagen===null){
-      data[0].Imagen="../iconos/Mal.png";
-    }
-  });
-  //.then(data => console.log(data));
-}
 
 function getUltimasNoticias(){
   fetch('http://localhost:3000/UltimasNoticias')
@@ -91,12 +101,35 @@ function getUltimasNoticias(){
     if(data[i].Imagen===null){
       data[i].Imagen="https://previews.123rf.com/images/rglinsky/rglinsky1201/rglinsky120100188/12336990-vertical-de-la-imagen-orientada-a-la-famosa-torre-eiffel-en-par%C3%ADs-francia.jpg";
     }
-      cadenaHTML+= ' <div class="UNoticia" id="'+data[i].IdNoticia+'">'+
-                   '<h1 class="UNoticia_titulo">'+data[i].Nombre+'</h1>'+
-                   '<a class="UNoticia_fecha" >'+data[i].Fecha+'</a>'+
-                   '<img class="UNoticia_imagen" src="'+data[i].Imagen+'"></div>';
+    var id= 6+i;
+      cadenaHTML+= 
+                    ' <div class="UNoticia" >'+
+                    '<div class="UNoticia_fecha" >'+
+                    '<a >'+data[i].Fecha+'</a>'+
+                    '</div>'+
+                    '<div class="UNoticia_titulo">'+
+                      '<h1>'+data[i].Nombre+'</h1>'+
+                    '</div>'+
+                    '<div  class="UNoticia_imagen" > '+
+                     '<img src="'+data[i].Imagen+'" onclick="verImagenAumentada('+id+')" id="'+id+'">'+
+                    '</div>'+
+                    '</div>';
     }
 
     div.innerHTML=cadenaHTML;
   });
+}
+
+/***********  abrir u ocultar imagen Aumentada ****************/
+document.getElementById("imagen_aumentada_div_cerrar").onclick = function() {
+  var modal = document.getElementById("imagen_aumentada");
+   modal.close();
+};
+
+function verImagenAumentada(id){
+  var imagen = document.getElementById(id);
+  var imagenAumentada = document.getElementById("imagen_aumentada_div_grande");
+  var modal = document.getElementById("imagen_aumentada");
+  imagenAumentada.src = imagen.src;
+  modal.showModal();
 }

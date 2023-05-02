@@ -97,6 +97,7 @@ border-bottom: 1px solid #eeeeee;
 	height: 75%;
 	display: flex;
 }
+
 .UNoticia{
 	width: 18%;
 	height: 90%;
@@ -108,17 +109,42 @@ border-bottom: 1px solid #eeeeee;
 	justify-content: center;
 	align-items: center;
 	cursor: pointer;
+	color: darkgrey;
 }
 .UNoticia:hover{
 	background-color: #AA0000FF;
-		border: 3px solid black;
+}
+.UNoticia_fecha{
+	width: 100%;
+	height: 10%;
+	background-color: #4B0000FF;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 .UNoticia_titulo {
+	width: 100%;
+	height: 30%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+}
+.UNoticia_titulo h1{
 	font-size: 25px;
 }
+
 .UNoticia_imagen {
-	width: 95%;
-	height: 70%;
+	width: 100%;
+	height: 60%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.UNoticia_imagen img{
+	max-width: 100%;
+	width: auto;
+	height: 100%;
 }
 /*************************************************/
 .boton{
@@ -207,7 +233,7 @@ dialog[open] {
   border-radius: 10px;
   border: 1px solid lightgrey;
 }
-#modal_formulario::backdrop{
+dialog::backdrop{
   background-color: rgba(0, 0, 0, .70);
 }
 .login{
@@ -264,6 +290,9 @@ justify-content: center;
 display: flex;
 flex-direction: column;
 text-align: center;
+}
+#notificacion_login{
+	background-color: transparent;
 }
 .formulario_Tipo{
 	 height: 60px;
@@ -369,4 +398,21 @@ background: red;
   margin-bottom: 20px;
 }
 
-/**********************************************************/
+/******************* estilos imagen aumentada *****************/
+
+.imagen_aumentada_div{
+	width: auto;
+	height: 90vh;
+}
+.imagen_aumentada_div img{
+	width: auto;
+	height: 100%;
+}
+.imagen_aumentada_div [type=button]{
+  right: 10px;
+  width: 5%;
+  background-color: white;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+}

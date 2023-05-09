@@ -1,5 +1,5 @@
 validarSesion();
-
+getUltimasNoticias();
 /************ validar que la sesion este activa ***************/
 function validarSesion(){
   var sesion=localStorage.getItem('sesion');
@@ -74,7 +74,7 @@ function getUltimasNoticias(){
   fetch('http://localhost:3000/UltimasNoticias')
   .then(response => response.json())
   .then(data => {
-
+    console.log(data);
     let cadenaHTML="";
     let div=document.getElementById('noticias_panel_carrusel');
 
@@ -118,5 +118,5 @@ function verImagenAumentada(id){
 }
 /********************** Abre las noticias ************************/
 document.getElementById("noticias").onclick = function() {
-  location.href='src/html/formNoticias.html';
+  location.href='formNoticias.html';
 };

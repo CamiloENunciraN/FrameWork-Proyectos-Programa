@@ -25,10 +25,48 @@
 	<div class="proyectos">
 		<div class="proyectos_panel">
 			<div class="proyectos_panel_tipo">
-			
+				<h1>Proyectos</h1>
 			</div>
 			<div class="proyectos_panel_visuaizacion">
 			
+
+				<div class="filtros">
+					<a id="filtrar_por">filtrar Por:</a>
+					<a>| Año:</a>
+					<select id="filtros_anio" class="filtros_select">
+						
+					</select>
+					<a>| Tipo:</a>
+					<select id="filtros_tipo" class="filtros_select">
+						
+					</select>
+					<a>| Ordenar:</a>
+					<select id="filtros_orden" class="filtros_select">
+						 <option value="DESC">Mas Reciente</option>
+						  <option value="ASC">Mas Antiguo</option>
+					</select>
+					<a>|</a>
+					<input type="button" value="Fitrar" class="boton" title="Fitrar" id="filtrar">
+					<a id="numero_de_proyectos"> 0 </a>
+					<a>proyectos Encontrados</a>
+				</div>
+
+				<div id="carga_proyectos">
+					
+				</div>
+
+
+				<div class="paginacion">
+					<div class="paginacion_titulo">
+						<a >pagina</a>
+					</div>
+					<div class="paginacion_botones">
+						<input type="button" value="◀  Anterior" title="Pagina Anterior" id="pagina_anterior" class="boton" >
+						<input type="button" value="1" title="Pagina Actual" id="pagina_actual" class="boton">
+						<input type="button" value="Siguiente  ▶" title="Pagina Siguiente" id="pagina_siguiente" class="boton">
+					</div>
+				</div>
+
 			</div>
 		</div>
 	</div>
@@ -39,11 +77,6 @@
 				<h1>Ultimas Noticias</h1>
 			</div>
 			<div class="noticias_panel_carrusel" id="noticias_panel_carrusel">
-				
-
-
-
-
 				
 			</div>
 			<div class="noticias_panel_todas">
@@ -70,8 +103,6 @@
 	<div class="footer">
 		<a>2023 © All Rights Reserved. Desarrollado por: Camilo Nuncira</a>
 	</div>
-
-
 
    <dialog id="modal_formulario">
 
@@ -100,11 +131,6 @@
 		<img id="imagen_aumentada_div_grande">
 	</div>
 </dialog>
-
-
-
-
-
 
 </body>
 <script type="text/javascript" src="/src/js/index.js"></script>

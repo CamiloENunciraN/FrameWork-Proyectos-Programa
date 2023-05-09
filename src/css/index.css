@@ -34,10 +34,11 @@
 /**************** seccion de proyectos *****************/
 .proyectos{
 	width: 100%;
-	height: 90vh;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	margin-top: 20px;
+	margin-bottom: 20px;
 }
 
 .proyectos_panel{
@@ -56,6 +57,8 @@
 	border-top-right-radius: 10px;
 	display: flex;
 	align-items: center;
+	justify-content: center;
+	color: white;
 }
 .proyectos_panel_tipo .boton{
 	background: #cbcbcb;
@@ -69,6 +72,133 @@
 .proyectos_panel_visualizacion .boton{
 	border-radius: 10px;
 }
+.filtros{
+	width: 100%;
+	background-color: #cbcbcb;
+}
+#filtrar_por{
+	margin-left: 20px;
+}
+.filtros_select {
+  height: 30px;
+  font-size: 15px;
+  border: none;
+  border-bottom: 1px solid #a7a7a7;
+  outline: none; 
+  width: 120px;
+  cursor: pointer;
+}
+#filtrar{
+	width: 100px;
+}
+#carga_proyectos{
+	width: 100%;
+	height: auto;
+
+}
+/********************** proyectos individuales *********************/
+.proyecto{
+	width: 100%;
+	height: 150px;
+	display: flex;
+	border-bottom: 1px solid grey;
+}
+.proyecto_panel_imagen{
+	width: 30%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.proyecto_imagen{
+	max-width: 90%;
+	height: 90%;
+	cursor: pointer;
+	border-radius: 10px;
+}
+.proyecto_datos{
+	width: 70%;
+	margin-left: 10px;
+	margin-right: 10px;
+
+}
+.proyecto_titulo{
+	width: 100%;
+	height: 20%;
+	display: flex;
+	align-items: center;
+	font-size: 12px;
+}
+.proyecto_descripcion{
+	width: 100%;
+
+}
+.negrilla{
+	font-weight: bolder;
+}
+.proyecto_enlace{
+	width: 100%;
+	height: 10%;
+}
+
+.proyecto_enlace a{
+	margin-left: 10px;
+	text-decoration: none;
+	color: black;
+	font-weight: bolder;
+}
+
+.proyecto_enlace a:hover{
+	color: grey;
+}
+
+
+
+
+/*********************************************************************/
+.paginacion{
+	width: 100%;
+	height: 60px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	background-color:#cbcbcb;
+}
+#pagina_anterior{
+	border-top-left-radius: 20px;
+	border-bottom-left-radius: 20px;
+	margin-right: 1px;
+	margin-top: 0px;
+}
+#pagina_anterior:disabled{
+opacity: 0.5;
+cursor: default;
+}
+#pagina_actual{
+	margin: 0px;
+	width: 30px;
+	cursor: default;
+}
+#pagina_siguiente{
+	border-top-right-radius: 20px;
+	border-bottom-right-radius: 20px;
+	margin-left: 1px;
+	margin-top: 0px;
+}
+#pagina_siguiente:disabled{
+opacity: 0.5;
+cursor: default;
+}
+.paginacion_titulo{
+	background-color: white;
+	border: 1px solid darkgrey;
+	font-size: 20px;
+	width: 150px;
+	text-align: center;
+	border-top-right-radius: 20px;
+	border-top-left-radius: 20px;
+}
+
 
 /******************* seccion de noticias ****************************/
 .noticias{
@@ -155,12 +285,12 @@ border: none;
 border-color: none;
 height: 30px;
 margin: 5px;
+font-size: 20px;
 }
 .noticias_panel_todas{
 	margin-left: auto;
 }
 .boton:hover{
-color: #eeeeee;
 background-color: #C30000FF;
 cursor: pointer;
 }

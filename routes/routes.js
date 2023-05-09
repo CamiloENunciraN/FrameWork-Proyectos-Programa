@@ -5,10 +5,78 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 //conexión con la base de datos
-const {connection} = require("../config.db");
+const {connection} = require("../database/config.db");
+
+
+const getProyectos = (request, response) => {
+    const datos = request.body;
+    PInicial= (datos.pagina-1)*datos.proyectosPorPagina; //5 es el numero de elementos por pagina
+    PFinal= PInicial+5;
+    //tipo,anio,orden,pagina
+    var consulta= crearConsultaProyecto(datos);
+
+    connection.query(consulta, 
+    (error, results) => {
+        if(error)
+            throw error;
+        console.log("peticion de proyectos realizada");
+        var  proyectos = results.map(v => Object.assign({}, v));
+        var paginaProyecto = proyectos.slice(PInicial, PFinal)
+        response.status(200).json(paginaProyecto);
+    });
+};
+
+//ruta
+app.route("/Proyectos").post(getProyectos);
+
+
+const getNumeroProyectos = (request, response) => {
+    const datos = request.body;
+    var consulta= crearConsultaProyecto(datos);
+    connection.query(consulta, 
+    (error, results) => {
+        if(error)
+            throw error;
+        console.log("peticion de numero de proyectos");
+        response.status(200).json({ NProyectos: results.length });
+    });
+};
+
+//ruta
+app.route("/numeroProyectos").post(getNumeroProyectos);
+
+/*************** metodo que crea el string de la conosulta ************/
+
+function crearConsultaProyecto(datos){
+
+    var consulta="SELECT * FROM Proyecto";
+    //agregar filtros a la consulta
+    if(datos.anio!=='Todos' && datos.tipo!=='Todos'){
+        consulta+=" WHERE YEAR(Fecha)="+datos.anio+" AND tipo='"+datos.tipo+"'";
+    }else if(datos.anio==='Todos' && datos.tipo!=='Todos'){
+        consulta+=" WHERE tipo='"+datos.tipo+"'";
+    }else if(datos.anio!=='Todos' && datos.tipo==='Todos'){
+        consulta+=" WHERE YEAR(Fecha)="+datos.anio;
+    }
+
+    consulta+=" ORDER BY Fecha "+datos.orden;
+    return consulta;
+}
 
 
 
+const getTipoProyecto = (request, response) => {
+    connection.query("SELECT Nombre FROM TipoProyecto", 
+    (error, results) => {
+        if(error)
+            throw error;
+        console.log("peticion de tipo de proyectos");
+        response.status(200).json(results);
+    });
+};
+
+//ruta
+app.route("/TipoProyecto").get(getTipoProyecto);
 
 const getNoticias = (request, response) => {
     connection.query("SELECT * FROM Noticia ORDER BY Fecha DESC ", 

@@ -1,9 +1,9 @@
-getUltimasNoticias();
-
-/********************** Abre las noticias ************************/
-document.getElementById("noticias").onclick = function() {
-  location.href='src/html/formNoticias.html';
-};
+// autor: Camilo Nuncira
+const proyectosPorPagina = 5; //numero de proyectos a mostrar por pagina
+/****************** metodos que cargan la pagina ************/
+cargarCombox(); //carga los combos que filtran los proyectos
+cargarNumeroProyectos(1); //el uno representa la pagina que se mostrara en este caso la inicial
+getUltimasNoticias(); //carga las ulltimas noticias
 /***********  mostrar u oocultar login  ****************/
 document.getElementById("login").onclick = function() {
   var modal = document.getElementById("modal_formulario");
@@ -19,19 +19,7 @@ document.getElementById("cerrarModal").onclick = function() {
     let contra=document.getElementById('contrasena');
     contra.value="";
 };
-/************************** Redes ************************/
-document.getElementById("facebook").onclick = function() {
-  window.open('https://facebook.com');
-};
-document.getElementById("twitter").onclick = function() {
-  window.open('https://twitter.com');
-};
-document.getElementById("instagram").onclick = function() {
-  window.open('https://instagram.com');
-};
-document.getElementById("youtube").onclick = function() {
-  window.open('https://youtube.com');
-};
+
 /******************* ingresar a administrador **************/
 document.getElementById("entrar").onclick = function() {
 
@@ -52,8 +40,8 @@ document.getElementById("entrar").onclick = function() {
                     contrasena: contra };
 
     fetch(url, {
-        method: 'POST', // or 'PUT'
-        body: JSON.stringify(data), // data can be `string` or {object}!
+        method: 'POST', 
+        body: JSON.stringify(data), 
         headers:{
             'Content-Type': 'application/json'
         }
@@ -64,12 +52,14 @@ document.getElementById("entrar").onclick = function() {
           localStorage.setItem('Id', data.Id);
           localStorage.setItem('sesion', data.sesion);
           location.href='src/html/manage.html';
+        }else{
+          notificarLogin("Usuario o contrasena incorrecto");
         }
     });
 
 }
 };
-/******************** muestra los mensajes de error **********************/
+/******************** muestra los mensajes de error en el login **********************/
 function notificarLogin(mensaje){
      let span=document.getElementById('notificacion_login');
      span.innerHTML="<a>"+mensaje+"</a>";
@@ -85,9 +75,199 @@ function validarEmail(valor) {
    return "incorrecto";
   }
 }
-/**************************funcion para ultimas noticias********************************************/
+/**************************** funciones para proyectos *******************/
+/********************* cargar los combox de filtros************************/
+function cargarCombox(){
+  comboAnio();
+  comboTipo();
+}
+
+function comboAnio(){
+  comboanio=document.getElementById('filtros_anio');
+  var opcion = document.createElement("option");
+  opcion.text ="Todos";
+  comboanio.add(opcion);
+  for (var i = 2000; i <=2050; i++) {
+        opcion = document.createElement("option");
+        opcion.text = i;
+        comboanio.add(opcion);
+  }
+}
+
+function comboTipo(){
+  var combotipo=document.getElementById('filtros_tipo');
+  var opcion = document.createElement("option");
+  opcion.text ="Todos";
+  combotipo.add(opcion);
+
+  fetch('http://localhost:3000/TipoProyecto')
+  .then(response => response.json())
+  .then(data => {
+
+
+  for (var i = 0; i <data.length; i++) {
+        opcion = document.createElement("option");
+        opcion.text = data[i].Nombre;
+        combotipo.add(opcion);
+  }
+  });
+}
+/******************* accion para boton filtrar ****************************/
+document.getElementById('filtrar').onclick = function(){
+  cargarNumeroProyectos(1);
+  document.getElementById('pagina_actual').value=1;
+};
+/****************** numero de proyectos encontrados *************************/
+//de acuerdo a los filtros que se le establezcan
+function cargarNumeroProyectos(pagina){
+  const nProyectos=document.getElementById('numero_de_proyectos');
+  const anio=document.getElementById('filtros_anio').value;
+  const tipo = document.getElementById("filtros_tipo").value;
+  const orden=document.getElementById('filtros_orden').value;
+
+    var url = 'http://localhost:3000/numeroProyectos';
+    var data = {    anio: anio,
+                    tipo: tipo,
+                    orden: orden };
+
+    fetch(url, {
+        method: 'POST', 
+        body: JSON.stringify(data), 
+        headers:{
+            'Content-Type': 'application/json'
+        }
+    }).then(response => response.json())
+    .then(data => { 
+      nProyectos.text=data.NProyectos;
+      // si no se encuentran notifico que no se encontraron
+    if (nProyectos.text==='0') {
+      var cargaProyectos=document.getElementById('carga_proyectos');
+      cargaProyectos.innerHTML='<h1>No se Encontraron Resutados</h1>';
+     }else{
+      getProyectos(pagina); //llamo el metodo que trae los proyectos y los dibuja
+     }
+    });
+
+}
+/********************** cargar los proyectos ***********************/
+function getProyectos(pagina){ //pagina corresponde a la pagina que se quiere cargar
+  //preguntar si es cero no hay proyectos con esos fitro
+  const nProyectos=document.getElementById('numero_de_proyectos').text;
+// si no se encuentran notifico que no se encontraron
+  if (nProyectos!=='0'){ //si es diferente busco y cargo los proyectos
+
+  const anio=document.getElementById('filtros_anio').value;
+  const tipo = document.getElementById("filtros_tipo").value;
+  const orden=document.getElementById('filtros_orden').value;
+
+    var url = 'http://localhost:3000/Proyectos';
+    var data = {    anio: anio,
+                    tipo: tipo,
+                    orden: orden,
+                    pagina: pagina,
+                    proyectosPorPagina: proyectosPorPagina };
+
+    fetch(url, {
+        method: 'POST', 
+        body: JSON.stringify(data), 
+        headers:{
+            'Content-Type': 'application/json'
+        }
+    }).then(response => response.json())
+    .then(data => { 
+
+    let cadenaHTML="";
+    let div=document.getElementById('carga_proyectos');
+
+    //concadenacion de los elementos del json
+    for(let i=0;i<data.length;i++){
+    //si no hay imagen coloco una por defecto
+    if(data[i].Imagen===null){
+      data[i].Imagen="https://previews.123rf.com/images/rglinsky/rglinsky1201/rglinsky120100188/12336990-vertical-de-la-imagen-orientada-a-la-famosa-torre-eiffel-en-par%C3%ADs-francia.jpg";
+    }
+    //recorta la fecha para que se muestre solo anio-mes-dia
+    let fecha = data[i].Fecha;
+    let subfecha = fecha.slice(0, 10);
+
+      cadenaHTML+=
+          '<div class="proyecto">'+
+          '<div class="proyecto_panel_imagen">'+
+            '<img class="proyecto_imagen" onclick="verImagenAumentada('+i+
+            ')" id="'+i+'" src="'+data[i].Imagen+'">'+
+          '</div>'+
+          '<div class="proyecto_datos">'+
+            '<div class="proyecto_titulo">'+
+              '<h1 >'+data[i].Nombre+'</h1>'+
+            '</div>'+
+            '<div class="proyecto_descripcion">'+
+              '<a class="negrilla">Fecha: </a>'+
+              '<a>'+subfecha+'</a>'+
+              '<br>'+
+              '<a class="negrilla">Autor: </a>'+
+              '<a>'+data[i].Autor+'</a>'+
+              '<br>'+
+              '<a class="negrilla">Tipo: </a>'+
+              '<a>'+data[i].Tipo+'</a>'+
+              '<br>'+
+              '<a class="negrilla">Descripcion: </a>'+
+              '<a>'+data[i].Descripcion+'</a>'+
+              '<br>'+
+              '<a class="negrilla">Enlace: </a>'+
+              '<a href="'+data[i].Enlace+'" target="_blank">'+data[i].Enlace+'</a>'+
+            '</div>'+
+          '</div>'+
+        '</div>';
+    }
+
+    div.innerHTML=cadenaHTML;
+
+  validarPaginas(); //llamo el metodo que valida las paginas
+    });
+  }
+}
+/*********************** valida las pagina de proyectos **************************/
+//se encarga de gestionar el boton siguiente y anterior de acuerdo a los proyectos
+function  validarPaginas(){
+  const paginaActual=document.getElementById('pagina_actual').value;
+  const nProyectos=document.getElementById('numero_de_proyectos').text;
+  //Math.ceil()redondea el numero por encima 2.3 = 3
+  var  calculoPaginas=Math.ceil(parseInt(nProyectos)/ proyectosPorPagina); //proyectosPorPagina es el numero de elementos por pagina
+
+  const paginaAnterior=document.getElementById('pagina_anterior');
+  if(paginaActual==='1'){
+    paginaAnterior.disabled = true; 
+  }else{
+    paginaAnterior.disabled = false; 
+  }
+const paginaSiguiente=document.getElementById('pagina_siguiente');
+if(parseInt(paginaActual)===calculoPaginas||nProyectos==='0'){
+ paginaSiguiente.disabled = true;
+}else{
+  paginaSiguiente.disabled = false;
+}
+
+}
+/**************** acciones boton anterior siguiente **************************/
+document.getElementById('pagina_anterior').onclick = function(){
+  const paginaActual=document.getElementById('pagina_actual');
+  var pAnterior=parseInt(paginaActual.value)-1;
+  getProyectos(pAnterior);
+  paginaActual.value = pAnterior;
+  validarPaginas();
+};
+document.getElementById('pagina_siguiente').onclick = function(){
+  const paginaActual=document.getElementById('pagina_actual');
+  var pSiguiente=parseInt(paginaActual.value)+1;
+  getProyectos(pSiguiente);
+  paginaActual.value = pSiguiente;
+  validarPaginas();
+};
+
+/******************* funciones de noticias ********************************/
+/************************** funcion para ultimas noticias ********************/
 
 function getUltimasNoticias(){
+
   fetch('http://localhost:3000/UltimasNoticias')
   .then(response => response.json())
   .then(data => {
@@ -101,7 +281,7 @@ function getUltimasNoticias(){
     if(data[i].Imagen===null){
       data[i].Imagen="https://previews.123rf.com/images/rglinsky/rglinsky1201/rglinsky120100188/12336990-vertical-de-la-imagen-orientada-a-la-famosa-torre-eiffel-en-par%C3%ADs-francia.jpg";
     }
-    var id= 6+i;
+    var id= 100+i;
       cadenaHTML+= 
                     ' <div class="UNoticia" >'+
                     '<div class="UNoticia_fecha" >'+
@@ -120,6 +300,10 @@ function getUltimasNoticias(){
   });
 }
 
+/********************** Abre las noticias ************************/
+document.getElementById("noticias").onclick = function() {
+  location.href='src/html/formNoticias.html';
+};
 /***********  abrir u ocultar imagen Aumentada ****************/
 document.getElementById("imagen_aumentada_div_cerrar").onclick = function() {
   var modal = document.getElementById("imagen_aumentada");
@@ -133,3 +317,16 @@ function verImagenAumentada(id){
   imagenAumentada.src = imagen.src;
   modal.showModal();
 }
+/************************** Redes ************************/
+document.getElementById("facebook").onclick = function() {
+  window.open('https://facebook.com');
+};
+document.getElementById("twitter").onclick = function() {
+  window.open('https://twitter.com');
+};
+document.getElementById("instagram").onclick = function() {
+  window.open('https://instagram.com');
+};
+document.getElementById("youtube").onclick = function() {
+  window.open('https://youtube.com');
+};

@@ -181,9 +181,20 @@ function getProyectos(pagina){ //pagina corresponde a la pagina que se quiere ca
 
     //concadenacion de los elementos del json
     for(let i=0;i<data.length;i++){
+      //valdan los campos devueltos
     //si no hay imagen coloco una por defecto
     if(data[i].Imagen===null){
-      data[i].Imagen="https://previews.123rf.com/images/rglinsky/rglinsky1201/rglinsky120100188/12336990-vertical-de-la-imagen-orientada-a-la-famosa-torre-eiffel-en-par%C3%ADs-francia.jpg";
+      data[i].Imagen="./src/iconos/Mal.png";
+    }
+    if(data[i].Autor===null){
+      data[i].Autor="Desconocido";
+    }
+    var enlace ="<a>No hay</a>";
+    if(data[i].Enlace!==null){
+       enlace ='<a href="'+data[i].Enlace+'" target="_blank">'+data[i].Enlace+'</a>';
+    }
+    if(data[i].Descripcion===null){
+      data[i].Descripcion="No hay";
     }
     //recorta la fecha para que se muestre solo anio-mes-dia
     let fecha = data[i].Fecha;
@@ -196,8 +207,12 @@ function getProyectos(pagina){ //pagina corresponde a la pagina que se quiere ca
             ')" id="'+i+'" src="'+data[i].Imagen+'">'+
           '</div>'+
           '<div class="proyecto_datos">'+
-            '<div class="proyecto_titulo">'+
-              '<h1 >'+data[i].Nombre+'</h1>'+
+            '<div class="proyecto_contenedor_titulo">'+
+              '<div class="proyecto_titulo">'+
+                '<h1 >'+data[i].Nombre+'</h1>'+
+              '</div>'+
+              '<div class="proyecto_titulo_botones">'+
+              '</div>'+
             '</div>'+
             '<div class="proyecto_descripcion">'+
               '<a class="negrilla">Fecha: </a>'+
@@ -213,7 +228,7 @@ function getProyectos(pagina){ //pagina corresponde a la pagina que se quiere ca
               '<a>'+data[i].Descripcion+'</a>'+
               '<br>'+
               '<a class="negrilla">Enlace: </a>'+
-              '<a href="'+data[i].Enlace+'" target="_blank">'+data[i].Enlace+'</a>'+
+              enlace+
             '</div>'+
           '</div>'+
         '</div>';

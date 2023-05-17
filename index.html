@@ -18,20 +18,20 @@
 		<h1>Proyectos de Ingeniera de Sistemas</h1>
 		</div>
 		<div class="head_login">
-		<a id="login" title="Inicia sesión">Login ɸ</a>
+			<input type="button" id="login" title="Inicia sesión" value="Entrar ɸ">
 		</div>
 	</div>
 
 	<div class="proyectos">
 		<div class="proyectos_panel">
-			<div class="proyectos_panel_tipo">
+			<div class="proyectos_panel_titulo">
 				<h1>Proyectos</h1>
 			</div>
 			<div class="proyectos_panel_visuaizacion">
 			
 
 				<div class="filtros">
-					<a id="filtrar_por">filtrar Por:</a>
+					<a id="filtrar_por">Filtrar Por:</a>
 					<a>| Año:</a>
 					<select id="filtros_anio" class="filtros_select">
 						
@@ -105,23 +105,19 @@
 	</div>
 
    <dialog id="modal_formulario">
-
-      <div class="login">
+      <div class="formulario_div" id="formulario_login">
         <div class="formulario_cerrar" >
           <input type="button" value="X" id="cerrarModal" title="Cerrar">
         </div>
-      <div class="formulario_caja" >
-
           <h1 id="titulo_inicio" >Iniciar sesion</h1>
           <span id="notificacion_login"></span>
+
           <input type="email" name="correo" placeholder="Correo" id="correo" title="Correo" maxlength="50">
 
           <input type="password" name="contraseña"  placeholder="Contraseña" id="contrasena" title="Contrasena" maxlength="12">
 
-          <div class="formulario_accion">
-               <input type="button" name="entrar" value="Entrar" id="entrar" title="Entrar">
-          </div>
-      </div>
+          <input type="button" name="entrar" value="Entrar" id="entrar" title="Entrar" class="boton">
+
       </div>
   </dialog>
 

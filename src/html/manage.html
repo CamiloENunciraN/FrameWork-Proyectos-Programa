@@ -18,17 +18,59 @@
 		<h1>Proyectos de Ingeniera de Sistemas</h1>
 		</div>
 		<div class="head_login">
-		<a id="login_salir" title="cerrar sesión">Salir ɸ</a>
+		<input type="button" id="login_salir" title="cerrar sesión" value="Salir ɸ">
 		</div>
 	</div>
 
 	<div class="proyectos">
 		<div class="proyectos_panel">
-			<div class="proyectos_panel_tipo">
-				<input type="button" name="" value="   +   " id="AgregarTipoProyecto" class="boton" title="Agregar nuevo tipo de proyecto">
+			<div class="proyectos_panel_titulo">
+				<h1>Proyectos</h1>
 			</div>
-			<div class="proyectos_panel_visualizacion">
-							<input type="button" name="" value="   +   " id="AgregarProyecto"  class="boton" title="Agregar nuevo proyecto">
+			<div class="proyectos_panel_visuaizacion">
+			
+
+				<div class="filtros">
+					<a id="filtrar_por">Filtrar Por:</a>
+					<a>| Año: </a>
+					<select id="filtros_anio" class="filtros_select">
+						
+					</select>
+					<a>| Tipo: </a>
+					<select id="filtros_tipo" class="filtros_select">
+						
+					</select>
+					<input type="image" src="../iconos/Agregar.png" title="Agregar tipo proyecto" id="agregar_tipo_proyecto">
+					<input type="image" src="../iconos/Editar.png" title="Modificar tipo proyecto" id="modifica_tipo_proyecto">
+					<input type="image" src="../iconos/Eliminar.png" title="Eliminar tipo proyecto" id="eliminar_tipo_proyecto">
+					<a>| Ordenar:</a>
+					<select id="filtros_orden" class="filtros_select">
+						 <option value="DESC">Mas Reciente</option>
+						  <option value="ASC">Mas Antiguo</option>
+					</select>
+					<a>|</a>
+					<input type="button" value="Fitrar" class="boton" title="Fitrar" id="filtrar">
+					<a id="numero_de_proyectos"> 0 </a>
+					<a>proyectos Encontrados</a>
+					<input type="image" src="../iconos/Agregar.png" title="Agregar proyecto" id="agregar_proyecto">
+				</div>
+
+				<div id="carga_proyectos">
+					
+				</div>
+
+
+				<div class="paginacion">
+					<div class="paginacion_titulo">
+						<a >pagina</a>
+					</div>
+					<div class="paginacion_botones">
+						<input type="button" value="◀  Anterior" title="Pagina Anterior" id="pagina_anterior" class="boton" >
+						<input type="button" value="1" title="Pagina Actual" id="pagina_actual" class="boton">
+						<input type="button" value="Siguiente  ▶" title="Pagina Siguiente" id="pagina_siguiente" class="boton">
+					</div>
+				</div>
+
 			</div>
 		</div>
 	</div>
@@ -66,19 +108,88 @@
 		<a>2023 © All Rights Reserved. Desarrollado por: Camilo Nuncira</a>
 	</div>
 
-<dialog id="modal_formulario">
-	<div class="formulario_cerrar" >
-    <input type="button" value="X" id="cerrarModal" title="Cerrar">
-  </div>
-	<iframe src="" id="formulario"></iframe>
-</dialog>
-
 <dialog id="imagen_aumentada">
 	<div class="imagen_aumentada_div">
 		<input type="button" id="imagen_aumentada_div_cerrar" value="X">
 		<img id="imagen_aumentada_div_grande">
 	</div>
 </dialog>
+
+<dialog id="notificaciones">
+	<div class="formulario_div" id="notificaciones_div">
+		<h2 id="notificaciones_texto">  </h2>
+		<br>
+		<input type="button" id="notificaciones_div_cerrar" value="Aceptar" class="boton">
+	</div>
+</dialog>
+
+<dialog id="registrar_tipo_proyecto">
+	<div class="formulario_div" id="registrar_tipo_proyecto_div" >
+		<div class="formulario_cerrar" >
+    		<input type="button" value="X" id="registrar_tipo_proyecto_cerrar" title="Cerrar">
+  		</div>
+          <h1 >Registrar</h1>
+          <h3> tipo de proyecto </h3>
+
+          <span id="registrar_tipo_proyecto_notificacion"></span>
+
+          <input type="text" name="Nombre" placeholder="Nombre" id="registrar_tipo_proyecto_nombre" title="Nombre de tipo de proyecto (maximo 50 caracteres)" maxlength="50">
+
+          <textarea name="Descripcion" placeholder="Descripcion" id="registrar_tipo_proyecto_descripcion" title="Descripcion del tipo de proyecto (maximo 500 caracteres)" maxlength="500"></textarea>
+
+
+          <input type="button" name="Registrar" value="Registrar" id="registrar_tipo_proyecto_boton" title="Registrar tipo de proyecto" class="boton">
+
+	</div>
+</dialog>
+
+<dialog id="modificar_tipo_proyecto">
+	<div class="formulario_div" id="modificar_tipo_proyecto_div">
+		<div class="formulario_cerrar" >
+    		<input type="button" value="X" id="modificar_tipo_proyecto_cerrar" title="Cerrar">
+  		</div>
+          <h1 >Modificar</h1>
+          <h3> tipo de proyecto </h3>
+          <span id="modificar_tipo_proyecto_notificacion"></span>
+
+          <input type="text" name="Nombre" placeholder="Nombre" id="modificar_tipo_proyecto_nombre" title="Nombre de tipo de proyecto (maximo 50 caracteres)" maxlength="50">
+
+          <textarea name="Descripcion" placeholder="Descripcion" id="modificar_tipo_proyecto_descripcion" title="Descripcion del tipo de proyecto (maximo 500 caracteres)" maxlength="500"></textarea>
+
+		<input type="button" name="Modificar" value="Modificar" id="modificar_tipo_proyecto_boton" title="Modificar tipo de proyecto" class="boton">
+
+	</div>
+</dialog>
+
+<dialog id="registrar_proyecto">
+	<div class="formulario_div" id="registrar_proyecto_div">
+		<div class="formulario_cerrar" >
+    		<input type="button" value="X" id="registrar_proyecto_cerrar" title="Cerrar">
+  		</div>
+          <h1 >Registrar </h1>
+          <h3>proyecto </h3>
+
+          <span id="registrar_proyecto_notificacion"></span>
+
+          <input type="text" name="Nombre" placeholder="Nombre" id="registrar_proyecto_nombre" title="Nombre de proyecto (maximo 50 caracteres)" maxlength="50">
+
+          <input type="text" name="Autor" placeholder="Autor" id="registrar_proyecto_autor" title="Autor del proyecto" maxlength="50">
+
+          <input type="text" name="Enlace" placeholder="Enlace" id="registrar_proyecto_enlace" title="Enlace del proyecto" maxlength="200">
+          
+          <input type="text" name="Imagen" placeholder="Imagen URL" id="registrar_proyecto_imagen" title="Imagen URL del proyecto" maxlength="200">
+
+          <select name="TipoProyecto" id="registrar_proyecto_tipo" title="Tipo de Proyecto"></select>
+
+          <input type="date" name="Fecha"  placeholder="Fecha" id="registrar_proyecto_fecha" title="Fecha del proyecto"> 
+
+          <textarea name="Descripcion" placeholder="Descripcion" id="registrar_proyecto_descripcion" title="Descripcion del proyecto (maximo 500 caracteres)" maxlength="500"></textarea>
+
+          <input type="button" name="Registrar" value="Registrar" id="registrar_proyecto_boton" title="registrar de proyecto" class="boton">
+
+	</div>
+</dialog>
+
 
 </body>
 <script type="text/javascript" src="../js/manage.js"></script>

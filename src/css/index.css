@@ -524,3 +524,19 @@ dialog::backdrop{
 	width: 400px;
   height: 600px;
 }
+/*************** ventana de modificar proyecto ************/
+#modificar_proyecto_div{
+	width: 400px;
+  height: 600px;
+}
+/*************** ventana de registrar noticia ************/
+#registrar_noticia_div{
+	width: 400px;
+  height: 500px;
+}
+/*************** ventana de modificar noticia ************/
+#modificar_noticia_div{
+	width: 400px;
+  height: 500px;
+}
+

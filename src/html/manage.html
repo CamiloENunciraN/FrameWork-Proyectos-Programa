@@ -190,6 +190,60 @@
 	</div>
 </dialog>
 
+<dialog id="modificar_proyecto">
+	<div class="formulario_div" id="modificar_proyecto_div">
+		<div class="formulario_cerrar" >
+    		<input type="button" value="X" id="modificar_proyecto_cerrar" title="Cerrar">
+  		</div>
+          <h1 >modificar </h1>
+          <h3 >proyecto </h3>
+
+          <span id="modificar_proyecto_notificacion"></span>
+
+          <input type="text" name="Nombre" placeholder="Nombre" id="modificar_proyecto_nombre" title="Nombre de proyecto (maximo 50 caracteres)" maxlength="50">
+
+          <input type="text" name="Autor" placeholder="Autor" id="modificar_proyecto_autor" title="Autor del proyecto" maxlength="50">
+
+          <input type="text" name="Enlace" placeholder="Enlace" id="modificar_proyecto_enlace" title="Enlace del proyecto" maxlength="200">
+          
+          <input type="text" name="Imagen" placeholder="Imagen URL" id="modificar_proyecto_imagen" title="Imagen URL del proyecto" maxlength="200">
+
+          <select name="TipoProyecto" id="modificar_proyecto_tipo" title="Tipo de Proyecto"></select>
+
+          <input type="date" name="Fecha"  placeholder="Fecha" id="modificar_proyecto_fecha" title="Fecha del proyecto"> 
+
+          <textarea name="Descripcion" placeholder="Descripcion" id="modificar_proyecto_descripcion" title="Descripcion del proyecto (maximo 500 caracteres)" maxlength="500"></textarea>
+
+          <input type="button" name="Modificar" value="Modificar" id="modificar_proyecto_boton" title="modificar de proyecto" class="boton">
+
+	</div>
+</dialog>
+
+
+<dialog id="registrar_noticia">
+	<div class="formulario_div" id="registrar_noticia_div">
+		<div class="formulario_cerrar" >
+    		<input type="button" value="X" id="registrar_noticia_cerrar" title="Cerrar">
+  		</div>
+          <h1 >Registrar</h1>
+          <h3 >noticia </h3>
+
+          <span id="registrar_noticia_notificacion"></span>
+
+          <input type="text" name="Nombre" placeholder="Nombre" id="registrar_noticia_nombre" title="Nombre de la noticia (maximo 50 caracteres)" maxlength="50">
+
+          <input type="text" name="Enlace" placeholder="Enlace" id="registrar_noticia_enlace" title="Enlace de la noticia" maxlength="200">
+          
+          <input type="text" name="Imagen" placeholder="Imagen URL" id="registrar_noticia_imagen" title="Imagen URL de la noticia" maxlength="200">
+
+          <input type="date" name="Fecha"  placeholder="Fecha" id="registrar_noticia_fecha" title="Fecha de la noticia"> 
+
+          <textarea name="Descripcion" placeholder="Descripcion" id="registrar_noticia_descripcion" title="Descripcion de la noticia (maximo 500 caracteres)" maxlength="500"></textarea>
+
+          <input type="button" name="Registrar" value="Registrar" id="registrar_noticia_boton" title="registrar noticia" class="boton">
+
+	</div>
+</dialog>
 
 </body>
 <script type="text/javascript" src="../js/manage.js"></script>

@@ -8,6 +8,8 @@ dotenv.config();
 const {connection} = require("../database/config.db");
 
 
+/*************************** proyectos ********************************/
+
 const getProyectos = (request, response) => {
     const datos = request.body;
     PInicial= (datos.pagina-1)*datos.proyectosPorPagina; //5 es el numero de elementos por pagina
@@ -28,6 +30,22 @@ const getProyectos = (request, response) => {
 
 //ruta
 app.route("/Proyectos").post(getProyectos);
+
+//busca un proyecto
+const getDatosProyecto = (request, response) => {
+    const id=request.params.id;
+    connection.query("SELECT * FROM Proyecto WHERE IdProyecto=?",
+        [id], 
+    (error, results) => {
+        if(error)
+            throw error;
+        console.log("peticion de proyecto: "+results[0].Nombre);
+        response.status(200).json(results);
+    });
+};
+
+//ruta
+app.route("/DatosProyecto/:id").get(getDatosProyecto);
 
 
 const getNumeroProyectos = (request, response) => {
@@ -62,6 +80,76 @@ function crearConsultaProyecto(datos){
     consulta+=" ORDER BY Fecha "+datos.orden;
     return consulta;
 }
+
+//registrar proyecto
+const registrarProyecto = (request, response) => {
+    const datos = request.body;
+    console.log("registrar proyecto");
+    //vallida que no se encuentre registrado
+    connection.query("SELECT Nombre FROM Proyecto WHERE Nombre=? AND Autor=? AND fecha=?",
+     [datos.Nombre,datos.Autor,datos.Fecha],
+    (error, results) => {
+        if(error){
+            throw error;
+        }
+        if(results.length!=0){
+            response.status(200).json({ "mensaje": "El proyecto ya se encuentra registrado",
+                                        "peticion": "incorrecta"}); 
+        }else{
+        //registra el tipo de proyecto
+        const consulta ="INSERT INTO Proyecto (Nombre, Fecha, Autor, Descripcion, Enlace, Imagen, Tipo) VALUES (?,?,?,?,?,?,?)";
+        connection.query(consulta, [datos.Nombre, datos.Fecha, datos.Autor, datos.Descripcion, datos.Enlace, datos.Imagen, datos.Tipo],
+        (error, results) => {
+            if(error){
+                throw error; 
+            }
+        response.status(201).json({ "mensaje": "Proyecto: "+datos.Nombre+" Agregado",
+                                    "peticion": "correcta" });
+
+        });
+        }
+
+    });
+};
+
+//ruta
+app.route("/RegistrarProyecto").post(registrarProyecto);
+
+//modificar proyecto
+const modificarProyecto = (request, response) => {
+    const id=request.params.id;
+    const datos=request.body;
+    connection.query("UPDATE Proyecto SET Nombre=? ,Fecha=? ,Autor=?, Descripcion=?,Enlace=? ,Imagen=? ,Tipo=? WHERE IdProyecto=?",
+    [datos.Nombre, datos.Fecha, datos.Autor, datos.Descripcion, datos.Enlace , datos.Imagen, datos.Tipo, id], 
+    (error, results) => {
+        if(error)
+            throw error;
+        console.log("modificar proyecto: "+id+" realizado");
+        response.status(200).json({ "mensaje": "Proyecto: "+datos.Nombre+" Modificado",
+                                    "peticion": "correcta" });
+    });
+};
+
+//ruta
+app.route("/ModificarProyecto/:id").post(modificarProyecto);
+//eliminar proyecto
+const EliminarProyecto = (request, response) => {
+    const id = request.params.id;
+    console.log("eliminar proyecto");
+    connection.query("DELETE FROM Proyecto WHERE IdProyecto = ?", 
+    [id],
+    (error, results) => {
+        if(error){
+            throw error;
+            response.status(200).json({ "mensaje": "ha ocurrido un error"});
+        }
+        response.status(201).json({ "mensaje": "Proyecto: eliminado"});
+    });
+};
+
+//ruta
+app.route("/EliminarProyecto/:id").delete(EliminarProyecto);
+
 
 /**************************** tipo proyecto **************************/
 //busca todos los tipos de proyectos
@@ -137,7 +225,8 @@ const modificarTipoProyecto = (request, response) => {
         if(error)
             throw error;
         console.log("modifcar tipo de proyecto: "+tipo+" realizada");
-        response.status(200).json(results);
+        response.status(200).json({ "mensaje": "Tipo Proyecto: "+datos.Nombre+" Modificado",
+                                    "peticion": "correcta" });
     });
 };
 
@@ -201,10 +290,10 @@ const iniciarSesion = (request, response) => {
                       "sesion": "Inactiva",
                       "Id": ""};
     //validar el administrador
-    var consulta='SELECT Id, Nombre FROM Administrador WHERE Correo='+'"'+datos.email+'"'+'AND Contrasena='+datos.contrasena;
+    var consulta='SELECT Id, Nombre FROM Administrador WHERE Correo=? AND Contrasena=?';
     
 
-    connection.query(consulta, 
+    connection.query(consulta, [datos.email, datos.contrasena] ,
     (error, results) => {
         if(error){
             throw error;
@@ -220,11 +309,10 @@ const iniciarSesion = (request, response) => {
            console.log('Administrador '+bdDatos[0].Nombre+' encontrado');
            //fecha actual
            fechaAct=new Date();
-           //convertir la fecha en string
-           var fechaString=fechaAct.getFullYear()+"-"+fechaAct.getMonth()+"-"+fechaAct.getDate();
-           consulta = 'UPDATE Sesion SET Fecha="'+fechaString+'" , Estado=1 WHERE IdAdministrador='+bdDatos[0].Id;
 
-            connection.query(consulta, 
+           consulta = 'UPDATE Sesion SET Fecha=? , Estado=1 WHERE IdAdministrador=?';
+
+            connection.query(consulta, [fechaAct,bdDatos[0].Id],
             (error, results) => {
             if(error){
                 throw error;
@@ -251,11 +339,10 @@ const cerrarSesion = (request, response) => {
     //modificar la sesion guardar llos datos
     //fecha actual
     fechaAct=new Date();
-    //convertir la fecha en string
-    var fechaString=fechaAct.getFullYear()+"-"+fechaAct.getMonth()+"-"+fechaAct.getDate();
-    consulta = 'UPDATE Sesion SET UltimaSesion="'+fechaString+'" , Estado=0 WHERE IdAdministrador='+datos.id;
 
-            connection.query(consulta, 
+    consulta = 'UPDATE Sesion SET UltimaSesion=? , Estado=0 WHERE IdAdministrador=?';
+
+            connection.query(consulta, [fechaAct , datos.id],
             (error, results) => {
             if(error){
                 throw error;

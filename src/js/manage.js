@@ -70,7 +70,7 @@ function getUltimasNoticias(){
       cadenaHTML+= 
                     ' <div class="UNoticia" >'+
                     '<div class="UNoticia_fecha" >'+
-                    '<a >'+data[i].Fecha+'</a>'+
+                    '<a >'+data[i].Fecha.slice(0,10)+'</a>'+
                     '</div>'+
                     '<div class="UNoticia_titulo">'+
                       '<h1>'+data[i].Nombre+'</h1>'+
@@ -208,17 +208,17 @@ function getProyectos(pagina){ //pagina corresponde a la pagina que se quiere ca
     for(let i=0;i<data.length;i++){
       //valdan los campos devueltos
     //si no hay imagen coloco una por defecto
-    if(data[i].Imagen===null){
+    if(data[i].Imagen===null||data[i].Imagen===""){
       data[i].Imagen="../iconos/Mal.png";
     }
-    if(data[i].Autor===null){
+    if(data[i].Autor===null||data[i].Autor===""){
       data[i].Autor="Desconocido";
     }
     var enlace ="<a>No hay</a>";
-    if(data[i].Enlace!==null){
+    if(data[i].Enlace!==null||data[i].Enlace!==""){
        enlace ='<a href="'+data[i].Enlace+'" target="_blank">'+data[i].Enlace+'</a>';
     }
-    if(data[i].Descripcion===null){
+    if(data[i].Descripcion===null||data[i].Descripcion===""){
       data[i].Descripcion="No hay";
     }
     //recorta la fecha para que se muestre solo anio-mes-dia
@@ -237,8 +237,8 @@ function getProyectos(pagina){ //pagina corresponde a la pagina que se quiere ca
                 '<h1 >'+data[i].Nombre+'</h1>'+
               '</div>'+
               '<div class="proyecto_titulo_botones">'+
-                '<input type="image" src="../iconos/Editar.png" title="Modificar Proyecto">'+
-                '<input type="image" src="../iconos/Eliminar.png" title="Eliminar Proyecto">'+  
+                '<input type="image" src="../iconos/Editar.png" title="Modificar Proyecto" onclick="formModificarProyecto('+data[i].IdProyecto+')">'+
+                '<input type="image" src="../iconos/Eliminar.png" title="Eliminar Proyecto" onclick="eliminarProyecto('+data[i].IdProyecto+')">'+  
               '</div>'+
             '</div>'+
             '<div class="proyecto_descripcion">'+
@@ -429,10 +429,10 @@ const tipo=document.getElementById('filtros_tipo').value;
         }
     }).then(response => response.json())
     .then(data => { 
-      console.log(data);
+
       if(data.peticion==='correcta'){
-        cerrarRegistrarTipoProyecto();
-        combotipo();
+        cerrarModificarTipoProyecto();
+        comboTipo();
       }
       mostrarNotificacion(data.mensaje);
     });
@@ -461,9 +461,27 @@ document.getElementById('eliminar_tipo_proyecto').onclick = function(){
   
 };
 /******************** funciones de proyecto *********************/
-//abre el formulario de registrar tipo proyecto
+//abre el formulario de registrar proyecto
 document.getElementById('agregar_proyecto').onclick = function(){
   const modal= document.getElementById("registrar_proyecto");
+
+  var combotipo=document.getElementById('registrar_proyecto_tipo');
+  combotipo.innerHTML="";
+  var opcion = document.createElement("option");
+  opcion.text ="Seleccione Tipo";
+  combotipo.add(opcion);
+
+  fetch('http://localhost:3000/TipoProyecto')
+  .then(response => response.json())
+  .then(data => {
+
+  for (var i = 0; i <data.length; i++) {
+        opcion = document.createElement("option");
+        opcion.text = data[i].Nombre;
+        combotipo.add(opcion);
+  }
+  });
+
   modal.showModal();
 };
 //boton cierra el formulario de registrar proyecto
@@ -474,13 +492,260 @@ document.getElementById('registrar_proyecto_cerrar').onclick = function(){
 function cerrarRegistrarProyecto(){
   const modal=document.getElementById("registrar_proyecto");
   const nombre=document.getElementById("registrar_proyecto_nombre");
+  const autor=document.getElementById("registrar_proyecto_autor");
+  const enlace=document.getElementById("registrar_proyecto_enlace");
+  const imagen=document.getElementById("registrar_proyecto_imagen");
+  const tipo=document.getElementById("registrar_proyecto_tipo");
+  const fecha=document.getElementById("registrar_proyecto_fecha");
   const descripcion=document.getElementById("registrar_proyecto_descripcion");
-  const span=document.getElementById('registrar_proyecto_notificacion');
+  const span=document.getElementById("registrar_proyecto_notificacion");
   nombre.value="";
+  autor.value="";
+  enlace.value="";
+  imagen.value="";
+  tipo.innerHTML="";
+  fecha.value="";
   descripcion.value="";
   span.innerHTML="";
   modal.close();
 }
+//registra un proyecto
+document.getElementById('registrar_proyecto_boton').onclick = function(){
+  const nombre=document.getElementById("registrar_proyecto_nombre").value;
+  const autor=document.getElementById("registrar_proyecto_autor").value;
+  const enlace=document.getElementById("registrar_proyecto_enlace").value;
+  const imagen=document.getElementById("registrar_proyecto_imagen").value;
+  const tipo=document.getElementById("registrar_proyecto_tipo").value;
+  const fecha=document.getElementById("registrar_proyecto_fecha").value;
+  const descripcion=document.getElementById("registrar_proyecto_descripcion").value;
+  const span=document.getElementById("registrar_proyecto_notificacion");
+
+  if(nombre===""){
+     span.innerHTML="<a> Ingrese el nombre </a>";
+     span.style.backgroundColor = 'darkred';
+     span.style.color = 'white';
+  }else if(autor===""){
+     span.innerHTML="<a> Ingrese el autor </a>";
+     span.style.backgroundColor = 'darkred';
+     span.style.color = 'white';
+  }else if(tipo==="Seleccione Tipo"){
+     span.innerHTML="<a> Seleccione el tipo de proyecto </a>";
+     span.style.backgroundColor = 'darkred';
+     span.style.color = 'white';
+  }else if(fecha===""){
+     span.innerHTML="<a> Seleccione la fecha del proyecto </a>";
+     span.style.backgroundColor = 'darkred';
+     span.style.color = 'white';
+  }else {
+    
+    var url = 'http://localhost:3000/RegistrarProyecto';
+    var data = {    Nombre: nombre,
+                    Autor: autor,
+                    Enlace: enlace,
+                    Imagen: imagen,
+                    Tipo: tipo,
+                    Fecha: fecha,
+                    Descripcion: descripcion };
+
+    fetch(url, {
+        method: 'POST', 
+        body: JSON.stringify(data), 
+        headers:{
+            'Content-Type': 'application/json'
+        }
+    }).then(response => response.json())
+    .then(data => { 
+      if(data.peticion==='correcta'){
+        cerrarRegistrarProyecto();
+        cargarNumeroProyectos(1); //recarga el listado de los proyectos
+      }
+      mostrarNotificacion(data.mensaje);
+    });
+
+
+  }
+};
+//abre el formulario de modificar
+function formModificarProyecto(Id){
+  const modal= document.getElementById("modificar_proyecto");
+  //carga el combo de tipo de proyecto
+  var combotipo=document.getElementById('modificar_proyecto_tipo');
+  combotipo.innerHTML="";
+  var opcion = document.createElement("option");
+  opcion.text ="Seleccione Tipo";
+  combotipo.add(opcion);
+
+  fetch('http://localhost:3000/TipoProyecto')
+  .then(response => response.json())
+  .then(data => {
+
+  for (var i = 0; i <data.length; i++) {
+        opcion = document.createElement("option");
+        opcion.text = data[i].Nombre;
+        combotipo.add(opcion);
+  }
+  });
+  //carga los datos del proyecto
+    fetch('http://localhost:3000/DatosProyecto/'+Id)
+    .then(response => response.json())
+    .then(data => {
+      const modal= document.getElementById("modificar_proyecto");
+      var span=document.getElementById('modificar_proyecto_notificacion');
+      var nombre=document.getElementById('modificar_proyecto_nombre');
+      var autor=document.getElementById('modificar_proyecto_autor');
+      var enlace=document.getElementById('modificar_proyecto_enlace');
+      var imagen=document.getElementById('modificar_proyecto_imagen');
+      var tipo=document.getElementById('modificar_proyecto_tipo');
+      var fecha=document.getElementById('modificar_proyecto_fecha');
+      var descripcion=document.getElementById('modificar_proyecto_descripcion');
+
+      span.value=Id;
+      nombre.value=data[0].Nombre;
+      autor.value=data[0].Autor;
+      enlace.value=data[0].Enlace;
+      imagen.value=data[0].Imagen;
+      fecha.value=data[0].Fecha.slice(0,10);
+      descripcion.value=data[0].Descripcion;
+      //seecciona el elemento correspondiente al tipo
+      for (var i = 0; i < tipo.options.length; i++) {
+        if (tipo.options[i].text === data[0].Tipo) {
+          tipo.selectedIndex = i;
+          break;
+        }
+      }
+      modal.showModal();
+    });
+}
+//boton cierra el formulario de registrar proyecto
+document.getElementById('modificar_proyecto_cerrar').onclick = function(){
+  cerrarModificarProyecto();
+};
+//cierra el formulario de modificar proyecto
+function cerrarModificarProyecto(){
+  const modal=document.getElementById("modificar_proyecto");
+  const nombre=document.getElementById("modificar_proyecto_nombre");
+  const autor=document.getElementById("modificar_proyecto_autor");
+  const enlace=document.getElementById("modificar_proyecto_enlace");
+  const imagen=document.getElementById("modificar_proyecto_imagen");
+  const tipo=document.getElementById("modificar_proyecto_tipo");
+  const fecha=document.getElementById("modificar_proyecto_fecha");
+  const descripcion=document.getElementById("modificar_proyecto_descripcion");
+  const span=document.getElementById("modificar_proyecto_notificacion");
+  nombre.value="";
+  autor.value="";
+  enlace.value="";
+  imagen.value="";
+  tipo.innerHTML="";
+  fecha.value="";
+  descripcion.value="";
+  span.innerHTML="";
+  span.value="";
+  modal.close();
+}
+
+//modificar proyecto
+document.getElementById('modificar_proyecto_boton').onclick=function(){
+  const nombre=document.getElementById("modificar_proyecto_nombre").value;
+  const autor=document.getElementById("modificar_proyecto_autor").value;
+  const enlace=document.getElementById("modificar_proyecto_enlace").value;
+  const imagen=document.getElementById("modificar_proyecto_imagen").value;
+  const tipo=document.getElementById("modificar_proyecto_tipo").value;
+  const fecha=document.getElementById("modificar_proyecto_fecha").value;
+  const descripcion=document.getElementById("modificar_proyecto_descripcion").value;
+  const span=document.getElementById("modificar_proyecto_notificacion");
+
+  if(nombre===""){
+     span.innerHTML="<a> Ingrese el nombre </a>";
+     span.style.backgroundColor = 'darkred';
+     span.style.color = 'white';
+  }else if(autor===""){
+     span.innerHTML="<a> Ingrese el autor </a>";
+     span.style.backgroundColor = 'darkred';
+     span.style.color = 'white';
+  }else if(tipo==="Seleccione Tipo"){
+     span.innerHTML="<a> Seleccione el tipo de proyecto </a>";
+     span.style.backgroundColor = 'darkred';
+     span.style.color = 'white';
+  }else {
+    
+    var url = 'http://localhost:3000/ModificarProyecto/'+span.value;
+    var data = {    Nombre: nombre,
+                    Autor: autor,
+                    Enlace: enlace,
+                    Imagen: imagen,
+                    Tipo: tipo,
+                    Fecha: fecha,
+                    Descripcion: descripcion };
+
+    fetch(url, {
+        method: 'POST', 
+        body: JSON.stringify(data), 
+        headers:{
+            'Content-Type': 'application/json'
+        }
+    }).then(response => response.json())
+    .then(data => { 
+      if(data.peticion==='correcta'){
+        cerrarModificarProyecto();
+        cargarNumeroProyectos(1); //recarga el listado de los proyectos
+      }
+      mostrarNotificacion(data.mensaje);
+    });
+  }
+};
+
+
+//elimina el proyecto seleccionado
+function eliminarProyecto(Id){
+    var url = 'http://localhost:3000/EliminarProyecto/'+Id;
+    fetch(url, {
+        method: 'DELETE', 
+    }).then(response => response.json())
+    .then(data => { 
+      mostrarNotificacion(data.mensaje);
+      cargarNumeroProyectos(1); //recarga el listado de los proyectos
+    });
+}
+/***************** funciones de noticias ***************************/
+//abre el formulario de registrar proyecto
+document.getElementById('AgregarNoticia').onclick = function(){
+  const modal= document.getElementById("registrar_noticia");
+  modal.showModal();
+};
+//boton cierra el formulario de registrar proyecto
+document.getElementById('registrar_noticia_cerrar').onclick = function(){
+  cerrarRegistrarNoticia();
+};
+//cierra el formulario de registrar proyecto
+function cerrarRegistrarNoticia(){
+  const modal=document.getElementById("registrar_noticia");
+  const nombre=document.getElementById("registrar_noticia_nombre");
+  const enlace=document.getElementById("registrar_noticia_enlace");
+  const imagen=document.getElementById("registrar_noticia_imagen");
+  const fecha=document.getElementById("registrar_noticia_fecha");
+  const descripcion=document.getElementById("registrar_noticia_descripcion");
+  const span=document.getElementById("registrar_noticia_notificacion");
+  nombre.value="";
+  enlace.value="";
+  imagen.value="";
+  fecha.value="";
+  descripcion.value="";
+  span.innerHTML="";
+  modal.close();
+}
+
+document.getElementById("registrar_noticia_boton").onclick = function() {
+  alert("message?: DOMString");
+};
+
+
+
+
+
+
+document.getElementById("noticias").onclick = function() {
+  location.href='formNoticias.html'; //hacer pagina modificada para admin
+};
 /************************** ventana de notificaciones ***********/
 function mostrarNotificacion(texto){
   const modal= document.getElementById("notificaciones");
@@ -499,10 +764,4 @@ document.getElementById('notificaciones_div_cerrar').onclick = function(){
   cerrarNotificacion();
 };
 
-/***************** funciones de noticias ***************************/
-document.getElementById('AgregarNoticia').onclick = function(){
-  
-}
-document.getElementById("noticias").onclick = function() {
-  location.href='formNoticias.html'; //hacer pagina modificada para admin
-};
+

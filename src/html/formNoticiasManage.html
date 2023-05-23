@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="../css/formNoticias.css">
+	<link rel="shortcut icon" href="https://ww2.ufps.edu.co/public/imagenes/template/footer/logoufpsvertical.png" />
+	<title>Noticias</title>
+</head>
+<body>
+
+	<div class="head">
+		<div class="head_logo">
+			
+		</div>
+		<div class="head_titulo">	
+		<h1 id="titulo">Proyectos de Ingeniera de Sistemas</h1>
+		</div>
+		<div class="head_login">
+		<a id="inicio" title="Volver al inicio">Volver</a>
+		</div>
+	</div>
+
+
+	<div class="noticias">
+		<div class="noticias_panel">
+			<div class="noticias_panel_titulo">
+				<h1>Noticias</h1>
+			</div>
+			<div class="noticias_panel_visualizacion" id="noticias_panel_visualizacion">
+			</div>
+		</div>
+	</div>
+
+	<div class="footer">
+		<a>2023 © All Rights Reserved. Developed by: Camilo Nuncira</a>
+	</div>
+
+
+<dialog id="imagen_aumentada">
+	<div class="imagen_aumentada_div">
+		<input type="button" id="imagen_aumentada_div_cerrar" value="X">
+		<img id="imagen_aumentada_div_grande">
+	</div>
+</dialog>
+
+<dialog id="notificaciones">
+	<div class="formulario_div" id="notificaciones_div">
+		<h2 id="notificaciones_texto">  </h2>
+		<br>
+		<input type="button" id="notificaciones_div_cerrar" value="Aceptar" class="boton">
+	</div>
+</dialog>
+
+<dialog id="modificar_noticia">
+	<div class="formulario_div" id="modificar_noticia_div">
+		<div class="formulario_cerrar" >
+    		<input type="button" value="X" id="modificar_noticia_cerrar" title="Cerrar">
+  		</div>
+          <h1 >Modificar</h1>
+          <h3 >noticia </h3>
+
+          <span id="modificar_noticia_notificacion"></span>
+
+          <input type="text" name="Nombre" placeholder="Nombre" id="modificar_noticia_nombre" title="Nombre de la noticia (maximo 50 caracteres)" maxlength="50">
+
+          <input type="text" name="Enlace" placeholder="Enlace" id="modificar_noticia_enlace" title="Enlace de la noticia" maxlength="200">
+          
+          <input type="text" name="Imagen" placeholder="Imagen URL" id="modificar_noticia_imagen" title="Imagen URL de la noticia" maxlength="200">
+
+          <input type="date" name="Fecha"  placeholder="Fecha" id="modificar_noticia_fecha" title="Fecha de la noticia"> 
+
+          <textarea name="Descripcion" placeholder="Descripcion" id="modificar_noticia_descripcion" title="Descripcion de la noticia (maximo 500 caracteres)" maxlength="500"></textarea>
+
+          <input type="button" name="Modificar" value="Modificar" id="modificar_noticia_boton" title="modificar noticia" class="boton">
+
+	</div>
+</dialog>
+
+
+</body>
+
+<script type="text/javascript" src="../js/formNoticiasManage.js"></script>
+</html>

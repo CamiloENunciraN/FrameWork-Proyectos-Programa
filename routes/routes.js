@@ -96,7 +96,7 @@ const registrarProyecto = (request, response) => {
             response.status(200).json({ "mensaje": "El proyecto ya se encuentra registrado",
                                         "peticion": "incorrecta"}); 
         }else{
-        //registra el tipo de proyecto
+        //registra el proyecto
         const consulta ="INSERT INTO Proyecto (Nombre, Fecha, Autor, Descripcion, Enlace, Imagen, Tipo) VALUES (?,?,?,?,?,?,?)";
         connection.query(consulta, [datos.Nombre, datos.Fecha, datos.Autor, datos.Descripcion, datos.Enlace, datos.Imagen, datos.Tipo],
         (error, results) => {
@@ -253,7 +253,7 @@ const EliminarTipoProyecto = (request, response) => {
 //ruta
 app.route("/EliminarTipoProyecto/:tipo").delete(EliminarTipoProyecto);
 
-/*************************** noticias ********************************/
+/*************************** Noticias ********************************/
 
 const getNoticias = (request, response) => {
     connection.query("SELECT * FROM Noticia ORDER BY Fecha DESC ", 
@@ -268,6 +268,21 @@ const getNoticias = (request, response) => {
 //ruta
 app.route("/Noticias").get(getNoticias);
 
+//busca una noticia
+const getDatosNoticia = (request, response) => {
+    const id=request.params.id;
+    connection.query("SELECT * FROM Noticia WHERE IdNoticia=?",
+        [id], 
+    (error, results) => {
+        if(error)
+            throw error;
+        console.log("peticion de noticia: "+results[0].Nombre);
+        response.status(200).json(results);
+    });
+};
+
+//ruta
+app.route("/DatosNoticia/:id").get(getDatosNoticia);
 
 const getUltimasNoticias = (request, response) => {
     connection.query("SELECT * FROM Noticia ORDER BY Fecha DESC LIMIT 5", 
@@ -282,7 +297,78 @@ const getUltimasNoticias = (request, response) => {
 //ruta
 app.route("/UltimasNoticias").get(getUltimasNoticias);
 
+//registrar proyecto
+const registrarNoticia = (request, response) => {
+    const datos = request.body;
+    console.log("registrar Noticia");
+    //vallida que no se encuentre registrada el mismo nombre y misma fecha
+    connection.query("SELECT Nombre FROM Noticia WHERE Nombre=? AND fecha=?",
+     [datos.Nombre,datos.Fecha],
+    (error, results) => {
+        if(error){
+            throw error;
+        }
+        if(results.length!=0){
+            response.status(200).json({ "mensaje": "La noticia ya se encuentra registrada",
+                                        "peticion": "incorrecta"}); 
+        }else{
+        //registra la noticia
+        const consulta ="INSERT INTO Noticia (Nombre, Fecha, Descripcion, Enlace, Imagen) VALUES (?,?,?,?,?)";
+        connection.query(consulta, [datos.Nombre, datos.Fecha, datos.Descripcion, datos.Enlace, datos.Imagen],
+        (error, results) => {
+            if(error){
+                throw error; 
+            }
+        response.status(201).json({ "mensaje": "Noticia: "+datos.Nombre+" Agregada",
+                                    "peticion": "correcta" });
 
+        });
+        }
+
+    });
+};
+
+//ruta
+app.route("/RegistrarNoticia").post(registrarNoticia);
+
+
+//modificar Noticia
+const modificarNoticia = (request, response) => {
+    const id=request.params.id;
+    const datos=request.body;
+    connection.query("UPDATE Noticia SET Nombre=? ,Fecha=?, Descripcion=?,Enlace=? ,Imagen=?  WHERE IdNoticia=?",
+    [datos.Nombre, datos.Fecha, datos.Descripcion, datos.Enlace , datos.Imagen, id], 
+    (error, results) => {
+        if(error)
+            throw error;
+        console.log("modificar noticia: "+id+" realizado");
+        response.status(200).json({ "mensaje": "Noticia: "+datos.Nombre+" Modificado",
+                                    "peticion": "correcta" });
+    });
+};
+
+//ruta
+app.route("/ModificarNoticia/:id").post(modificarNoticia);
+
+//eliminar Noticia
+const EliminarNoticia = (request, response) => {
+    const id = request.params.id;
+    console.log("eliminar noticia");
+    connection.query("DELETE FROM Noticia WHERE IdNoticia = ?", 
+    [id],
+    (error, results) => {
+        if(error){
+            throw error;
+            response.status(200).json({ "mensaje": "ha ocurrido un error"});
+        }
+        response.status(201).json({ "mensaje": "Noticia: eliminada"});
+    });
+};
+
+//ruta
+app.route("/EliminarNoticia/:id").delete(EliminarNoticia);
+
+//***************************** funciones  sesion ***********************//
 const iniciarSesion = (request, response) => {
     console.log('peticion de inicio de sesion');
     const datos = request.body;

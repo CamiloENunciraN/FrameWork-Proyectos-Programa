@@ -293,14 +293,14 @@ function getUltimasNoticias(){
     //concadenacion de los elementos del json
     for(let i=0;i<data.length;i++){
     //si no hay imagen coloco una por defecto
-    if(data[i].Imagen===null){
-      data[i].Imagen="https://previews.123rf.com/images/rglinsky/rglinsky1201/rglinsky120100188/12336990-vertical-de-la-imagen-orientada-a-la-famosa-torre-eiffel-en-par%C3%ADs-francia.jpg";
+    if(data[i].Imagen===null||data[i].Imagen===""){
+       data[i].Imagen="src/iconos/Mal.png";
     }
     var id= 100+i;
       cadenaHTML+= 
                     ' <div class="UNoticia" >'+
                     '<div class="UNoticia_fecha" >'+
-                    '<a >'+data[i].Fecha+'</a>'+
+                    '<a >'+data[i].Fecha.slice(0,10)+'</a>'+
                     '</div>'+
                     '<div class="UNoticia_titulo">'+
                       '<h1>'+data[i].Nombre+'</h1>'+

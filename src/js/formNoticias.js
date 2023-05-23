@@ -32,8 +32,8 @@ function cargarNoticias(){
     //concadenacion de los elementos del json
     for(let i=0;i<data.length;i++){
     //si no hay imagen coloco una por defecto
-    if(data[i].Imagen===null){
-      data[i].Imagen="https://previews.123rf.com/images/rglinsky/rglinsky1201/rglinsky120100188/12336990-vertical-de-la-imagen-orientada-a-la-famosa-torre-eiffel-en-par%C3%ADs-francia.jpg";
+    if(data[i].Imagen===null||data[i].Imagen===""){
+       data[i].Imagen="../iconos/Mal.png";
     }
     var mostrarMas ="";
     if(data[i].Enlace!==null){
@@ -46,12 +46,16 @@ function cargarNoticias(){
             ')" id="'+i+'" src="'+data[i].Imagen+'">'+
           '</div>'+
           '<div class="noticia_datos">'+
-            '<div class="noticia_titulo">'+
-              '<h1 >'+data[i].Nombre+'</h1>'+
+            '<div class="noticia_contenedor_titulo">'+
+              '<div class="noticia_titulo">'+
+                '<h1 >'+data[i].Nombre+'</h1>'+
+              '</div>'+
+              '<div class="noticia_titulo_botones">'+
+              '</div>'+
             '</div>'+
             '<div class="noticia_descripcion">'+
               '<a class="negrilla">Fecha: </a>'+
-              '<a>'+data[i].Fecha+'</a>'+
+              '<a>'+data[i].Fecha.slice(0,10)+'</a>'+
               '<br><br>'+
               '<a class="negrilla">Descripcion: </a>'+
               '<a>'+data[i].Descripcion+'</a>'+

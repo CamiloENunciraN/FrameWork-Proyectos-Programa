@@ -35,21 +35,6 @@ var data = { "id": id};
     });
 };
 
-
-/************************** Redes ************************/
-document.getElementById("facebook").onclick = function() {
-  window.open('https://facebook.com');
-};
-document.getElementById("twitter").onclick = function() {
-  window.open('https://twitter.com');
-};
-document.getElementById("instagram").onclick = function() {
-  window.open('https://instagram.com');
-};
-document.getElementById("youtube").onclick = function() {
-  window.open('https://youtube.com');
-};
-
 /**************************funcion para ultimas noticias********************************************/
 
 function getUltimasNoticias(){
@@ -63,10 +48,10 @@ function getUltimasNoticias(){
     //concadenacion de los elementos del json
     for(let i=0;i<data.length;i++){
     //si no hay imagen coloco una por defecto
-    if(data[i].Imagen===null){
-      data[i].Imagen="https://previews.123rf.com/images/rglinsky/rglinsky1201/rglinsky120100188/12336990-vertical-de-la-imagen-orientada-a-la-famosa-torre-eiffel-en-par%C3%ADs-francia.jpg";
+    if(data[i].Imagen===null||data[i].Imagen===""){
+      data[i].Imagen="../iconos/Mal.png";
     }
-    var id= 6+i;
+    const id= 987+i;
       cadenaHTML+= 
                     ' <div class="UNoticia" >'+
                     '<div class="UNoticia_fecha" >'+
@@ -336,6 +321,10 @@ let span=document.getElementById('registrar_tipo_proyecto_notificacion');
      span.innerHTML="<a> Ingrese Nombre </a>";
      span.style.backgroundColor = 'darkred';
      span.style.color = 'white';
+  }else if(!validarTexto(nombre)){
+     span.innerHTML="<a> El nombre no es valido, caracteres validos[a-z]</a>";
+     span.style.backgroundColor = 'darkred';
+     span.style.color = 'white';
   }else if(descripcion===""){
      span.innerHTML="<a>Ingrese Descripcion</a>";
      span.style.backgroundColor = 'darkred';
@@ -357,6 +346,7 @@ let span=document.getElementById('registrar_tipo_proyecto_notificacion');
       console.log(data);
       if(data.peticion==='correcta'){
         cerrarRegistrarTipoProyecto();
+        comboTipo();
       }
       mostrarNotificacion(data.mensaje);
     });
@@ -411,6 +401,10 @@ const tipo=document.getElementById('filtros_tipo').value;
      span.innerHTML="<a> Ingrese Nombre </a>";
      span.style.backgroundColor = 'darkred';
      span.style.color = 'white';
+  }else if(!validarTexto(nombre)){
+     span.innerHTML="<a> El nombre no es valido, caracteres validos[a-z]</a>";
+     span.style.backgroundColor = 'darkred';
+     span.style.color = 'white';
   }else if(descripcion===""){
      span.innerHTML="<a>Ingrese Descripcion</a>";
      span.style.backgroundColor = 'darkred';
@@ -447,6 +441,7 @@ document.getElementById('eliminar_tipo_proyecto').onclick = function(){
     mostrarNotificacion('Seleccione el tipo de proyecto para eliminar');
   }else{
 
+    if(confirm("¿Estás seguro de que deseas eliminar el tipo de proyecto "+tipo+" ?")){
     var url = 'http://localhost:3000/EliminarTipoProyecto/'+tipo;
 
     fetch(url, {
@@ -457,6 +452,7 @@ document.getElementById('eliminar_tipo_proyecto').onclick = function(){
       mostrarNotificacion(data.mensaje);
       comboTipo();
     });
+    }
   }
   
 };
@@ -524,16 +520,28 @@ document.getElementById('registrar_proyecto_boton').onclick = function(){
      span.innerHTML="<a> Ingrese el nombre </a>";
      span.style.backgroundColor = 'darkred';
      span.style.color = 'white';
+  }else if(!validarTexto(nombre)){
+     span.innerHTML="<a> El nombre no es valido, caracteres validos[a-z]</a>";
+     span.style.backgroundColor = 'darkred';
+     span.style.color = 'white';
   }else if(autor===""){
      span.innerHTML="<a> Ingrese el autor </a>";
      span.style.backgroundColor = 'darkred';
      span.style.color = 'white';
-  }else if(tipo==="Seleccione Tipo"){
-     span.innerHTML="<a> Seleccione el tipo de proyecto </a>";
+  }else if(!validarTexto(autor)){
+     span.innerHTML="<a> El autor no es valido, caracteres validos[a-z]</a>";
      span.style.backgroundColor = 'darkred';
      span.style.color = 'white';
-  }else if(fecha===""){
-     span.innerHTML="<a> Seleccione la fecha del proyecto </a>";
+  }else if(enlace!==""&&!validarEnlace(enlace)){
+     span.innerHTML="<a> El enlace no es valido</a>";
+     span.style.backgroundColor = 'darkred';
+     span.style.color = 'white';
+  }else if(imagen!==""&&!validarEnlace(imagen)){
+     span.innerHTML="<a> El enlace de a imagen no es valido</a>";
+     span.style.backgroundColor = 'darkred';
+     span.style.color = 'white';
+  }else if(tipo==="Seleccione Tipo"){
+     span.innerHTML="<a> Seleccione el tipo de proyecto </a>";
      span.style.backgroundColor = 'darkred';
      span.style.color = 'white';
   }else {
@@ -658,8 +666,24 @@ document.getElementById('modificar_proyecto_boton').onclick=function(){
      span.innerHTML="<a> Ingrese el nombre </a>";
      span.style.backgroundColor = 'darkred';
      span.style.color = 'white';
+  }else if(!validarTexto(nombre)){
+     span.innerHTML="<a> El nombre no es valido, caracteres validos[a-z]</a>";
+     span.style.backgroundColor = 'darkred';
+     span.style.color = 'white';
   }else if(autor===""){
      span.innerHTML="<a> Ingrese el autor </a>";
+     span.style.backgroundColor = 'darkred';
+     span.style.color = 'white';
+  }else if(!validarTexto(autor)){
+     span.innerHTML="<a> El autor no es valido, caracteres validos[a-z]</a>";
+     span.style.backgroundColor = 'darkred';
+     span.style.color = 'white';
+  }else if(enlace!==""&&!validarEnlace(enlace)){
+     span.innerHTML="<a> El enlace no es valido</a>";
+     span.style.backgroundColor = 'darkred';
+     span.style.color = 'white';
+  }else if(imagen!==""&&!validarEnlace(imagen)){
+     span.innerHTML="<a> El enlace de a imagen no es valido</a>";
      span.style.backgroundColor = 'darkred';
      span.style.color = 'white';
   }else if(tipo==="Seleccione Tipo"){
@@ -698,13 +722,15 @@ document.getElementById('modificar_proyecto_boton').onclick=function(){
 //elimina el proyecto seleccionado
 function eliminarProyecto(Id){
     var url = 'http://localhost:3000/EliminarProyecto/'+Id;
-    fetch(url, {
-        method: 'DELETE', 
-    }).then(response => response.json())
-    .then(data => { 
-      mostrarNotificacion(data.mensaje);
-      cargarNumeroProyectos(1); //recarga el listado de los proyectos
-    });
+    if(confirm("¿Estás seguro de que deseas eliminar el proyecto?")){
+      fetch(url, {
+          method: 'DELETE', 
+      }).then(response => response.json())
+      .then(data => { 
+        mostrarNotificacion(data.mensaje);
+        cargarNumeroProyectos(1); //recarga el listado de los proyectos
+      });
+    }
 }
 /***************** funciones de noticias ***************************/
 //abre el formulario de registrar proyecto
@@ -733,18 +759,66 @@ function cerrarRegistrarNoticia(){
   span.innerHTML="";
   modal.close();
 }
-
+//registra una noticia
 document.getElementById("registrar_noticia_boton").onclick = function() {
-  alert("message?: DOMString");
+  
+  const nombre=document.getElementById("registrar_noticia_nombre").value;
+  const enlace=document.getElementById("registrar_noticia_enlace").value;
+  const imagen=document.getElementById("registrar_noticia_imagen").value;
+  const fecha=document.getElementById("registrar_noticia_fecha").value;
+  const descripcion=document.getElementById("registrar_noticia_descripcion").value;
+  const span=document.getElementById("registrar_noticia_notificacion");
+
+  if(nombre===""){ //valida que no este vacio
+     span.innerHTML="<a> Ingrese el nombre </a>";
+     span.style.backgroundColor = 'darkred';
+     span.style.color = 'white';
+  }else if(!validarTexto(nombre)){ //valida que sean letras
+     span.innerHTML="<a> El nombre no es valido, caracteres validos[a-z]</a>";
+     span.style.backgroundColor = 'darkred';
+     span.style.color = 'white';
+  }else if(enlace!==""&&!validarEnlace(enlace)){ //valida que tenga formato de link http://
+     span.innerHTML="<a> El enlace no es valido</a>";
+     span.style.backgroundColor = 'darkred';
+     span.style.color = 'white';
+  }else if(imagen!==""&&!validarEnlace(imagen)){ //valida que tenga formato de link http://
+     span.innerHTML="<a> El enlace de la imagen no es valido</a>";
+     span.style.backgroundColor = 'darkred';
+     span.style.color = 'white';
+  }else if(fecha===""){ //valida que no este vacia
+     span.innerHTML="<a> Seleccione la fecha de la noticia </a>";
+     span.style.backgroundColor = 'darkred';
+     span.style.color = 'white';
+  }else {
+
+    var url = 'http://localhost:3000/RegistrarNoticia/';
+    var data = {    Nombre: nombre,
+                    Enlace: enlace,
+                    Imagen: imagen,
+                    Fecha: fecha,
+                    Descripcion: descripcion };
+
+    fetch(url, {
+        method: 'POST', 
+        body: JSON.stringify(data), 
+        headers:{
+            'Content-Type': 'application/json'
+        }
+    }).then(response => response.json())
+    .then(data => { 
+      if(data.peticion==='correcta'){
+        cerrarRegistrarNoticia();
+        getUltimasNoticias(); //recarga el listado de noticias
+      }
+      mostrarNotificacion(data.mensaje);
+    });
+
+  }
+
 };
 
-
-
-
-
-
 document.getElementById("noticias").onclick = function() {
-  location.href='formNoticias.html'; //hacer pagina modificada para admin
+  location.href='formNoticiasManage.html'; //pagina del admin para las noticias
 };
 /************************** ventana de notificaciones ***********/
 function mostrarNotificacion(texto){
@@ -765,3 +839,35 @@ document.getElementById('notificaciones_div_cerrar').onclick = function(){
 };
 
 
+/************************* validar cajas ************************/
+function validarTexto(texto){
+
+  if (/^[a-zA-Z]+$/.test(texto)) {
+    return true;
+  }
+  return false;
+
+}
+
+function validarEnlace(texto){
+  
+  if (texto.startsWith("http://")|texto.startsWith("https://")) {
+    return true;
+}
+  return false;
+}
+
+
+/************************** Redes ************************/
+document.getElementById("facebook").onclick = function() {
+  window.open('https://facebook.com');
+};
+document.getElementById("twitter").onclick = function() {
+  window.open('https://twitter.com');
+};
+document.getElementById("instagram").onclick = function() {
+  window.open('https://instagram.com');
+};
+document.getElementById("youtube").onclick = function() {
+  window.open('https://youtube.com');
+};

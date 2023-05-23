@@ -72,16 +72,12 @@
 	color: white;
 }
 #agregar_proyecto{
-	width: auto;
+	width: 100px;
 	height: 30px;
 	border-radius: 5px;
 	margin-left: auto;
 }
-#agregar_proyecto:hover{
-	width: auto;
-	height: 30px;
-	background-color: #a7a7a7;
-}
+
 .filtros{
 	width: 100%;
 	background-color: #cbcbcb;
@@ -161,16 +157,18 @@ background-color: #a7a7a7;
 	width: 8%;
 	height: 100%;
 	right: 0px;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
 }
 .proyecto_titulo_botones input[type=image]{
 	width: auto;
-	height: 100%;
+	height: 60%;
 	border-radius: 5px;
 	filter: opacity(80%);
+	margin-right: 0px;
 }
 .proyecto_titulo_botones input[type=image]:hover{
-	width: auto;
-	height: 100%;
 	background-color: #cbcbcb;
 	filter: opacity(100%);
 }
@@ -202,7 +200,7 @@ background-color: #a7a7a7;
 /*********************************************************************/
 .paginacion{
 	width: 100%;
-	height: 60px;
+	height: 40px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -234,17 +232,6 @@ cursor: default;
 opacity: 0.5;
 cursor: default;
 }
-.paginacion_titulo{
-	background-color: white;
-	border: 1px solid darkgrey;
-	font-size: 20px;
-	width: 150px;
-	text-align: center;
-	border-top-right-radius: 20px;
-	border-top-left-radius: 20px;
-}
-
-
 /******************* seccion de noticias ****************************/
 .noticias{
 	background: #b43432;
@@ -263,9 +250,10 @@ cursor: default;
 }
 .noticias_panel_titulo{
 text-align: center;
-color: #eeeeee;
 border-bottom: 1px solid #eeeeee;
 }
+
+
 /******** carrusel de ultimas nooticias *****************/
 .noticias_panel_carrusel{
 	width: 100%;
@@ -534,9 +522,5 @@ dialog::backdrop{
 	width: 400px;
   height: 500px;
 }
-/*************** ventana de modificar noticia ************/
-#modificar_noticia_div{
-	width: 400px;
-  height: 500px;
-}
+
 

@@ -15,6 +15,14 @@
 }
 .head_logo{
 	width: 10%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.head_logo img{
+	width: auto;
+	height: 90%;
 }
 .head_titulo{
 	width: 80%;
@@ -83,7 +91,6 @@ color: #eeeeee;
 }
 .noticia_datos{
 	width: 70%;
-
 	display: flex;
 	flex-direction: column;
 }
@@ -99,7 +106,7 @@ color: #eeeeee;
 	height: 100%;
 	display: flex;
 	align-items: center;
-	font-size: 12px;
+	font-size: 10px;
 }
 .noticia_titulo_botones{
 	width: 8%;
@@ -134,12 +141,12 @@ color: #eeeeee;
 .noticia_enlace a{
 	margin-left: 10px;
 	text-decoration: none;
-	color: black;
+	color: darkblue;
 	font-weight: bolder;
 }
 
 .noticia_enlace a:hover{
-	color: grey;
+	color: blue;
 }
 
 /******************* estilos imagen aumentada *****************/

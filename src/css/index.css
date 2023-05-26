@@ -18,6 +18,14 @@
 }
 .head_logo{
 	width: 10%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.head_logo img{
+	width: auto;
+	height: 90%;
 }
 .head_titulo{
 	width: 80%;
@@ -36,7 +44,7 @@
 	height: 30px;
 	margin: 5px;
 	font-size: 20px;
-	width: 100px;
+	width: 80%;
 }
 .head_login input[type=button]:hover{
 	color: white;
@@ -58,6 +66,7 @@
 	height: 90%;
 	border-radius: 10px;
 	border: 1px solid #cbcbcb;
+	max-width: 1280px;
 }
 
 .proyectos_panel_titulo{
@@ -83,6 +92,14 @@
 	background-color: #cbcbcb;
 	display: flex;
 	align-items: center;
+}
+.filtros div{
+	display: flex;
+	align-items: center;
+	height: 50px;
+	width: auto;
+	margin-left: 5px;
+	margin-right: 5px;
 }
 .filtros input[type=image]{
 width: 20px;
@@ -120,7 +137,7 @@ background-color: #a7a7a7;
 /********************** proyectos individuales *********************/
 .proyecto{
 	width: 100%;
-	height: 150px;
+	height: 200px;
 	display: flex;
 	border-bottom: 1px solid grey;
 }
@@ -151,7 +168,7 @@ background-color: #a7a7a7;
 	height: 100%;
 	display: flex;
 	align-items: center;
-	font-size: 12px;
+	font-size: 8px;
 }
 .proyecto_titulo_botones{
 	width: 8%;
@@ -212,6 +229,7 @@ background-color: #a7a7a7;
 	border-bottom-left-radius: 20px;
 	margin-right: 1px;
 	margin-top: 0px;
+	width: 150px;
 }
 #pagina_anterior:disabled{
 opacity: 0.5;
@@ -227,6 +245,7 @@ cursor: default;
 	border-bottom-right-radius: 20px;
 	margin-left: 1px;
 	margin-top: 0px;
+	width: 150px;
 }
 #pagina_siguiente:disabled{
 opacity: 0.5;
@@ -271,8 +290,7 @@ border-bottom: 1px solid #eeeeee;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	cursor: pointer;
-	color: darkgrey;
+	color: white;
 }
 .UNoticia:hover{
 	background-color: #AA0000FF;
@@ -293,8 +311,14 @@ border-bottom: 1px solid #eeeeee;
 	align-items: center;
 	text-align: center;
 }
-.UNoticia_titulo h1{
-	font-size: 25px;
+
+.UNoticia_titulo a{
+	text-decoration: none;
+	color: white;
+}
+.UNoticia_titulo a:hover{
+	text-decoration: none;
+	color:grey;
 }
 
 .UNoticia_imagen {
@@ -308,6 +332,7 @@ border-bottom: 1px solid #eeeeee;
 	max-width: 100%;
 	width: auto;
 	height: 100%;
+	cursor: pointer;
 }
 /*************************************************/
 .boton{
@@ -455,6 +480,9 @@ dialog::backdrop{
 .formulario_div textarea::placeholder {
   font-size: 20px;
 }
+.formulario_div [type=date] {
+color: grey;
+}
 .formulario_div select{
 	margin-top: 5px;
   margin-bottom: 5px;
@@ -524,3 +552,106 @@ dialog::backdrop{
 }
 
 
+/*************** diseno responsivo***************************/
+
+/* Estilos para pantallas medianas */
+@media (max-width: 1025px) {
+.head{
+	font-size: 12px;
+}
+.filtros{
+	flex-direction: column;
+}
+
+
+.noticias_panel_carrusel{
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.UNoticia{
+	width: 70%;
+}
+.noticias{
+	height: auto;
+	flex-direction: column;
+}
+.noticias_panel{
+	width: 100%;
+}
+.noticias_redes{
+	flex-direction:revert;
+	width: 100%;
+	height: 70px;
+}
+.noticias_redes input[type=image]{
+	width: auto;
+	height: 80%;
+}
+
+.noticias_redes input[type=image]:hover{
+	width: auto;
+	height: 90%;
+}
+.imagen_aumentada_div{
+	width: 100%;
+	height: auto;
+}
+.imagen_aumentada_div img{
+	width: 100%;
+	height: auto;
+}
+}
+/* Estilos para pantallas pequeñas */
+@media (max-width: 480px) {
+.head{
+	font-size: 12px;
+}
+.head_login input[type=button]{
+	font-size: 12px;
+}
+.proyecto{
+	height: 300;
+	font-size: 12px;
+}
+.proyecto_titulo{
+	width:92%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	font-size: 8px;
+}
+
+#formulario_login{
+	width: 95%;
+}
+
+#notificaciones_div{
+	width: 95%;
+}
+
+#notificaciones_div_cerrar{
+	width: 95%;
+}
+
+#registrar_tipo_proyecto_div{
+	width: 95%;
+}
+
+#modificar_tipo_proyecto_div{
+	width: 495%;
+}
+
+#registrar_proyecto_div{
+	width: 95%;
+}
+
+#modificar_proyecto_div{
+	width: 95%;
+}
+
+#registrar_noticia_div{
+	width: 95%;
+}
+}

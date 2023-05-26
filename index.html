@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" type="text/css" href="src/css/index.css">
-	<link rel="shortcut icon" href="https://ww2.ufps.edu.co/public/imagenes/template/footer/logoufpsvertical.png" />
+	<link rel="shortcut icon" href="../iconos/logo.png" />
 
 	<title>Proyectos de Ingeniera de Sistemas</title>
 </head>
@@ -12,7 +12,7 @@
 
 	<div class="head">
 		<div class="head_logo">
-			
+			<img src="./src/iconos/logo.png">
 		</div>
 		<div class="head_titulo">	
 		<h1>Proyectos de Ingeniera de Sistemas</h1>
@@ -32,23 +32,24 @@
 
 				<div class="filtros">
 					<a id="filtrar_por">Filtrar Por:</a>
-					<a>| Año:</a>
+					<a>Año:</a>
 					<select id="filtros_anio" class="filtros_select">
 						
 					</select>
-					<a>| Tipo:</a>
+					<a>Tipo:</a>
 					<select id="filtros_tipo" class="filtros_select">
 						
 					</select>
-					<a>| Ordenar:</a>
+					<a>Ordenar:</a>
 					<select id="filtros_orden" class="filtros_select">
 						 <option value="DESC">Mas Reciente</option>
 						  <option value="ASC">Mas Antiguo</option>
 					</select>
-					<a>|</a>
 					<input type="button" value="Fitrar" class="boton" title="Fitrar" id="filtrar">
-					<a id="numero_de_proyectos"> 0 </a>
-					<a>proyectos Encontrados</a>
+					<div>
+						<a id="numero_de_proyectos"> 0 </a>
+						<a>Proyectos Encontrados</a>
+					</div>
 				</div>
 
 				<div id="carga_proyectos">
@@ -57,13 +58,11 @@
 
 
 				<div class="paginacion">
-					<div class="paginacion_titulo">
-						<a >pagina</a>
-					</div>
+
 					<div class="paginacion_botones">
-						<input type="button" value="◀  Anterior" title="Pagina Anterior" id="pagina_anterior" class="boton" >
+						<input type="button" value="⟪ Anterior" title="Pagina Anterior" id="pagina_anterior" class="boton" >
 						<input type="button" value="1" title="Pagina Actual" id="pagina_actual" class="boton">
-						<input type="button" value="Siguiente  ▶" title="Pagina Siguiente" id="pagina_siguiente" class="boton">
+						<input type="button" value="Siguiente ⟫" title="Pagina Siguiente" id="pagina_siguiente" class="boton">
 					</div>
 				</div>
 
@@ -80,7 +79,7 @@
 				
 			</div>
 			<div class="noticias_panel_todas">
-				<input type="button" value=" Todas las noticias ▶ " title="Ver todas las noticias" class="boton" id="noticias">
+				<input type="button" value=" Todas las noticias ⟫ " title="Ver todas las noticias" class="boton" id="noticias">
 			</div>
 			<div class="noticias_panel_vinculos">
 				<a>Enlaces de Interes: </a>

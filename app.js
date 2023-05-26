@@ -15,7 +15,10 @@ app.get('/', (req, res) => {
 });
 
 //cargamos el archivo de rutas
-app.use(require('./routes/routes'));
+app.use(require('./routes/proyectos'));
+app.use(require('./routes/tipoProyecto'));
+app.use(require('./routes/noticias'));
+app.use(require('./routes/sesion'));
 
 app.listen(process.env.PORT||3000,() => {
     console.log("Servidor corriendo en el puerto: "+process.env.PORT);

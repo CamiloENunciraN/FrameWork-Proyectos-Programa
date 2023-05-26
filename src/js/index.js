@@ -143,6 +143,7 @@ function cargarNumeroProyectos(pagina){
     if (nProyectos.text==='0') {
       var cargaProyectos=document.getElementById('carga_proyectos');
       cargaProyectos.innerHTML='<h1>No se Encontraron Resutados</h1>';
+      validarPaginas(); //llamo el metodo que valida las paginas
      }else{
       getProyectos(pagina); //llamo el metodo que trae los proyectos y los dibuja
      }
@@ -183,22 +184,19 @@ function getProyectos(pagina){ //pagina corresponde a la pagina que se quiere ca
     for(let i=0;i<data.length;i++){
       //valdan los campos devueltos
     //si no hay imagen coloco una por defecto
-    if(data[i].Imagen===null){
+    if(data[i].Imagen===null||data[i].Imagen===""){
       data[i].Imagen="./src/iconos/Mal.png";
     }
-    if(data[i].Autor===null){
+    if(data[i].Autor===null||data[i].Imagen===""){
       data[i].Autor="Desconocido";
     }
     var enlace ="<a>No hay</a>";
-    if(data[i].Enlace!==null){
+    if(data[i].Enlace!==""){
        enlace ='<a href="'+data[i].Enlace+'" target="_blank">'+data[i].Enlace+'</a>';
     }
     if(data[i].Descripcion===null){
       data[i].Descripcion="No hay";
     }
-    //recorta la fecha para que se muestre solo anio-mes-dia
-    let fecha = data[i].Fecha;
-    let subfecha = fecha.slice(0, 10);
 
       cadenaHTML+=
           '<div class="proyecto">'+
@@ -216,7 +214,7 @@ function getProyectos(pagina){ //pagina corresponde a la pagina que se quiere ca
             '</div>'+
             '<div class="proyecto_descripcion">'+
               '<a class="negrilla">Fecha: </a>'+
-              '<a>'+subfecha+'</a>'+
+              '<a>'+concadenarFecha(data[i].Fecha)+'</a>'+
               '<br>'+
               '<a class="negrilla">Autor: </a>'+
               '<a>'+data[i].Autor+'</a>'+
@@ -300,10 +298,10 @@ function getUltimasNoticias(){
       cadenaHTML+= 
                     ' <div class="UNoticia" >'+
                     '<div class="UNoticia_fecha" >'+
-                    '<a >'+data[i].Fecha.slice(0,10)+'</a>'+
+                    '<a >'+concadenarFecha(data[i].Fecha)+'</a>'+
                     '</div>'+
                     '<div class="UNoticia_titulo">'+
-                      '<h1>'+data[i].Nombre+'</h1>'+
+                      '<a target="_blank" href="'+data[i].Enlace+'">'+data[i].Nombre+'</a>'+
                     '</div>'+
                     '<div  class="UNoticia_imagen" > '+
                      '<img src="'+data[i].Imagen+'" onclick="verImagenAumentada('+id+')" id="'+id+'">'+
@@ -331,6 +329,42 @@ function verImagenAumentada(id){
   var modal = document.getElementById("imagen_aumentada");
   imagenAumentada.src = imagen.src;
   modal.showModal();
+}
+/********************** concadenar fecha ********************/
+function concadenarFecha(fecha){
+  let c ="";
+  let anio=fecha.slice(0,4);
+  let mes=fecha.slice(5,7);
+  let dia=fecha.slice(8,10);
+
+  if(mes==="01"){
+    mes="Enero";
+  }else if(mes==="02"){
+    mes="Febrero";
+  }else if(mes==="03"){
+    mes="Marzo";
+  }else if(mes==="04"){
+    mes="Abril";
+  }else if(mes==="05"){
+    mes="Mayo";
+  }else if(mes==="06"){
+    mes="Junio";
+  }else if(mes==="07"){
+    mes="Julio";
+  }else if(mes==="08"){
+    mes="Agosto";
+  }else if(mes==="09"){
+    mes="Septiembre";
+  }else if(mes==="10"){
+    mes="Octubre";
+  }else if(mes==="11"){
+    mes="Noviembre";
+  }else if(mes==="12"){
+    mes="Diciembre";
+  }
+  
+  c=dia+" "+mes+" "+anio;
+  return c
 }
 /************************** Redes ************************/
 document.getElementById("facebook").onclick = function() {

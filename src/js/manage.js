@@ -10,7 +10,13 @@ function validarSesion(){
   var sesion=localStorage.getItem('sesion');
   if(sesion!='Activa'){
     location.href='../../index.html';
+  }else{
+    //guarda en un span la id del administrador
+    var span=document.getElementById('id_administrador');
+    var administrador=localStorage.getItem('Id');
+    span.value=administrador;
   }
+
 }
 /******************** salir de administrador ****************/
 document.getElementById("login_salir").onclick = function() {
@@ -34,55 +40,6 @@ var data = { "id": id};
         }
     });
 };
-
-/**************************funcion para ultimas noticias********************************************/
-
-function getUltimasNoticias(){
-  fetch('http://localhost:3000/UltimasNoticias')
-  .then(response => response.json())
-  .then(data => {
-
-    let cadenaHTML="";
-    let div=document.getElementById('noticias_panel_carrusel');
-
-    //concadenacion de los elementos del json
-    for(let i=0;i<data.length;i++){
-    //si no hay imagen coloco una por defecto
-    if(data[i].Imagen===null||data[i].Imagen===""){
-      data[i].Imagen="../iconos/Mal.png";
-    }
-    const id= 987+i;
-      cadenaHTML+= 
-                    ' <div class="UNoticia" >'+
-                    '<div class="UNoticia_fecha" >'+
-                    '<a >'+data[i].Fecha.slice(0,10)+'</a>'+
-                    '</div>'+
-                    '<div class="UNoticia_titulo">'+
-                      '<h1>'+data[i].Nombre+'</h1>'+
-                    '</div>'+
-                    '<div  class="UNoticia_imagen" > '+
-                     '<img src="'+data[i].Imagen+'" onclick="verImagenAumentada('+id+')" id="'+id+'">'+
-                    '</div>'+
-                    '</div>';
-    }
-
-    div.innerHTML=cadenaHTML;
-  });
-}
-
-/***********  abrir u ocultar imagen Aumentada ****************/
-document.getElementById("imagen_aumentada_div_cerrar").onclick = function() {
-  var modal = document.getElementById("imagen_aumentada");
-   modal.close();
-};
-
-function verImagenAumentada(id){
-  var imagen = document.getElementById(id);
-  var imagenAumentada = document.getElementById("imagen_aumentada_div_grande");
-  var modal = document.getElementById("imagen_aumentada");
-  imagenAumentada.src = imagen.src;
-  modal.showModal();
-}
 
 /**************************** funciones para proyectos *******************/
 /********************* cargar los combox de filtros************************/
@@ -114,14 +71,15 @@ function comboTipo(){
   .then(response => response.json())
   .then(data => {
 
+    for (var i = 0; i <data.length; i++) {
+          opcion = document.createElement("option");
+          opcion.text = data[i].Nombre;
+          combotipo.add(opcion);
 
-  for (var i = 0; i <data.length; i++) {
-        opcion = document.createElement("option");
-        opcion.text = data[i].Nombre;
-        combotipo.add(opcion);
-  }
+    }
   });
 }
+
 /******************* accion para boton filtrar ****************************/
 document.getElementById('filtrar').onclick = function(){
   cargarNumeroProyectos(1);
@@ -153,6 +111,7 @@ function cargarNumeroProyectos(pagina){
     if (nProyectos.text==='0') {
       var cargaProyectos=document.getElementById('carga_proyectos');
       cargaProyectos.innerHTML='<h1>No se Encontraron Resutados</h1>';
+      validarPaginas();
      }else{
       getProyectos(pagina); //llamo el metodo que trae los proyectos y los dibuja
      }
@@ -200,15 +159,12 @@ function getProyectos(pagina){ //pagina corresponde a la pagina que se quiere ca
       data[i].Autor="Desconocido";
     }
     var enlace ="<a>No hay</a>";
-    if(data[i].Enlace!==null||data[i].Enlace!==""){
+    if(data[i].Enlace!==""){
        enlace ='<a href="'+data[i].Enlace+'" target="_blank">'+data[i].Enlace+'</a>';
     }
     if(data[i].Descripcion===null||data[i].Descripcion===""){
       data[i].Descripcion="No hay";
     }
-    //recorta la fecha para que se muestre solo anio-mes-dia
-    let fecha = data[i].Fecha;
-    let subfecha = fecha.slice(0, 10);
 
       cadenaHTML+=
           '<div class="proyecto">'+
@@ -228,7 +184,7 @@ function getProyectos(pagina){ //pagina corresponde a la pagina que se quiere ca
             '</div>'+
             '<div class="proyecto_descripcion">'+
               '<a class="negrilla">Fecha: </a>'+
-              '<a>'+subfecha+'</a>'+
+              '<a>'+concadenarFecha(data[i].Fecha)+'</a>'+
               '<br>'+
               '<a class="negrilla">Autor: </a>'+
               '<a>'+data[i].Autor+'</a>'+
@@ -251,6 +207,280 @@ function getProyectos(pagina){ //pagina corresponde a la pagina que se quiere ca
   validarPaginas(); //llamo el metodo que valida las paginas
     });
   }
+}
+
+//abre el formulario de registrar proyecto
+document.getElementById('agregar_proyecto').onclick = function(){
+  const modal= document.getElementById("registrar_proyecto");
+
+  var combotipo=document.getElementById('registrar_proyecto_tipo');
+  combotipo.innerHTML="";
+  var opcion = document.createElement("option");
+  opcion.text ="Seleccione Tipo";
+  combotipo.add(opcion);
+
+  fetch('http://localhost:3000/TipoProyecto')
+  .then(response => response.json())
+  .then(data => {
+
+  for (var i = 0; i <data.length; i++) {
+        opcion = document.createElement("option");
+        opcion.text = data[i].Nombre;
+        combotipo.add(opcion);
+  }
+  });
+
+  modal.showModal();
+};
+//boton cierra el formulario de registrar proyecto
+document.getElementById('registrar_proyecto_cerrar').onclick = function(){
+  cerrarRegistrarProyecto();
+};
+//cierra el formulario de registrar proyecto
+function cerrarRegistrarProyecto(){
+  const modal=document.getElementById("registrar_proyecto");
+  const nombre=document.getElementById("registrar_proyecto_nombre");
+  const autor=document.getElementById("registrar_proyecto_autor");
+  const enlace=document.getElementById("registrar_proyecto_enlace");
+  const imagen=document.getElementById("registrar_proyecto_imagen");
+  const tipo=document.getElementById("registrar_proyecto_tipo");
+  const fecha=document.getElementById("registrar_proyecto_fecha");
+  const descripcion=document.getElementById("registrar_proyecto_descripcion");
+  const span=document.getElementById("registrar_proyecto_notificacion");
+  nombre.value="";
+  autor.value="";
+  enlace.value="";
+  imagen.value="";
+  tipo.innerHTML="";
+  fecha.value="";
+  descripcion.value="";
+  span.innerHTML="";
+  modal.close();
+}
+//registra un proyecto
+document.getElementById('registrar_proyecto_boton').onclick = function(){
+  const nombre=document.getElementById("registrar_proyecto_nombre").value;
+  const autor=document.getElementById("registrar_proyecto_autor").value;
+  const enlace=document.getElementById("registrar_proyecto_enlace").value;
+  const imagen=document.getElementById("registrar_proyecto_imagen").value;
+  const tipo=document.getElementById("registrar_proyecto_tipo").value;
+  const fecha=document.getElementById("registrar_proyecto_fecha").value;
+  const descripcion=document.getElementById("registrar_proyecto_descripcion").value;
+  const span=document.getElementById("registrar_proyecto_notificacion");
+  const idAdministrador=document.getElementById("id_administrador").value;
+
+  if(nombre===""){
+    notificacionSpan(span , "Ingrese el nombre");
+  }else if(nombre.length>=200){
+    notificacionSpan(span , "El nombre debe tener maximo 200 caracteres");
+  }else if(!validarTexto(nombre)){
+    notificacionSpan(span , "El nombre no es valido, caracteres validos[a-z]");
+  }else if(autor===""){
+    notificacionSpan(span , "Ingrese el autor");
+  }else if(autor.length>=50){
+    notificacionSpan(span , "El autor debe tener maximo 50 caracteres");
+  }else if(!validarTexto(autor)){
+    notificacionSpan(span , "El autor no es valido, caracteres validos[a-z]");
+  }else if(enlace.length>=200){
+    notificacionSpan(span , "El enlace debe tener maximo 200 caracteres");
+  }else if(enlace!==""&&!validarEnlace(enlace)){
+    notificacionSpan(span , "El enlace no es valido");
+  }else if(imagen.length>=200){
+    notificacionSpan(span , "La imagen debe tener maximo 200 caracteres");
+  }else if(imagen!==""&&!validarEnlace(imagen)){
+    notificacionSpan(span , "El enlace de a imagen no es valido");
+  }else if(tipo==="Seleccione Tipo"){
+    notificacionSpan(span , "Seleccione el tipo de proyecto");
+  }else if(descripcion.length>=500){
+    notificacionSpan(span , "La descripcion debe tener maximo 500 caracteres");
+  }else {
+    
+    var url = 'http://localhost:3000/RegistrarProyecto';
+    var data = {    Nombre: nombre,
+                    Autor: autor,
+                    Enlace: enlace,
+                    Imagen: imagen,
+                    Tipo: tipo,
+                    Fecha: fecha,
+                    Descripcion: descripcion,
+                    IdAdministrador: idAdministrador };
+
+    fetch(url, {
+        method: 'POST', 
+        body: JSON.stringify(data), 
+        headers:{
+            'Content-Type': 'application/json'
+        }
+    }).then(response => response.json())
+    .then(data => { 
+      if(data.peticion==='correcta'){
+        cerrarRegistrarProyecto();
+        cargarNumeroProyectos(1); //recarga el listado de los proyectos
+      }
+      mostrarNotificacion(data.mensaje);
+    });
+
+
+  }
+};
+//abre el formulario de modificar
+function formModificarProyecto(Id){
+  const modal= document.getElementById("modificar_proyecto");
+
+  var combotipo=document.getElementById('modificar_proyecto_tipo');
+  combotipo.innerHTML="";
+  var opcion = document.createElement("option");
+  opcion.text ="Seleccione Tipo";
+  combotipo.add(opcion);
+
+  fetch('http://localhost:3000/TipoProyecto')
+  .then(response => response.json())
+  .then(data => {
+
+    for (var i = 0; i <data.length; i++) {
+          opcion = document.createElement("option");
+          opcion.text = data[i].Nombre;
+          combotipo.add(opcion);
+
+    }
+
+      //carga los datos del proyecto
+    fetch('http://localhost:3000/DatosProyecto/'+Id)
+    .then(response => response.json())
+    .then(data => {
+      const modal= document.getElementById("modificar_proyecto");
+      var span=document.getElementById('modificar_proyecto_notificacion');
+      var nombre=document.getElementById('modificar_proyecto_nombre');
+      var autor=document.getElementById('modificar_proyecto_autor');
+      var enlace=document.getElementById('modificar_proyecto_enlace');
+      var imagen=document.getElementById('modificar_proyecto_imagen');
+      var tipo=document.getElementById('modificar_proyecto_tipo');
+      var fecha=document.getElementById('modificar_proyecto_fecha');
+      var descripcion=document.getElementById('modificar_proyecto_descripcion');
+
+      span.value=Id;
+      nombre.value=data[0].Nombre;
+      autor.value=data[0].Autor;
+      enlace.value=data[0].Enlace;
+      imagen.value=data[0].Imagen;
+      fecha.value=data[0].Fecha.slice(0,10);
+      descripcion.value=data[0].Descripcion;
+      //selecciona el elemento correspondiente al tipo
+      for (var i = 0; i < tipo.options.length; i++) {
+        if (tipo.options[i].text === data[0].Tipo) {
+          tipo.selectedIndex = i;
+          break;
+        }
+      }
+      modal.showModal();
+    });
+
+  });
+
+}
+//boton cierra el formulario de modificar proyecto
+document.getElementById('modificar_proyecto_cerrar').onclick = function(){
+  cerrarModificarProyecto();
+};
+//cierra el formulario de modificar proyecto
+function cerrarModificarProyecto(){
+  const modal=document.getElementById("modificar_proyecto");
+  const nombre=document.getElementById("modificar_proyecto_nombre");
+  const autor=document.getElementById("modificar_proyecto_autor");
+  const enlace=document.getElementById("modificar_proyecto_enlace");
+  const imagen=document.getElementById("modificar_proyecto_imagen");
+  const tipo=document.getElementById("modificar_proyecto_tipo");
+  const fecha=document.getElementById("modificar_proyecto_fecha");
+  const descripcion=document.getElementById("modificar_proyecto_descripcion");
+  const span=document.getElementById("modificar_proyecto_notificacion");
+  nombre.value="";
+  autor.value="";
+  enlace.value="";
+  imagen.value="";
+  tipo.innerHTML="";
+  fecha.value="";
+  descripcion.value="";
+  span.innerHTML="";
+  span.value="";
+  modal.close();
+}
+
+//modificar proyecto
+document.getElementById('modificar_proyecto_boton').onclick=function(){
+  const nombre=document.getElementById("modificar_proyecto_nombre").value;
+  const autor=document.getElementById("modificar_proyecto_autor").value;
+  const enlace=document.getElementById("modificar_proyecto_enlace").value;
+  const imagen=document.getElementById("modificar_proyecto_imagen").value;
+  const tipo=document.getElementById("modificar_proyecto_tipo").value;
+  const fecha=document.getElementById("modificar_proyecto_fecha").value;
+  const descripcion=document.getElementById("modificar_proyecto_descripcion").value;
+  const span=document.getElementById("modificar_proyecto_notificacion");
+
+  if(nombre===""){
+    notificacionSpan(span , "Ingrese el nombre");
+  }else if(nombre.length>=200){
+    notificacionSpan(span , "El nombre debe tener maximo 200 caracteres");
+  }else if(!validarTexto(nombre)){
+    notificacionSpan(span , "El nombre no es valido, caracteres validos[a-z]");
+  }else if(autor===""){
+    notificacionSpan(span , "Ingrese el autor");
+  }else if(autor.length>=50){
+    notificacionSpan(span , "El autor debe tener maximo 50 caracteres");
+  }else if(!validarTexto(autor)){
+    notificacionSpan(span , "El autor no es valido, caracteres validos[a-z]");
+  }else if(enlace.length>=200){
+    notificacionSpan(span , "El enlace debe tener maximo 200 caracteres");
+  }else if(enlace!==""&&!validarEnlace(enlace)){
+    notificacionSpan(span , "El enlace no es valido");
+  }else if(imagen.length>=200){
+    notificacionSpan(span , "La imagen debe tener maximo 200 caracteres");
+  }else if(imagen!==""&&!validarEnlace(imagen)){
+    notificacionSpan(span , "El enlace de a imagen no es valido");
+  }else if(tipo==="Seleccione Tipo"){
+    notificacionSpan(span , "Seleccione el tipo de proyecto");
+  }else if(descripcion.length>=500){
+    notificacionSpan(span , "La descripcion debe tener maximo 500 caracteres");
+  }else {
+    
+    var url = 'http://localhost:3000/ModificarProyecto/'+span.value;
+    var data = {    Nombre: nombre,
+                    Autor: autor,
+                    Enlace: enlace,
+                    Imagen: imagen,
+                    Tipo: tipo,
+                    Fecha: fecha,
+                    Descripcion: descripcion };
+
+    fetch(url, {
+        method: 'POST', 
+        body: JSON.stringify(data), 
+        headers:{
+            'Content-Type': 'application/json'
+        }
+    }).then(response => response.json())
+    .then(data => { 
+      if(data.peticion==='correcta'){
+        cerrarModificarProyecto();
+        cargarNumeroProyectos(1); //recarga el listado de los proyectos
+      }
+      mostrarNotificacion(data.mensaje);
+    });
+  }
+};
+
+
+//elimina el proyecto seleccionado
+function eliminarProyecto(Id){
+    var url = 'http://localhost:3000/EliminarProyecto/'+Id;
+    if(confirm("¿Estás seguro de que deseas eliminar el proyecto?")){
+      fetch(url, {
+          method: 'DELETE', 
+      }).then(response => response.json())
+      .then(data => { 
+        mostrarNotificacion(data.mensaje);
+        cargarNumeroProyectos(1); //recarga el listado de los proyectos
+      });
+    }
 }
 /*********************** valida las pagina de proyectos **************************/
 //se encarga de gestionar el boton siguiente y anterior de acuerdo a los proyectos
@@ -318,17 +548,15 @@ const descripcion=document.getElementById('registrar_tipo_proyecto_descripcion')
 let span=document.getElementById('registrar_tipo_proyecto_notificacion');
 
   if(nombre===""){
-     span.innerHTML="<a> Ingrese Nombre </a>";
-     span.style.backgroundColor = 'darkred';
-     span.style.color = 'white';
+    notificacionSpan(span , "Ingrese el nombre");
+  }else if(nombre.length>=50){
+    notificacionSpan(span , "El nombre debe tener maximo 50 caracteres");
   }else if(!validarTexto(nombre)){
-     span.innerHTML="<a> El nombre no es valido, caracteres validos[a-z]</a>";
-     span.style.backgroundColor = 'darkred';
-     span.style.color = 'white';
+    notificacionSpan(span , "El nombre no es valido, caracteres validos[a-z]");
   }else if(descripcion===""){
-     span.innerHTML="<a>Ingrese Descripcion</a>";
-     span.style.backgroundColor = 'darkred';
-     span.style.color = 'white';
+    notificacionSpan(span , "Ingrese Descripcion");
+  }else if(descripcion.length>=500){
+    notificacionSpan(span , "La descripcion debe tener maximo 500 caracteres");
   }else {
     
     var url = 'http://localhost:3000/RegistrarTipoProyecto';
@@ -398,17 +626,15 @@ let span=document.getElementById('modificar_tipo_proyecto_notificacion');
 const tipo=document.getElementById('filtros_tipo').value;
 
   if(nombre===""){
-     span.innerHTML="<a> Ingrese Nombre </a>";
-     span.style.backgroundColor = 'darkred';
-     span.style.color = 'white';
+    notificacionSpan(span , "Ingrese el nombre");
+  }else if(nombre.length>=50){
+    notificacionSpan(span , "El nombre debe tener maximo 50 caracteres");
   }else if(!validarTexto(nombre)){
-     span.innerHTML="<a> El nombre no es valido, caracteres validos[a-z]</a>";
-     span.style.backgroundColor = 'darkred';
-     span.style.color = 'white';
+    notificacionSpan(span , "El nombre no es valido, caracteres validos[a-z]");
   }else if(descripcion===""){
-     span.innerHTML="<a>Ingrese Descripcion</a>";
-     span.style.backgroundColor = 'darkred';
-     span.style.color = 'white';
+    notificacionSpan(span , "Ingrese Descripcion");
+  }else if(descripcion.length>=500){
+    notificacionSpan(span , "La descripcion debe tener maximo 500 caracteres");
   }else {
     
     var url = 'http://localhost:3000/ModificarTipoProyecto/'+tipo;
@@ -456,283 +682,42 @@ document.getElementById('eliminar_tipo_proyecto').onclick = function(){
   }
   
 };
-/******************** funciones de proyecto *********************/
-//abre el formulario de registrar proyecto
-document.getElementById('agregar_proyecto').onclick = function(){
-  const modal= document.getElementById("registrar_proyecto");
 
-  var combotipo=document.getElementById('registrar_proyecto_tipo');
-  combotipo.innerHTML="";
-  var opcion = document.createElement("option");
-  opcion.text ="Seleccione Tipo";
-  combotipo.add(opcion);
-
-  fetch('http://localhost:3000/TipoProyecto')
-  .then(response => response.json())
-  .then(data => {
-
-  for (var i = 0; i <data.length; i++) {
-        opcion = document.createElement("option");
-        opcion.text = data[i].Nombre;
-        combotipo.add(opcion);
-  }
-  });
-
-  modal.showModal();
-};
-//boton cierra el formulario de registrar proyecto
-document.getElementById('registrar_proyecto_cerrar').onclick = function(){
-  cerrarRegistrarProyecto();
-};
-//cierra el formulario de registrar proyecto
-function cerrarRegistrarProyecto(){
-  const modal=document.getElementById("registrar_proyecto");
-  const nombre=document.getElementById("registrar_proyecto_nombre");
-  const autor=document.getElementById("registrar_proyecto_autor");
-  const enlace=document.getElementById("registrar_proyecto_enlace");
-  const imagen=document.getElementById("registrar_proyecto_imagen");
-  const tipo=document.getElementById("registrar_proyecto_tipo");
-  const fecha=document.getElementById("registrar_proyecto_fecha");
-  const descripcion=document.getElementById("registrar_proyecto_descripcion");
-  const span=document.getElementById("registrar_proyecto_notificacion");
-  nombre.value="";
-  autor.value="";
-  enlace.value="";
-  imagen.value="";
-  tipo.innerHTML="";
-  fecha.value="";
-  descripcion.value="";
-  span.innerHTML="";
-  modal.close();
-}
-//registra un proyecto
-document.getElementById('registrar_proyecto_boton').onclick = function(){
-  const nombre=document.getElementById("registrar_proyecto_nombre").value;
-  const autor=document.getElementById("registrar_proyecto_autor").value;
-  const enlace=document.getElementById("registrar_proyecto_enlace").value;
-  const imagen=document.getElementById("registrar_proyecto_imagen").value;
-  const tipo=document.getElementById("registrar_proyecto_tipo").value;
-  const fecha=document.getElementById("registrar_proyecto_fecha").value;
-  const descripcion=document.getElementById("registrar_proyecto_descripcion").value;
-  const span=document.getElementById("registrar_proyecto_notificacion");
-
-  if(nombre===""){
-     span.innerHTML="<a> Ingrese el nombre </a>";
-     span.style.backgroundColor = 'darkred';
-     span.style.color = 'white';
-  }else if(!validarTexto(nombre)){
-     span.innerHTML="<a> El nombre no es valido, caracteres validos[a-z]</a>";
-     span.style.backgroundColor = 'darkred';
-     span.style.color = 'white';
-  }else if(autor===""){
-     span.innerHTML="<a> Ingrese el autor </a>";
-     span.style.backgroundColor = 'darkred';
-     span.style.color = 'white';
-  }else if(!validarTexto(autor)){
-     span.innerHTML="<a> El autor no es valido, caracteres validos[a-z]</a>";
-     span.style.backgroundColor = 'darkred';
-     span.style.color = 'white';
-  }else if(enlace!==""&&!validarEnlace(enlace)){
-     span.innerHTML="<a> El enlace no es valido</a>";
-     span.style.backgroundColor = 'darkred';
-     span.style.color = 'white';
-  }else if(imagen!==""&&!validarEnlace(imagen)){
-     span.innerHTML="<a> El enlace de a imagen no es valido</a>";
-     span.style.backgroundColor = 'darkred';
-     span.style.color = 'white';
-  }else if(tipo==="Seleccione Tipo"){
-     span.innerHTML="<a> Seleccione el tipo de proyecto </a>";
-     span.style.backgroundColor = 'darkred';
-     span.style.color = 'white';
-  }else {
-    
-    var url = 'http://localhost:3000/RegistrarProyecto';
-    var data = {    Nombre: nombre,
-                    Autor: autor,
-                    Enlace: enlace,
-                    Imagen: imagen,
-                    Tipo: tipo,
-                    Fecha: fecha,
-                    Descripcion: descripcion };
-
-    fetch(url, {
-        method: 'POST', 
-        body: JSON.stringify(data), 
-        headers:{
-            'Content-Type': 'application/json'
-        }
-    }).then(response => response.json())
-    .then(data => { 
-      if(data.peticion==='correcta'){
-        cerrarRegistrarProyecto();
-        cargarNumeroProyectos(1); //recarga el listado de los proyectos
-      }
-      mostrarNotificacion(data.mensaje);
-    });
-
-
-  }
-};
-//abre el formulario de modificar
-function formModificarProyecto(Id){
-  const modal= document.getElementById("modificar_proyecto");
-  //carga el combo de tipo de proyecto
-  var combotipo=document.getElementById('modificar_proyecto_tipo');
-  combotipo.innerHTML="";
-  var opcion = document.createElement("option");
-  opcion.text ="Seleccione Tipo";
-  combotipo.add(opcion);
-
-  fetch('http://localhost:3000/TipoProyecto')
-  .then(response => response.json())
-  .then(data => {
-
-  for (var i = 0; i <data.length; i++) {
-        opcion = document.createElement("option");
-        opcion.text = data[i].Nombre;
-        combotipo.add(opcion);
-  }
-  });
-  //carga los datos del proyecto
-    fetch('http://localhost:3000/DatosProyecto/'+Id)
-    .then(response => response.json())
-    .then(data => {
-      const modal= document.getElementById("modificar_proyecto");
-      var span=document.getElementById('modificar_proyecto_notificacion');
-      var nombre=document.getElementById('modificar_proyecto_nombre');
-      var autor=document.getElementById('modificar_proyecto_autor');
-      var enlace=document.getElementById('modificar_proyecto_enlace');
-      var imagen=document.getElementById('modificar_proyecto_imagen');
-      var tipo=document.getElementById('modificar_proyecto_tipo');
-      var fecha=document.getElementById('modificar_proyecto_fecha');
-      var descripcion=document.getElementById('modificar_proyecto_descripcion');
-
-      span.value=Id;
-      nombre.value=data[0].Nombre;
-      autor.value=data[0].Autor;
-      enlace.value=data[0].Enlace;
-      imagen.value=data[0].Imagen;
-      fecha.value=data[0].Fecha.slice(0,10);
-      descripcion.value=data[0].Descripcion;
-      //seecciona el elemento correspondiente al tipo
-      for (var i = 0; i < tipo.options.length; i++) {
-        if (tipo.options[i].text === data[0].Tipo) {
-          tipo.selectedIndex = i;
-          break;
-        }
-      }
-      modal.showModal();
-    });
-}
-//boton cierra el formulario de registrar proyecto
-document.getElementById('modificar_proyecto_cerrar').onclick = function(){
-  cerrarModificarProyecto();
-};
-//cierra el formulario de modificar proyecto
-function cerrarModificarProyecto(){
-  const modal=document.getElementById("modificar_proyecto");
-  const nombre=document.getElementById("modificar_proyecto_nombre");
-  const autor=document.getElementById("modificar_proyecto_autor");
-  const enlace=document.getElementById("modificar_proyecto_enlace");
-  const imagen=document.getElementById("modificar_proyecto_imagen");
-  const tipo=document.getElementById("modificar_proyecto_tipo");
-  const fecha=document.getElementById("modificar_proyecto_fecha");
-  const descripcion=document.getElementById("modificar_proyecto_descripcion");
-  const span=document.getElementById("modificar_proyecto_notificacion");
-  nombre.value="";
-  autor.value="";
-  enlace.value="";
-  imagen.value="";
-  tipo.innerHTML="";
-  fecha.value="";
-  descripcion.value="";
-  span.innerHTML="";
-  span.value="";
-  modal.close();
-}
-
-//modificar proyecto
-document.getElementById('modificar_proyecto_boton').onclick=function(){
-  const nombre=document.getElementById("modificar_proyecto_nombre").value;
-  const autor=document.getElementById("modificar_proyecto_autor").value;
-  const enlace=document.getElementById("modificar_proyecto_enlace").value;
-  const imagen=document.getElementById("modificar_proyecto_imagen").value;
-  const tipo=document.getElementById("modificar_proyecto_tipo").value;
-  const fecha=document.getElementById("modificar_proyecto_fecha").value;
-  const descripcion=document.getElementById("modificar_proyecto_descripcion").value;
-  const span=document.getElementById("modificar_proyecto_notificacion");
-
-  if(nombre===""){
-     span.innerHTML="<a> Ingrese el nombre </a>";
-     span.style.backgroundColor = 'darkred';
-     span.style.color = 'white';
-  }else if(!validarTexto(nombre)){
-     span.innerHTML="<a> El nombre no es valido, caracteres validos[a-z]</a>";
-     span.style.backgroundColor = 'darkred';
-     span.style.color = 'white';
-  }else if(autor===""){
-     span.innerHTML="<a> Ingrese el autor </a>";
-     span.style.backgroundColor = 'darkred';
-     span.style.color = 'white';
-  }else if(!validarTexto(autor)){
-     span.innerHTML="<a> El autor no es valido, caracteres validos[a-z]</a>";
-     span.style.backgroundColor = 'darkred';
-     span.style.color = 'white';
-  }else if(enlace!==""&&!validarEnlace(enlace)){
-     span.innerHTML="<a> El enlace no es valido</a>";
-     span.style.backgroundColor = 'darkred';
-     span.style.color = 'white';
-  }else if(imagen!==""&&!validarEnlace(imagen)){
-     span.innerHTML="<a> El enlace de a imagen no es valido</a>";
-     span.style.backgroundColor = 'darkred';
-     span.style.color = 'white';
-  }else if(tipo==="Seleccione Tipo"){
-     span.innerHTML="<a> Seleccione el tipo de proyecto </a>";
-     span.style.backgroundColor = 'darkred';
-     span.style.color = 'white';
-  }else {
-    
-    var url = 'http://localhost:3000/ModificarProyecto/'+span.value;
-    var data = {    Nombre: nombre,
-                    Autor: autor,
-                    Enlace: enlace,
-                    Imagen: imagen,
-                    Tipo: tipo,
-                    Fecha: fecha,
-                    Descripcion: descripcion };
-
-    fetch(url, {
-        method: 'POST', 
-        body: JSON.stringify(data), 
-        headers:{
-            'Content-Type': 'application/json'
-        }
-    }).then(response => response.json())
-    .then(data => { 
-      if(data.peticion==='correcta'){
-        cerrarModificarProyecto();
-        cargarNumeroProyectos(1); //recarga el listado de los proyectos
-      }
-      mostrarNotificacion(data.mensaje);
-    });
-  }
-};
-
-
-//elimina el proyecto seleccionado
-function eliminarProyecto(Id){
-    var url = 'http://localhost:3000/EliminarProyecto/'+Id;
-    if(confirm("¿Estás seguro de que deseas eliminar el proyecto?")){
-      fetch(url, {
-          method: 'DELETE', 
-      }).then(response => response.json())
-      .then(data => { 
-        mostrarNotificacion(data.mensaje);
-        cargarNumeroProyectos(1); //recarga el listado de los proyectos
-      });
-    }
-}
 /***************** funciones de noticias ***************************/
+//funcion para ultimas noticias/
+function getUltimasNoticias(){
+  fetch('http://localhost:3000/UltimasNoticias')
+  .then(response => response.json())
+  .then(data => {
+
+    let cadenaHTML="";
+    let div=document.getElementById('noticias_panel_carrusel');
+
+    //concadenacion de los elementos del json
+    for(let i=0;i<data.length;i++){
+    //si no hay imagen coloco una por defecto
+    if(data[i].Imagen===null||data[i].Imagen===""){
+      data[i].Imagen="../iconos/Mal.png";
+    }
+    const id= 987+i;
+      cadenaHTML+= 
+                    ' <div class="UNoticia" >'+
+                    '<div class="UNoticia_fecha" >'+
+                    '<a >'+concadenarFecha(data[i].Fecha)+'</a>'+
+                    '</div>'+
+                    '<div class="UNoticia_titulo">'+
+                      '<a target="_blank" href="'+data[i].Enlace+'">'+data[i].Nombre+'</a>'+
+                    '</div>'+
+                    '<div  class="UNoticia_imagen" > '+
+                     '<img src="'+data[i].Imagen+'" onclick="verImagenAumentada('+id+')" id="'+id+'">'+
+                    '</div>'+
+                    '</div>';
+    }
+
+    div.innerHTML=cadenaHTML;
+  });
+}
+
 //abre el formulario de registrar proyecto
 document.getElementById('AgregarNoticia').onclick = function(){
   const modal= document.getElementById("registrar_noticia");
@@ -768,27 +753,24 @@ document.getElementById("registrar_noticia_boton").onclick = function() {
   const fecha=document.getElementById("registrar_noticia_fecha").value;
   const descripcion=document.getElementById("registrar_noticia_descripcion").value;
   const span=document.getElementById("registrar_noticia_notificacion");
-
+  const idAdministrador=document.getElementById("id_administrador").value;
+  
   if(nombre===""){ //valida que no este vacio
-     span.innerHTML="<a> Ingrese el nombre </a>";
-     span.style.backgroundColor = 'darkred';
-     span.style.color = 'white';
-  }else if(!validarTexto(nombre)){ //valida que sean letras
-     span.innerHTML="<a> El nombre no es valido, caracteres validos[a-z]</a>";
-     span.style.backgroundColor = 'darkred';
-     span.style.color = 'white';
+    notificacionSpan(span , "Ingrese el nombre");
+  }else if(nombre.length>100){
+    notificacionSpan(span , "El nombre debe tener maximo 100 caracteres");
+  }else if(enlace.length>200){
+    notificacionSpan(span , "El enlace debe tener maximo 200 caracteres");
   }else if(enlace!==""&&!validarEnlace(enlace)){ //valida que tenga formato de link http://
-     span.innerHTML="<a> El enlace no es valido</a>";
-     span.style.backgroundColor = 'darkred';
-     span.style.color = 'white';
+     notificacionSpan(span , "El enlace no es valido");
+  }else if(imagen.length>200){
+    notificacionSpan(span , "La imagen debe tener maximo 200 caracteres");
   }else if(imagen!==""&&!validarEnlace(imagen)){ //valida que tenga formato de link http://
-     span.innerHTML="<a> El enlace de la imagen no es valido</a>";
-     span.style.backgroundColor = 'darkred';
-     span.style.color = 'white';
+     notificacionSpan(span , "El enlace de la imagen no es valido");
   }else if(fecha===""){ //valida que no este vacia
-     span.innerHTML="<a> Seleccione la fecha de la noticia </a>";
-     span.style.backgroundColor = 'darkred';
-     span.style.color = 'white';
+     notificacionSpan(span , "Seleccione la fecha de la noticia");
+  }else if(descripcion.length>500){
+     notificacionSpan(span , "La descripcion debe tener maximo 500 caracteres");
   }else {
 
     var url = 'http://localhost:3000/RegistrarNoticia/';
@@ -796,7 +778,8 @@ document.getElementById("registrar_noticia_boton").onclick = function() {
                     Enlace: enlace,
                     Imagen: imagen,
                     Fecha: fecha,
-                    Descripcion: descripcion };
+                    Descripcion: descripcion,
+                    IdAdministrador: idAdministrador };
 
     fetch(url, {
         method: 'POST', 
@@ -842,7 +825,7 @@ document.getElementById('notificaciones_div_cerrar').onclick = function(){
 /************************* validar cajas ************************/
 function validarTexto(texto){
 
-  if (/^[a-zA-Z]+$/.test(texto)) {
+  if (/^[a-zA-Z\u00C0-\u017F\s]+$/.test(texto)) {
     return true;
   }
   return false;
@@ -856,7 +839,61 @@ function validarEnlace(texto){
 }
   return false;
 }
+/************* muestra en el formulario el texto ****************/
+function notificacionSpan(span, texto){
+     span.innerHTML=texto;
+     span.style.backgroundColor = 'darkred';
+     span.style.color = 'white';
+}
+/********************** concadenar fecha ********************/
+function concadenarFecha(fecha){
+  let c ="";
+  let anio=fecha.slice(0,4);
+  let mes=fecha.slice(5,7);
+  let dia=fecha.slice(8,10);
 
+  if(mes==="01"){
+    mes="Enero";
+  }else if(mes==="02"){
+    mes="Febrero";
+  }else if(mes==="03"){
+    mes="Marzo";
+  }else if(mes==="04"){
+    mes="Abril";
+  }else if(mes==="05"){
+    mes="Mayo";
+  }else if(mes==="06"){
+    mes="Junio";
+  }else if(mes==="07"){
+    mes="Julio";
+  }else if(mes==="08"){
+    mes="Agosto";
+  }else if(mes==="09"){
+    mes="Septiembre";
+  }else if(mes==="10"){
+    mes="Octubre";
+  }else if(mes==="11"){
+    mes="Noviembre";
+  }else if(mes==="12"){
+    mes="Diciembre";
+  }
+  
+  c=dia+" "+mes+" "+anio;
+  return c
+}
+/***********  abrir u ocultar imagen Aumentada ****************/
+document.getElementById("imagen_aumentada_div_cerrar").onclick = function() {
+  var modal = document.getElementById("imagen_aumentada");
+   modal.close();
+};
+
+function verImagenAumentada(id){
+  var imagen = document.getElementById(id);
+  var imagenAumentada = document.getElementById("imagen_aumentada_div_grande");
+  var modal = document.getElementById("imagen_aumentada");
+  imagenAumentada.src = imagen.src;
+  modal.showModal();
+}
 
 /************************** Redes ************************/
 document.getElementById("facebook").onclick = function() {
@@ -871,3 +908,4 @@ document.getElementById("instagram").onclick = function() {
 document.getElementById("youtube").onclick = function() {
   window.open('https://youtube.com');
 };
+

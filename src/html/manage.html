@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" type="text/css" href="../css/index.css">
-	<link rel="shortcut icon" href="https://ww2.ufps.edu.co/public/imagenes/template/footer/logoufpsvertical.png" />
+	<link rel="shortcut icon" href="../iconos/logo.png" />
 
 	<title>Proyectos de Ingeniera de Sistemas</title>
 </head>
@@ -12,7 +12,8 @@
 
 	<div class="head">
 		<div class="head_logo">
-			
+			<img src="../iconos/logo.png">
+			<span id="id_administrador"></span>
 		</div>
 		<div class="head_titulo">	
 		<h1>Proyectos de Ingeniera de Sistemas</h1>
@@ -31,28 +32,36 @@
 			
 
 				<div class="filtros">
-					<a id="filtrar_por">Filtrar Por:</a>
-					<a>| Año: </a>
-					<select id="filtros_anio" class="filtros_select">
-						
-					</select>
-					<a>| Tipo: </a>
-					<select id="filtros_tipo" class="filtros_select">
-						
-					</select>
-					<input type="image" src="../iconos/Agregar.png" title="Agregar tipo proyecto" id="agregar_tipo_proyecto">
-					<input type="image" src="../iconos/Editar.png" title="Modificar tipo proyecto" id="modifica_tipo_proyecto">
-					<input type="image" src="../iconos/Eliminar.png" title="Eliminar tipo proyecto" id="eliminar_tipo_proyecto">
-					<a>| Ordenar:</a>
-					<select id="filtros_orden" class="filtros_select">
-						 <option value="DESC">Mas Reciente</option>
-						  <option value="ASC">Mas Antiguo</option>
-					</select>
-					<a>|</a>
-					<input type="button" value="Fitrar" class="boton" title="Fitrar" id="filtrar">
-					<a id="numero_de_proyectos"> 0 </a>
-					<a>proyectos Encontrados</a>
-					<input type="button" src="../iconos/Agregar.png" title="Agregar proyecto" id="agregar_proyecto" value="Agregar" class="boton">
+											<a id="filtrar_por">Filtrar Por:</a>
+					
+						<a>Año:</a>
+						<select id="filtros_anio" class="filtros_select"></select>
+					
+						<a>Tipo:</a>
+						<select id="filtros_tipo" class="filtros_select"></select>
+						<div>
+							<input type="image" src="../iconos/Agregar.png" title="Agregar tipo proyecto" id="agregar_tipo_proyecto">
+							<input type="image" src="../iconos/Editar.png" title="Modificar tipo proyecto" id="modifica_tipo_proyecto">
+							<input type="image" src="../iconos/Eliminar.png" title="Eliminar tipo proyecto" id="eliminar_tipo_proyecto">
+						</div>
+						<a>Ordenar:</a>
+						<select id="filtros_orden" class="filtros_select">
+							<option value="DESC">Mas Reciente</option>
+						  	<option value="ASC">Mas Antiguo</option>
+						</select>
+					
+					
+						<input type="button" value="Fitrar" class="boton" title="Fitrar" id="filtrar">
+						<div>
+							<a id="numero_de_proyectos"> 0 </a>
+							<a>Proyectos Encontrados</a>
+						</div>
+
+					
+					<div>
+						<input type="button" src="../iconos/Agregar.png" title="Agregar proyecto" id="agregar_proyecto" value="Agregar" class="boton">
+					</div>
+
 				</div>
 
 				<div id="carga_proyectos">
@@ -62,9 +71,9 @@
 
 				<div class="paginacion">
 					<div class="paginacion_botones">
-						<input type="button" value="◀  Anterior" title="Pagina Anterior" id="pagina_anterior" class="boton" >
+						<input type="button" value="⟪ Anterior" title="Pagina Anterior" id="pagina_anterior" class="boton" >
 						<input type="button" value="1" title="Pagina Actual" id="pagina_actual" class="boton">
-						<input type="button" value="Siguiente  ▶" title="Pagina Siguiente" id="pagina_siguiente" class="boton">
+						<input type="button" value="Siguiente ⟫" title="Pagina Siguiente" id="pagina_siguiente" class="boton">
 					</div>
 				</div>
 
@@ -81,8 +90,8 @@
 				
 			</div>
 			<div class="noticias_panel_todas">
-				<input type="button" value=" Agregar Noticia " title="Agrega una nueva noticia" id="AgregarNoticia" class="boton">
-				<input type="button" value=" Todas las noticias ▶ " title="Ver todas las noticias" class="boton" id="noticias">
+				<input type="button" value=" Agregar Noticia + " title="Agrega una nueva noticia" id="AgregarNoticia" class="boton">
+				<input type="button" value=" Todas las noticias ⟫ " title="Ver todas las noticias" class="boton" id="noticias">
 			</div>
 			<div class="noticias_panel_vinculos">
 				<a>Enlaces de Interes: </a>
@@ -168,7 +177,7 @@
 
           <span id="registrar_proyecto_notificacion"></span>
 
-          <input type="text" name="Nombre" placeholder="Nombre" id="registrar_proyecto_nombre" title="Nombre de proyecto (maximo 50 caracteres)" maxlength="50">
+          <input type="text" name="Nombre" placeholder="Nombre" id="registrar_proyecto_nombre" title="Nombre de proyecto (maximo 50 caracteres)" maxlength="200">
 
           <input type="text" name="Autor" placeholder="Autor" id="registrar_proyecto_autor" title="Autor del proyecto" maxlength="50">
 
@@ -197,7 +206,7 @@
 
           <span id="modificar_proyecto_notificacion"></span>
 
-          <input type="text" name="Nombre" placeholder="Nombre" id="modificar_proyecto_nombre" title="Nombre de proyecto (maximo 50 caracteres)" maxlength="50">
+          <input type="text" name="Nombre" placeholder="Nombre" id="modificar_proyecto_nombre" title="Nombre de proyecto (maximo 50 caracteres)" maxlength="200">
 
           <input type="text" name="Autor" placeholder="Autor" id="modificar_proyecto_autor" title="Autor del proyecto" maxlength="50">
 
@@ -227,7 +236,7 @@
 
           <span id="registrar_noticia_notificacion"></span>
 
-          <input type="text" name="Nombre" placeholder="Nombre" id="registrar_noticia_nombre" title="Nombre de la noticia (maximo 50 caracteres)" maxlength="50">
+          <input type="text" name="Nombre" placeholder="Nombre" id="registrar_noticia_nombre" title="Nombre de la noticia (maximo 50 caracteres)" maxlength="100">
 
           <input type="text" name="Enlace" placeholder="Enlace" id="registrar_noticia_enlace" title="Enlace de la noticia" maxlength="200">
           

@@ -4,14 +4,15 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" type="text/css" href="../css/formNoticias.css">
-	<link rel="shortcut icon" href="https://ww2.ufps.edu.co/public/imagenes/template/footer/logoufpsvertical.png" />
+	<link rel="shortcut icon" href="../iconos/logo.png" />
 	<title>Noticias</title>
 </head>
 <body>
 
 	<div class="head">
 		<div class="head_logo">
-			
+			<img src="../iconos/logo.png">
+			<span id="id_administrador"></span>
 		</div>
 		<div class="head_titulo">	
 		<h1 id="titulo">Proyectos de Ingeniera de Sistemas</h1>
@@ -25,9 +26,19 @@
 	<div class="noticias">
 		<div class="noticias_panel">
 			<div class="noticias_panel_titulo">
-				<h1>Noticias</h1>
+				<h1>Noticias Actuales</h1>
 			</div>
-			<div class="noticias_panel_visualizacion" id="noticias_panel_visualizacion">
+			<div class="noticias_panel_visualizacion" id="noticias_panel_actuales">
+			</div>
+		</div>
+	</div>
+
+		<div class="noticias">
+		<div class="noticias_panel">
+			<div class="noticias_panel_titulo">
+				<h1>Noticias Anteriores</h1>
+			</div>
+			<div class="noticias_panel_visualizacion" id="noticias_panel_anteriores">
 			</div>
 		</div>
 	</div>
@@ -62,7 +73,7 @@
 
           <span id="modificar_noticia_notificacion"></span>
 
-          <input type="text" name="Nombre" placeholder="Nombre" id="modificar_noticia_nombre" title="Nombre de la noticia (maximo 50 caracteres)" maxlength="50">
+          <input type="text" name="Nombre" placeholder="Nombre" id="modificar_noticia_nombre" title="Nombre de la noticia (maximo 50 caracteres)" maxlength="100">
 
           <input type="text" name="Enlace" placeholder="Enlace" id="modificar_noticia_enlace" title="Enlace de la noticia" maxlength="200">
           

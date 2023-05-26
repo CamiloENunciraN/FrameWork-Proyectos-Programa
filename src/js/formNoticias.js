@@ -1,4 +1,5 @@
-cargarNoticias();
+cargarNoticiasActuales();
+cargarNoticiasAnteriores();
 
 /******************** volver a inicio****************************/
 document.getElementById("inicio").onclick = function() {
@@ -21,13 +22,13 @@ function verImagenAumentada(id){
   modal.showModal();
 }
 /********************carga de noticias****************************/
-function cargarNoticias(){
-  fetch('http://localhost:3000/Noticias')
+function cargarNoticiasActuales(){
+  fetch('http://localhost:3000/NoticiasActuales')
   .then(response => response.json())
   .then(data => {
 
     let cadenaHTML="";
-    let div=document.getElementById('noticias_panel_visualizacion');
+    let div=document.getElementById('noticias_panel_actuales');
 
     //concadenacion de los elementos del json
     for(let i=0;i<data.length;i++){
@@ -42,8 +43,8 @@ function cargarNoticias(){
       cadenaHTML+=
           '<div class="noticia">'+
           '<div class="noticia_panel_imagen">'+
-            '<img class="noticia_imagen" onclick="verImagenAumentada('+i+
-            ')" id="'+i+'" src="'+data[i].Imagen+'">'+
+            '<img class="noticia_imagen" onclick="verImagenAumentada('+data[i].IdNoticia+
+            ')" id="'+data[i].IdNoticia+'" src="'+data[i].Imagen+'">'+
           '</div>'+
           '<div class="noticia_datos">'+
             '<div class="noticia_contenedor_titulo">'+
@@ -55,7 +56,58 @@ function cargarNoticias(){
             '</div>'+
             '<div class="noticia_descripcion">'+
               '<a class="negrilla">Fecha: </a>'+
-              '<a>'+data[i].Fecha.slice(0,10)+'</a>'+
+              '<a>'+concadenarFecha(data[i].Fecha)+'</a>'+
+              '<br>'+
+              '<a class="negrilla">Descripcion: </a>'+
+              '<a>'+data[i].Descripcion+'</a>'+
+            '</div>'+
+            '<div class="noticia_enlace">'+
+              mostrarMas+
+            '</div>'+
+          '</div>'+
+        '</div>';
+    }
+
+    div.innerHTML=cadenaHTML;
+
+  });
+}
+/********************carga de noticias anteriores****************************/
+function cargarNoticiasAnteriores(){
+  fetch('http://localhost:3000/NoticiasAnteriores')
+  .then(response => response.json())
+  .then(data => {
+
+    let cadenaHTML="";
+    let div=document.getElementById('noticias_panel_anteriores');
+
+    //concadenacion de los elementos del json
+    for(let i=0;i<data.length;i++){
+    //si no hay imagen coloco una por defecto
+    if(data[i].Imagen===null||data[i].Imagen===""){
+       data[i].Imagen="../iconos/Mal.png";
+    }
+    var mostrarMas ="";
+    if(data[i].Enlace!==null){
+      mostrarMas='<a href="'+data[i].Enlace+'" target="_blank"> ▶ Mas informacion click aqui ...</a>';
+    }
+      cadenaHTML+=
+          '<div class="noticia">'+
+          '<div class="noticia_panel_imagen">'+
+            '<img class="noticia_imagen" onclick="verImagenAumentada('+data[i].IdNoticia+
+            ')" id="'+data[i].IdNoticia+'" src="'+data[i].Imagen+'">'+
+          '</div>'+
+          '<div class="noticia_datos">'+
+            '<div class="noticia_contenedor_titulo">'+
+              '<div class="noticia_titulo">'+
+                '<h1 >'+data[i].Nombre+'</h1>'+
+              '</div>'+
+              '<div class="noticia_titulo_botones">'+
+              '</div>'+
+            '</div>'+
+            '<div class="noticia_descripcion">'+
+              '<a class="negrilla">Fecha: </a>'+
+              '<a>'+concadenarFecha(data[i].Fecha)+'</a>'+
               '<br><br>'+
               '<a class="negrilla">Descripcion: </a>'+
               '<a>'+data[i].Descripcion+'</a>'+
@@ -71,7 +123,42 @@ function cargarNoticias(){
 
   });
 }
+/********************** concadenar fecha ********************/
+function concadenarFecha(fecha){
+  let c ="";
+  let anio=fecha.slice(0,4);
+  let mes=fecha.slice(5,7);
+  let dia=fecha.slice(8,10);
 
+  if(mes==="01"){
+    mes="Enero";
+  }else if(mes==="02"){
+    mes="Febrero";
+  }else if(mes==="03"){
+    mes="Marzo";
+  }else if(mes==="04"){
+    mes="Abril";
+  }else if(mes==="05"){
+    mes="Mayo";
+  }else if(mes==="06"){
+    mes="Junio";
+  }else if(mes==="07"){
+    mes="Julio";
+  }else if(mes==="08"){
+    mes="Agosto";
+  }else if(mes==="09"){
+    mes="Septiembre";
+  }else if(mes==="10"){
+    mes="Octubre";
+  }else if(mes==="11"){
+    mes="Noviembre";
+  }else if(mes==="12"){
+    mes="Diciembre";
+  }
+  
+  c=dia+" "+mes+" "+anio;
+  return c
+}
 
 
 

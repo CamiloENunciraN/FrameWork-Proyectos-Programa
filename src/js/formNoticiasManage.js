@@ -1,5 +1,19 @@
-cargarNoticias();
+cargarNoticiasActuales();
+cargarNoticiasAnteriores();
+validarSesion();
+/************ validar que la sesion este activa ***************/
+function validarSesion(){
+  var sesion=localStorage.getItem('sesion');
+  if(sesion!='Activa'){
+    location.href='../../index.html';
+  }else{
+    //guarda en un span la id del administrador
+    var span=document.getElementById('id_administrador');
+    var administrador=localStorage.getItem('Id');
+    span.value=administrador;
+  }
 
+}
 /******************** volver a inicio****************************/
 document.getElementById("inicio").onclick = function() {
   location.href='./manage.html';
@@ -20,14 +34,14 @@ function verImagenAumentada(id){
   imagenAumentada.src = imagen.src;
   modal.showModal();
 }
-/********************carga de noticias****************************/
-function cargarNoticias(){
-  fetch('http://localhost:3000/Noticias')
+/********************carga de noticias actuales****************************/
+function cargarNoticiasActuales(){
+  fetch('http://localhost:3000/NoticiasActuales')
   .then(response => response.json())
   .then(data => {
 
     let cadenaHTML="";
-    let div=document.getElementById('noticias_panel_visualizacion');
+    let div=document.getElementById('noticias_panel_actuales');
 
     //concadenacion de los elementos del json
     for(let i=0;i<data.length;i++){
@@ -42,8 +56,8 @@ function cargarNoticias(){
       cadenaHTML+=
           '<div class="noticia">'+
           '<div class="noticia_panel_imagen">'+
-            '<img class="noticia_imagen" onclick="verImagenAumentada('+i+
-            ')" id="'+i+'" src="'+data[i].Imagen+'">'+
+            '<img class="noticia_imagen" onclick="verImagenAumentada('+data[i].IdNoticia+
+            ')" id="'+data[i].IdNoticia+'" src="'+data[i].Imagen+'">'+
           '</div>'+
           '<div class="noticia_datos">'+
             '<div class="noticia_contenedor_titulo">'+
@@ -57,7 +71,60 @@ function cargarNoticias(){
             '</div>'+
             '<div class="noticia_descripcion">'+
               '<a class="negrilla">Fecha: </a>'+
-              '<a>'+data[i].Fecha.slice(0,10)+'</a>'+
+              '<a>'+concadenarFecha(data[i].Fecha)+'</a>'+
+              '<br>'+
+              '<a class="negrilla">Descripcion: </a>'+
+              '<a>'+data[i].Descripcion+'</a>'+
+            '</div>'+
+            '<div class="noticia_enlace">'+
+              mostrarMas+
+            '</div>'+
+          '</div>'+
+        '</div>';
+    }
+
+    div.innerHTML=cadenaHTML;
+
+  });
+}
+/********************carga de noticias anteriores****************************/
+function cargarNoticiasAnteriores(){
+  fetch('http://localhost:3000/NoticiasAnteriores')
+  .then(response => response.json())
+  .then(data => {
+
+    let cadenaHTML="";
+    let div=document.getElementById('noticias_panel_anteriores');
+
+    //concadenacion de los elementos del json
+    for(let i=0;i<data.length;i++){
+    //si no hay imagen coloco una por defecto
+    if(data[i].Imagen===null||data[i].Imagen===""){
+      data[i].Imagen="../iconos/Mal.png";
+    }
+    var mostrarMas ="";
+    if(data[i].Enlace!==null||data[i].Enlace!==""){
+      mostrarMas='<a href="'+data[i].Enlace+'" target="_blank"> ▶ Mas informacion click aqui ...</a>';
+    }
+      cadenaHTML+=
+          '<div class="noticia">'+
+          '<div class="noticia_panel_imagen">'+
+            '<img class="noticia_imagen" onclick="verImagenAumentada('+data[i].IdNoticia+
+            ')" id="'+data[i].IdNoticia+'" src="'+data[i].Imagen+'">'+
+          '</div>'+
+          '<div class="noticia_datos">'+
+            '<div class="noticia_contenedor_titulo">'+
+              '<div class="noticia_titulo">'+
+                '<h1 >'+data[i].Nombre+'</h1>'+
+              '</div>'+
+              '<div class="noticia_titulo_botones">'+
+                '<input type="image" src="../iconos/Editar.png" title="Modificar Noticia" onclick="formModificarNoticia('+data[i].IdNoticia+')">'+
+                '<input type="image" src="../iconos/Eliminar.png" title="Eliminar Noticia" onclick="eliminarNoticia('+data[i].IdNoticia+')">'+  
+              '</div>'+
+            '</div>'+
+            '<div class="noticia_descripcion">'+
+              '<a class="negrilla">Fecha: </a>'+
+              '<a>'+concadenarFecha(data[i].Fecha)+'</a>'+
               '<br><br>'+
               '<a class="negrilla">Descripcion: </a>'+
               '<a>'+data[i].Descripcion+'</a>'+
@@ -73,7 +140,6 @@ function cargarNoticias(){
 
   });
 }
-
 //modifica una noticia
 function formModificarNoticia(Id){
   const modal= document.getElementById("modificar_noticia");
@@ -130,22 +196,22 @@ document.getElementById('modificar_noticia_boton').onclick=function(){
   const descripcion=document.getElementById("modificar_noticia_descripcion").value;
   const span=document.getElementById("modificar_noticia_notificacion");
 
-  if(nombre===""){
-     span.innerHTML="<a> Ingrese el nombre </a>";
-     span.style.backgroundColor = 'darkred';
-     span.style.color = 'white';
-  }else if(!validarTexto(nombre)){
-     span.innerHTML="<a> El nombre no es valido, caracteres validos[a-z]</a>";
-     span.style.backgroundColor = 'darkred';
-     span.style.color = 'white';
-  }else if(enlace!==""&&!validarEnlace(enlace)){
-     span.innerHTML="<a> El enlace no es valido</a>";
-     span.style.backgroundColor = 'darkred';
-     span.style.color = 'white';
-  }else if(imagen!==""&&!validarEnlace(imagen)){
-     span.innerHTML="<a> El enlace de a imagen no es valido</a>";
-     span.style.backgroundColor = 'darkred';
-     span.style.color = 'white';
+  if(nombre===""){ //valida que no este vacio
+    notificacionSpan(span , "Ingrese el nombre");
+  }else if(nombre.length>100){
+    notificacionSpan(span , "El nombre debe tener maximo 100 caracteres");
+  }else if(enlace.length>200){
+    notificacionSpan(span , "El enlace debe tener maximo 200 caracteres");
+  }else if(enlace!==""&&!validarEnlace(enlace)){ //valida que tenga formato de link http://
+     notificacionSpan(span , "El enlace no es valido");
+  }else if(imagen.length>200){
+    notificacionSpan(span , "La imagen debe tener maximo 200 caracteres");
+  }else if(imagen!==""&&!validarEnlace(imagen)){ //valida que tenga formato de link http://
+     notificacionSpan(span , "El enlace de la imagen no es valido");
+  }else if(fecha===""){ //valida que no este vacia
+     notificacionSpan(span , "Seleccione la fecha de la noticia");
+  }else if(descripcion.length>500){
+     notificacionSpan(span , "La descripcion debe tener maximo 500 caracteres");
   }else {
     
     var url = 'http://localhost:3000/ModificarNoticia/'+span.value;
@@ -165,7 +231,8 @@ document.getElementById('modificar_noticia_boton').onclick=function(){
     .then(data => { 
       if(data.peticion==='correcta'){
         cerrarModificarNoticia();
-        cargarNoticias(); //recarga el listado de noticia
+        cargarNoticiasActuales(); //recarga el listado noticias
+        cargarNoticiasAnteriores(); //recarga el listado noticias
       }
       mostrarNotificacion(data.mensaje);
     });
@@ -181,7 +248,8 @@ function eliminarNoticia(Id){
       }).then(response => response.json())
       .then(data => { 
         mostrarNotificacion(data.mensaje);
-        cargarNoticias(); //recarga el listado noticias
+        cargarNoticiasActuales(); //recarga el listado noticias
+        cargarNoticiasAnteriores(); //recarga el listado noticias
       });
     }
 }
@@ -205,7 +273,7 @@ document.getElementById('notificaciones_div_cerrar').onclick = function(){
 /************************* validar cajas ************************/
 function validarTexto(texto){
 
-  if (/^[a-zA-Z]+$/.test(texto)) {
+  if (/^[a-zA-Z\u00C0-\u017F\s]+$/.test(texto)) {
     return true;
   }
   return false;
@@ -218,4 +286,46 @@ function validarEnlace(texto){
     return true;
 }
   return false;
+}
+
+function notificacionSpan(span, texto){
+     span.innerHTML=texto;
+     span.style.backgroundColor = 'darkred';
+     span.style.color = 'white';
+}
+/********************** concadenar fecha ********************/
+function concadenarFecha(fecha){
+  let c ="";
+  let anio=fecha.slice(0,4);
+  let mes=fecha.slice(5,7);
+  let dia=fecha.slice(8,10);
+
+  if(mes==="01"){
+    mes="Enero";
+  }else if(mes==="02"){
+    mes="Febrero";
+  }else if(mes==="03"){
+    mes="Marzo";
+  }else if(mes==="04"){
+    mes="Abril";
+  }else if(mes==="05"){
+    mes="Mayo";
+  }else if(mes==="06"){
+    mes="Junio";
+  }else if(mes==="07"){
+    mes="Julio";
+  }else if(mes==="08"){
+    mes="Agosto";
+  }else if(mes==="09"){
+    mes="Septiembre";
+  }else if(mes==="10"){
+    mes="Octubre";
+  }else if(mes==="11"){
+    mes="Noviembre";
+  }else if(mes==="12"){
+    mes="Diciembre";
+  }
+  
+  c=dia+" "+mes+" "+anio;
+  return c
 }

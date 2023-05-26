@@ -1,5 +1,6 @@
 // autor: Camilo Nuncira
 const proyectosPorPagina = 5; //numero de proyectos a mostrar por pagina
+const port=5925;
 /****************** metodos que cargan la pagina ************/
 cargarCombox(); //carga los combos que filtran los proyectos
 cargarNumeroProyectos(1); //el uno representa la pagina que se mostrara en este caso la inicial
@@ -35,7 +36,7 @@ document.getElementById("entrar").onclick = function() {
     notificarLogin("Ingrese la contraseña");
   }else{
 
-    var url = 'http://localhost:3000/iniciarSesion';
+    var url = 'http://localhost:'+port+'/iniciarSesion';
     var data = {    email: correo,
                     contrasena: contra };
 
@@ -100,7 +101,7 @@ function comboTipo(){
   opcion.text ="Todos";
   combotipo.add(opcion);
 
-  fetch('http://localhost:3000/TipoProyecto')
+  fetch('http://localhost:'+port+'/TipoProyecto')
   .then(response => response.json())
   .then(data => {
 
@@ -125,7 +126,7 @@ function cargarNumeroProyectos(pagina){
   const tipo = document.getElementById("filtros_tipo").value;
   const orden=document.getElementById('filtros_orden').value;
 
-    var url = 'http://localhost:3000/numeroProyectos';
+    var url = 'http://localhost:'+port+'/numeroProyectos';
     var data = {    anio: anio,
                     tipo: tipo,
                     orden: orden };
@@ -161,7 +162,7 @@ function getProyectos(pagina){ //pagina corresponde a la pagina que se quiere ca
   const tipo = document.getElementById("filtros_tipo").value;
   const orden=document.getElementById('filtros_orden').value;
 
-    var url = 'http://localhost:3000/Proyectos';
+    var url = 'http://localhost:'+port+'/Proyectos';
     var data = {    anio: anio,
                     tipo: tipo,
                     orden: orden,
@@ -281,7 +282,7 @@ document.getElementById('pagina_siguiente').onclick = function(){
 
 function getUltimasNoticias(){
 
-  fetch('http://localhost:3000/UltimasNoticias')
+  fetch('http://localhost:'+port+'/UltimasNoticias')
   .then(response => response.json())
   .then(data => {
 

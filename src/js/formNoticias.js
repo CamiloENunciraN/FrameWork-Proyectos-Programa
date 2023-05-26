@@ -1,3 +1,4 @@
+const port=5925;
 cargarNoticiasActuales();
 cargarNoticiasAnteriores();
 
@@ -23,7 +24,7 @@ function verImagenAumentada(id){
 }
 /********************carga de noticias****************************/
 function cargarNoticiasActuales(){
-  fetch('http://localhost:3000/NoticiasActuales')
+  fetch('http://localhost:'+port+'/NoticiasActuales')
   .then(response => response.json())
   .then(data => {
 
@@ -74,7 +75,7 @@ function cargarNoticiasActuales(){
 }
 /********************carga de noticias anteriores****************************/
 function cargarNoticiasAnteriores(){
-  fetch('http://localhost:3000/NoticiasAnteriores')
+  fetch('http://localhost:'+port+'/NoticiasAnteriores')
   .then(response => response.json())
   .then(data => {
 

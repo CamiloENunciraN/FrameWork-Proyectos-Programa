@@ -555,7 +555,7 @@ color: grey;
 /*************** diseno responsivo***************************/
 
 /* Estilos para pantallas medianas */
-@media (max-width: 1025px) {
+@media (max-width: 1100px) {
 .head{
 	font-size: 12px;
 }
@@ -602,9 +602,13 @@ color: grey;
 	width: 100%;
 	height: auto;
 }
+.proyecto{
+	height: 200px;
+	font-size: 12px;
+}
 }
 /* Estilos para pantallas pequeñas */
-@media (max-width: 480px) {
+@media (max-width: 600px) {
 .head{
 	font-size: 12px;
 }
@@ -612,7 +616,7 @@ color: grey;
 	font-size: 12px;
 }
 .proyecto{
-	height: 300;
+	height: 250px;
 	font-size: 12px;
 }
 .proyecto_titulo{

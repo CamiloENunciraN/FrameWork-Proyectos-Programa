@@ -17,6 +17,9 @@ const getTipoProyecto = (request, response) => {
         response.status(200).json(results);
     });
 };
+
+//ruta
+app.route("/TipoProyecto").get(getTipoProyecto);
 /*****************************************/
 //nos ayuda a analizar el cuerpo de la solicitud POST
 app.use(express.json());

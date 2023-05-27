@@ -7,8 +7,6 @@ const {connection} = require("../database/config.db");
 
 
 
-//ruta
-app.route("/TipoProyecto").get(getTipoProyecto);
 
 //busca un tipo de proyecto
 const getDatosTipoProyecto = (request, response) => {

@@ -1,6 +1,17 @@
+
 // autor: Camilo Nuncira
 const proyectosPorPagina = 5; //numero de proyectos a mostrar por pagina
 const port=5925;
+test();
+
+function test(){
+  fetch('http://localhost:'+port+'/test')
+  .then(response => response.json())
+  .then(data => {
+console.log('data');
+  });
+}
+
 /****************** metodos que cargan la pagina ************/
 cargarCombox(); //carga los combos que filtran los proyectos
 cargarNumeroProyectos(1); //el uno representa la pagina que se mostrara en este caso la inicial

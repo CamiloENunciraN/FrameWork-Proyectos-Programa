@@ -14,6 +14,10 @@ app.get('/', (req, res) => {
 //carga por defecto el index.html
 });
 
+app.get('/test', function(req, res) {
+  res.send('hello world');
+});
+
 //cargamos el archivo de rutas
 app.use(require('./routes/proyectos'));
 app.use(require('./routes/tipoProyecto'));

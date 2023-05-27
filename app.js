@@ -1,7 +1,23 @@
 const express = require("express");
 const app = express();
-const path = require("path");
+/**************************************/
+const dotenv = require("dotenv");
+dotenv.config();
+//conexión con la base de datos
+const {connection} = require("./database/config.db");
 
+/**************************** tipo proyecto **************************/
+//busca todos los tipos de proyectos
+const getTipoProyecto = (request, response) => {
+    connection.query("SELECT Nombre FROM TipoProyecto", 
+    (error, results) => {
+        if(error)
+            throw error;
+        console.log("peticion de tipo de proyectos");
+        response.status(200).json(results);
+    });
+};
+/*****************************************/
 //nos ayuda a analizar el cuerpo de la solicitud POST
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));

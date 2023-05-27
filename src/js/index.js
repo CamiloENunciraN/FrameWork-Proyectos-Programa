@@ -1,14 +1,14 @@
 
 // autor: Camilo Nuncira
 const proyectosPorPagina = 5; //numero de proyectos a mostrar por pagina
-const port=5925;
+const ruta="https://framework-proyectos-programa-production.up.railway.app"
 test();
 
 function test(){
-  fetch('http://localhost:'+port+'/test')
+  fetch(ruta+'/test')
   .then(response => response.json())
   .then(data => {
-console.log('data');
+console.log(data);
   });
 }
 
@@ -47,7 +47,7 @@ document.getElementById("entrar").onclick = function() {
     notificarLogin("Ingrese la contraseña");
   }else{
 
-    var url = 'http://localhost:'+port+'/iniciarSesion';
+    var url = ruta+'/iniciarSesion';
     var data = {    email: correo,
                     contrasena: contra };
 
@@ -112,7 +112,7 @@ function comboTipo(){
   opcion.text ="Todos";
   combotipo.add(opcion);
 
-  fetch('http://localhost:'+port+'/TipoProyecto')
+  fetch(ruta+'/TipoProyecto')
   .then(response => response.json())
   .then(data => {
 
@@ -137,7 +137,7 @@ function cargarNumeroProyectos(pagina){
   const tipo = document.getElementById("filtros_tipo").value;
   const orden=document.getElementById('filtros_orden').value;
 
-    var url = 'http://localhost:'+port+'/numeroProyectos';
+    var url = ruta+'/numeroProyectos';
     var data = {    anio: anio,
                     tipo: tipo,
                     orden: orden };
@@ -173,7 +173,7 @@ function getProyectos(pagina){ //pagina corresponde a la pagina que se quiere ca
   const tipo = document.getElementById("filtros_tipo").value;
   const orden=document.getElementById('filtros_orden').value;
 
-    var url = 'http://localhost:'+port+'/Proyectos';
+    var url = ruta+'/Proyectos';
     var data = {    anio: anio,
                     tipo: tipo,
                     orden: orden,
@@ -293,7 +293,7 @@ document.getElementById('pagina_siguiente').onclick = function(){
 
 function getUltimasNoticias(){
 
-  fetch('http://localhost:'+port+'/UltimasNoticias')
+  fetch(ruta+'/UltimasNoticias')
   .then(response => response.json())
   .then(data => {
 

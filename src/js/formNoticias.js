@@ -1,4 +1,4 @@
-const port=5925;
+const ruta="https://framework-proyectos-programa-production.up.railway.app"
 cargarNoticiasActuales();
 cargarNoticiasAnteriores();
 
@@ -24,7 +24,7 @@ function verImagenAumentada(id){
 }
 /********************carga de noticias****************************/
 function cargarNoticiasActuales(){
-  fetch('http://localhost:'+port+'/NoticiasActuales')
+  fetch(ruta+'/NoticiasActuales')
   .then(response => response.json())
   .then(data => {
 
@@ -75,7 +75,7 @@ function cargarNoticiasActuales(){
 }
 /********************carga de noticias anteriores****************************/
 function cargarNoticiasAnteriores(){
-  fetch('http://localhost:'+port+'/NoticiasAnteriores')
+  fetch(ruta+'/NoticiasAnteriores')
   .then(response => response.json())
   .then(data => {
 

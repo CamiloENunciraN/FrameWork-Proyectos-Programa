@@ -1,6 +1,6 @@
 // autor: Camilo Nuncira
 const proyectosPorPagina = 5; //numero de proyectos a mostrar por pagina
-const port=5925;//puerto
+const ruta="https://framework-proyectos-programa-production.up.railway.app"
 /****************** metodos que cargan la pagina ************/
 validarSesion();
 cargarCombox(); //carga los combos que filtran los proyectos
@@ -23,7 +23,7 @@ function validarSesion(){
 document.getElementById("login_salir").onclick = function() {
 
 var id=localStorage.getItem('Id');
-var url = 'http://localhost:'+port+'/cerrarSesion';
+var url = ruta+'/cerrarSesion';
 var data = { "id": id};
 
     fetch(url, {
@@ -68,7 +68,7 @@ function comboTipo(){
   opcion.text ="Todos";
   combotipo.add(opcion);
 
-  fetch('http://localhost:'+port+'/TipoProyecto')
+  fetch(ruta+'/TipoProyecto')
   .then(response => response.json())
   .then(data => {
 
@@ -94,7 +94,7 @@ function cargarNumeroProyectos(pagina){
   const tipo = document.getElementById("filtros_tipo").value;
   const orden=document.getElementById('filtros_orden').value;
 
-    var url = 'http://localhost:'+port+'/numeroProyectos';
+    var url = ruta+'/numeroProyectos';
     var data = {    anio: anio,
                     tipo: tipo,
                     orden: orden };
@@ -130,7 +130,7 @@ function getProyectos(pagina){ //pagina corresponde a la pagina que se quiere ca
   const tipo = document.getElementById("filtros_tipo").value;
   const orden=document.getElementById('filtros_orden').value;
 
-    var url = 'http://localhost:'+port+'/Proyectos';
+    var url = ruta+'/Proyectos';
     var data = {    anio: anio,
                     tipo: tipo,
                     orden: orden,
@@ -220,7 +220,7 @@ document.getElementById('agregar_proyecto').onclick = function(){
   opcion.text ="Seleccione Tipo";
   combotipo.add(opcion);
 
-  fetch('http://localhost:'+port+'/TipoProyecto')
+  fetch(ruta+'/TipoProyecto')
   .then(response => response.json())
   .then(data => {
 
@@ -296,7 +296,7 @@ document.getElementById('registrar_proyecto_boton').onclick = function(){
     notificacionSpan(span , "La descripcion debe tener maximo 500 caracteres");
   }else {
     
-    var url = 'http://localhost:'+port+'/RegistrarProyecto';
+    var url = ruta+'/RegistrarProyecto';
     var data = {    Nombre: nombre,
                     Autor: autor,
                     Enlace: enlace,
@@ -334,7 +334,7 @@ function formModificarProyecto(Id){
   opcion.text ="Seleccione Tipo";
   combotipo.add(opcion);
 
-  fetch('http://localhost:'+port+'/TipoProyecto')
+  fetch(ruta+'/TipoProyecto')
   .then(response => response.json())
   .then(data => {
 
@@ -346,7 +346,7 @@ function formModificarProyecto(Id){
     }
 
       //carga los datos del proyecto
-    fetch('http://localhost:'+port+'/DatosProyecto/'+Id)
+    fetch(ruta+'/DatosProyecto/'+Id)
     .then(response => response.json())
     .then(data => {
       const modal= document.getElementById("modificar_proyecto");
@@ -443,7 +443,7 @@ document.getElementById('modificar_proyecto_boton').onclick=function(){
     notificacionSpan(span , "La descripcion debe tener maximo 500 caracteres");
   }else {
     
-    var url = 'http://localhost:'+port+'/ModificarProyecto/'+span.value;
+    var url = ruta+'/ModificarProyecto/'+span.value;
     var data = {    Nombre: nombre,
                     Autor: autor,
                     Enlace: enlace,
@@ -472,7 +472,7 @@ document.getElementById('modificar_proyecto_boton').onclick=function(){
 
 //elimina el proyecto seleccionado
 function eliminarProyecto(Id){
-    var url = 'http://localhost:'+port+'/EliminarProyecto/'+Id;
+    var url = ruta+'/EliminarProyecto/'+Id;
     if(confirm("¿Estás seguro de que deseas eliminar el proyecto?")){
       fetch(url, {
           method: 'DELETE', 
@@ -560,7 +560,7 @@ let span=document.getElementById('registrar_tipo_proyecto_notificacion');
     notificacionSpan(span , "La descripcion debe tener maximo 500 caracteres");
   }else {
     
-    var url = 'http://localhost:'+port+'/RegistrarTipoProyecto';
+    var url = ruta+'/RegistrarTipoProyecto';
     var data = {    Nombre: nombre,
                     Descripcion: descripcion };
 
@@ -591,7 +591,7 @@ document.getElementById('modifica_tipo_proyecto').onclick = function(){
     mostrarNotificacion('Seleccione el tipo de proyecto a modificar');
   }else{
 
-    fetch('http://localhost:'+port+'/DatosTipoProyecto/'+tipo)
+    fetch(ruta+'/DatosTipoProyecto/'+tipo)
     .then(response => response.json())
     .then(data => {
       const modal= document.getElementById("modificar_tipo_proyecto");
@@ -638,7 +638,7 @@ const tipo=document.getElementById('filtros_tipo').value;
     notificacionSpan(span , "La descripcion debe tener maximo 500 caracteres");
   }else {
     
-    var url = 'http://localhost:'+port+'/ModificarTipoProyecto/'+tipo;
+    var url = ruta+'/ModificarTipoProyecto/'+tipo;
     var data = {    Nombre: nombre,
                     Descripcion: descripcion };
 
@@ -669,7 +669,7 @@ document.getElementById('eliminar_tipo_proyecto').onclick = function(){
   }else{
 
     if(confirm("¿Estás seguro de que deseas eliminar el tipo de proyecto "+tipo+" ?")){
-    var url = 'http://localhost:'+port+'/EliminarTipoProyecto/'+tipo;
+    var url = ruta+'/EliminarTipoProyecto/'+tipo;
 
     fetch(url, {
         method: 'DELETE', 
@@ -687,7 +687,7 @@ document.getElementById('eliminar_tipo_proyecto').onclick = function(){
 /***************** funciones de noticias ***************************/
 //funcion para ultimas noticias/
 function getUltimasNoticias(){
-  fetch('http://localhost:'+port+'/UltimasNoticias')
+  fetch(ruta+'/UltimasNoticias')
   .then(response => response.json())
   .then(data => {
 
@@ -774,7 +774,7 @@ document.getElementById("registrar_noticia_boton").onclick = function() {
      notificacionSpan(span , "La descripcion debe tener maximo 500 caracteres");
   }else {
 
-    var url = 'http://localhost:'+port+'/RegistrarNoticia/';
+    var url = ruta+'/RegistrarNoticia/';
     var data = {    Nombre: nombre,
                     Enlace: enlace,
                     Imagen: imagen,

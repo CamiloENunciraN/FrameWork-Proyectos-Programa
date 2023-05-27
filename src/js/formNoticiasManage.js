@@ -1,4 +1,4 @@
-const port=5925;
+const ruta="https://framework-proyectos-programa-production.up.railway.app"
 cargarNoticiasActuales();
 cargarNoticiasAnteriores();
 validarSesion();
@@ -38,7 +38,7 @@ function verImagenAumentada(id){
 }
 /********************carga de noticias actuales****************************/
 function cargarNoticiasActuales(){
-  fetch('http://localhost:'+port+'/NoticiasActuales')
+  fetch(ruta+'/NoticiasActuales')
   .then(response => response.json())
   .then(data => {
 
@@ -91,7 +91,7 @@ function cargarNoticiasActuales(){
 }
 /********************carga de noticias anteriores****************************/
 function cargarNoticiasAnteriores(){
-  fetch('http://localhost:'+port+'/NoticiasAnteriores')
+  fetch(ruta+'/NoticiasAnteriores')
   .then(response => response.json())
   .then(data => {
 
@@ -147,7 +147,7 @@ function formModificarNoticia(Id){
   const modal= document.getElementById("modificar_noticia");
 
   //carga los datos de la noticia
-    fetch('http://localhost:'+port+'/DatosNoticia/'+Id)
+    fetch(ruta+'/DatosNoticia/'+Id)
     .then(response => response.json())
     .then(data => {
       const modal= document.getElementById("modificar_noticia");
@@ -216,7 +216,7 @@ document.getElementById('modificar_noticia_boton').onclick=function(){
      notificacionSpan(span , "La descripcion debe tener maximo 500 caracteres");
   }else {
     
-    var url = 'http://localhost:'+port+'/ModificarNoticia/'+span.value;
+    var url = ruta+'/ModificarNoticia/'+span.value;
     var data = {    Nombre: nombre,
                     Enlace: enlace,
                     Imagen: imagen,
@@ -243,7 +243,7 @@ document.getElementById('modificar_noticia_boton').onclick=function(){
 
 //elimina una noticia
 function eliminarNoticia(Id){
-     var url = 'http://localhost:'+port+'/EliminarNoticia/'+Id;
+     var url = ruta+'/EliminarNoticia/'+Id;
     if(confirm("¿Estás seguro de que deseas eliminar la noticia?")){
       fetch(url, {
           method: 'DELETE', 

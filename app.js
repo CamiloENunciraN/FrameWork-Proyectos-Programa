@@ -3,7 +3,7 @@ const app = express();
 const dotenv = require("dotenv");
 dotenv.config();
 //conexión con la base de datos
-const {connection} = require("../database/config.db");
+const {connection} = require("/database/config.db");
 //nos ayuda a analizar el cuerpo de la solicitud POST
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));

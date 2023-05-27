@@ -1,4 +1,5 @@
-const ruta="https://framework-proyectos-programa-production.up.railway.app"
+const ruta="https://framework-proyectos-programa-production.up.railway.app";
+//const ruta="http://localhost:5925";
 cargarNoticiasActuales();
 cargarNoticiasAnteriores();
 validarSesion();

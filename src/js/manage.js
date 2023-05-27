@@ -1,6 +1,7 @@
 // autor: Camilo Nuncira
 const proyectosPorPagina = 5; //numero de proyectos a mostrar por pagina
-const ruta="https://framework-proyectos-programa-production.up.railway.app"
+const ruta="https://framework-proyectos-programa-production.up.railway.app";
+//const ruta="http://localhost:5925";
 /****************** metodos que cargan la pagina ************/
 validarSesion();
 cargarCombox(); //carga los combos que filtran los proyectos

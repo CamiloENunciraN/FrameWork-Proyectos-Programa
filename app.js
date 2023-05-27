@@ -1,9 +1,6 @@
 const express = require("express");
 const app = express();
-const dotenv = require("dotenv");
-dotenv.config();
-//conexión con la base de datos
-const {connection} = require("./database/config.db");
+
 //nos ayuda a analizar el cuerpo de la solicitud POST
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
@@ -23,13 +20,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/test', function(req, res) {
-      connection.query("SELECT Nombre FROM TipoProyecto", 
-    (error, results) => {
-        if(error)
-            throw error;
-        console.log("peticion de tipo de proyectos");
-        response.status(200).json(results);
-    });
+  res.json({"mensaje":"hello world"});
 });
 
 //cargamos el archivo de rutas

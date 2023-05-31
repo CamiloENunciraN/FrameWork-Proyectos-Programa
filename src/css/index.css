@@ -627,6 +627,9 @@ color: grey;
 	align-items: center;
 	font-size: 8px;
 }
+.proyecto_titulo_botones input[type=image]{
+	width: 100%;
+}
 #pagina_anterior{
 	width: 100px;
 	font-size: medium;
@@ -680,16 +683,18 @@ color: grey;
 }
 .proyecto{
 	height: 300px;
+	flex-direction: column;
+	margin:5px;
 }
 .proyecto_titulo{
 	margin-top: 10px;
 	font-size: 6px;
 }
-.proyecto_imagen{ /*//probar*/
-	max-width: 90%;
-	max-height: 250px;
+.proyecto_imagen{ 
+	max-width: 50px;
+	max-height: 50px;
 }
-.vinculo{
+.noticias_panel_vinculos{
 	font-size: small;
 }
 .noticias_redes input[type=image]{

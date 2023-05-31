@@ -688,9 +688,10 @@ color: grey;
 .proyecto{
 	height: 300px;
 	flex-direction: column;
-	margin:5px;
 	justify-content: center;
 	align-items: center;
+	margin-left: 5px;
+	margin-right: 5px;
 }
 .proyecto_datos{
 	width: 100%;
@@ -698,12 +699,18 @@ color: grey;
 .proyecto_panel_imagen{
 	width: 100%;
 }
+.proyecto_contenedor_titulo {
+	width: 97%;
+}
+.proyecto_descripcion{
+	width: 97%;
+}
 .proyecto_titulo{
 	margin-top: 10px;
 	font-size: 6px;
 }
 .proyecto_imagen{ 
-	max-width: 50px;
+	width: auto;
 	max-height: 50px;
 }
 .noticias_panel_vinculos{

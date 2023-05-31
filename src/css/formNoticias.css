@@ -285,3 +285,70 @@ font-size: 20px;
 background-color: #C30000FF;
 cursor: pointer;
 }
+
+/*************** diseno responsivo***************************/
+
+/* Estilos para pantallas medianas */
+@media (max-width: 1100px) {
+	.head{
+		font-size: 12px;
+	}
+	}
+	/* Estilos para pantallas pequeñas */
+	@media (max-width: 600px) {
+	.head{
+		font-size: 12px;
+	}
+	.head_login input[type=button]{
+		font-size: 12px;
+	}
+
+	#notificaciones_div{
+		width: 95%;
+	}
+	
+	#notificaciones_div_cerrar{
+		width: 95%;
+	}
+	.noticia_datos{
+		font-size: 12px;
+	}
+	.noticia_titulo{
+		font-size: 6px;
+	}
+	}
+	/* Estilos para pantallas pequeñas */
+	@media (max-width: 400px) {
+	.head{
+		font-size: 8px;
+	}
+	.head_login input[type=button]{
+		font-size: 6px;
+	}
+	.head_logo img{
+		width: auto;
+		height: 50%;
+	}
+	.noticia{
+		height: 300px;
+	}
+	.noticias_panel_titulo{
+		font-size: 12px;
+	}
+	.noticia_datos{
+		font-size: 12px;
+	}
+	.noticia_titulo{
+		font-size: 6px;
+	}
+	.noticia_titulo_botones{
+		width: 8%;
+		height: 50%;
+	}
+	.noticia_imagen{
+		height: 50%;
+	}
+	.footer a{
+		font-size: small;
+	}
+	}

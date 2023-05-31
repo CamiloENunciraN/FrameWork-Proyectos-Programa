@@ -676,22 +676,32 @@ color: grey;
 }
 .head_logo img{
 	width: auto;
-	height: 70%;
+	height: 50%;
 }
 .proyecto{
-	height: auto;
+	height: 300px;
 }
 .proyecto_titulo{
 	margin-top: 10px;
+	font-size: 6px;
 }
 .proyecto_imagen{ /*//probar*/
 	max-width: 90%;
 	max-height: 250px;
 }
 .vinculo{
-	font-size: 6px;
+	font-size: small;
+}
+.noticias_redes input[type=image]{
+	width: auto;
+	height: 50%;
+}
+
+.noticias_redes input[type=image]:hover{
+	width: auto;
+	height: 60%;
 }
 .footer a{
-	font-size: 6px;
+	font-size: small;
 }
 }

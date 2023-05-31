@@ -293,6 +293,8 @@ document.getElementById('registrar_proyecto_boton').onclick = function(){
     notificacionSpan(span , "El enlace de a imagen no es valido");
   }else if(tipo==="Seleccione Tipo"){
     notificacionSpan(span , "Seleccione el tipo de proyecto");
+  }else if(fecha===""){
+    notificacionSpan(span , "Ingrese la fecha");
   }else if(descripcion.length>=500){
     notificacionSpan(span , "La descripcion debe tener maximo 500 caracteres");
   }else {

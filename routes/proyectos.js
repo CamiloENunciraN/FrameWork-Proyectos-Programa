@@ -84,8 +84,8 @@ const registrarProyecto = (request, response) => {
     const datos = request.body;
     console.log("registrar proyecto");
     //vallida que no se encuentre registrado
-    connection.query("SELECT Nombre FROM Proyecto WHERE Nombre=? AND Autor=? AND fecha=?",
-     [datos.Nombre,datos.Autor,datos.Fecha],
+    connection.query("SELECT Nombre FROM Proyecto WHERE Nombre=? AND Autor=?",
+     [datos.Nombre,datos.Autor],
     (error, results) => {
         if(error){
             throw error;

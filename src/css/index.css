@@ -627,6 +627,15 @@ color: grey;
 	align-items: center;
 	font-size: 8px;
 }
+#pagina_anterior{
+	width: 100px;
+	font-size: medium;
+}
+
+#pagina_siguiente{
+	width: 100px;
+	font-size: medium;
+}
 
 #formulario_login{
 	width: 95%;
@@ -658,5 +667,15 @@ color: grey;
 
 #registrar_noticia_div{
 	width: 95%;
+}
+}
+/* Estilos para pantallas pequeñas */
+@media (max-width: 400px) {
+.head{
+	font-size: 8px;
+}
+.proyecto_imagen{ /*//probar*/
+	max-width: 90%;
+	max-height: 250px;
 }
 }

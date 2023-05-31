@@ -689,8 +689,13 @@ color: grey;
 	height: 300px;
 	flex-direction: column;
 	margin:5px;
+	justify-content: center;
+	align-items: center;
 }
-.proyecto div{
+.proyecto_datos{
+	width: 100%;
+}
+.proyecto_panel_imagen{
 	width: 100%;
 }
 .proyecto_titulo{

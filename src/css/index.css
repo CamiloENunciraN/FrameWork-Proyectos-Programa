@@ -620,6 +620,7 @@ color: grey;
 	height: 250px;
 	font-size: 12px;
 }
+
 .proyecto_titulo{
 	width:92%;
 	height: 100%;
@@ -677,6 +678,9 @@ color: grey;
 .head{
 	font-size: 8px;
 }
+.head_login input[type=button]{
+	font-size: 6px;
+}
 .head_logo img{
 	width: auto;
 	height: 50%;
@@ -685,6 +689,9 @@ color: grey;
 	height: 300px;
 	flex-direction: column;
 	margin:5px;
+}
+.proyecto div{
+	width: 100%;
 }
 .proyecto_titulo{
 	margin-top: 10px;

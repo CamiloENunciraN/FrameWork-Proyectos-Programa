@@ -674,8 +674,24 @@ color: grey;
 .head{
 	font-size: 8px;
 }
+.head_logo img{
+	width: auto;
+	height: 70%;
+}
+.proyecto{
+	height: auto;
+}
+.proyecto_titulo{
+	margin-top: 10px;
+}
 .proyecto_imagen{ /*//probar*/
 	max-width: 90%;
 	max-height: 250px;
+}
+.vinculo{
+	font-size: 6px;
+}
+.footer a{
+	font-size: 6px;
 }
 }

@@ -2,7 +2,7 @@
 
 const dotenv = require("dotenv");
 dotenv.config();
-const mysql = require('mysql'); //cambio de mysql 1 0 2
+const mysql = require('mysql2'); //cambio de mysql 1 0 2
 
 const pool = mysql.createPool({
         connectionLimit : 10,

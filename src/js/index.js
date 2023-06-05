@@ -1,18 +1,6 @@
 
 // autor: Camilo Nuncira
 const proyectosPorPagina = 5; //numero de proyectos a mostrar por pagina
-const ruta="https://framework-proyectos-programa-production.up.railway.app";
-//const ruta="http://localhost:3000";
-test();
-
-function test(){
-  fetch(ruta+'/test')
-  .then(response => response.json())
-  .then(data => {
-console.log(data);
-  });
-}
-
 /****************** metodos que cargan la pagina ************/
 cargarCombox(); //carga los combos que filtran los proyectos
 cargarNumeroProyectos(1); //el uno representa la pagina que se mostrara en este caso la inicial
@@ -48,7 +36,7 @@ document.getElementById("entrar").onclick = function() {
     notificarLogin("Ingrese la contraseña");
   }else{
 
-    var url = ruta+'/iniciarSesion';
+    var url = '/iniciarSesion';
     var data = {    email: correo,
                     contrasena: contra };
 
@@ -113,7 +101,7 @@ function comboTipo(){
   opcion.text ="Todos";
   combotipo.add(opcion);
 
-  fetch(ruta+'/TipoProyecto')
+  fetch('/TipoProyecto')
   .then(response => response.json())
   .then(data => {
 
@@ -138,7 +126,7 @@ function cargarNumeroProyectos(pagina){
   const tipo = document.getElementById("filtros_tipo").value;
   const orden=document.getElementById('filtros_orden').value;
 
-    var url = ruta+'/numeroProyectos';
+    var url = '/numeroProyectos';
     var data = {    anio: anio,
                     tipo: tipo,
                     orden: orden };
@@ -174,7 +162,7 @@ function getProyectos(pagina){ //pagina corresponde a la pagina que se quiere ca
   const tipo = document.getElementById("filtros_tipo").value;
   const orden=document.getElementById('filtros_orden').value;
 
-    var url = ruta+'/Proyectos';
+    var url = '/Proyectos';
     var data = {    anio: anio,
                     tipo: tipo,
                     orden: orden,
@@ -203,12 +191,12 @@ function getProyectos(pagina){ //pagina corresponde a la pagina que se quiere ca
     if(data[i].Autor===null||data[i].Imagen===""){
       data[i].Autor="Desconocido";
     }
-    var enlace ="<a>No hay</a>";
+    var enlace ="<a>No disponible</a>";
     if(data[i].Enlace!==""){
        enlace ='<a href="'+data[i].Enlace+'" target="_blank">'+data[i].Enlace+'</a>';
     }
     if(data[i].Descripcion===null){
-      data[i].Descripcion="No hay";
+      data[i].Descripcion="No disponible";
     }
 
       cadenaHTML+=
@@ -234,10 +222,10 @@ function getProyectos(pagina){ //pagina corresponde a la pagina que se quiere ca
               '<br>'+
               '<a class="negrilla">Tipo: </a>'+
               '<a>'+data[i].Tipo+'</a>'+
-              '<br>'+
+              '<br><br>'+
               '<a class="negrilla">Descripcion: </a>'+
               '<a>'+data[i].Descripcion+'</a>'+
-              '<br>'+
+              '<br><br>'+
               '<a class="negrilla">Enlace: </a>'+
               enlace+
             '</div>'+
@@ -294,7 +282,7 @@ document.getElementById('pagina_siguiente').onclick = function(){
 
 function getUltimasNoticias(){
 
-  fetch(ruta+'/UltimasNoticias')
+  fetch('/UltimasNoticias')
   .then(response => response.json())
   .then(data => {
 

@@ -3,7 +3,7 @@ const app = express();
 const dotenv = require("dotenv");
 dotenv.config();
 //conexión con la base de datos
-const {connection} = require("../database/config.db");
+const {pool} = require("../database/config.db");
 
 
 /*************************** proyectos ********************************/
@@ -15,7 +15,7 @@ const getProyectos = (request, response) => {
     //tipo,anio,orden,pagina
     var consulta= crearConsultaProyecto(datos);
 
-    connection.query(consulta, 
+    pool.query(consulta, 
     (error, results) => {
         if(error)
             throw error;
@@ -24,6 +24,7 @@ const getProyectos = (request, response) => {
         var paginaProyecto = proyectos.slice(PInicial, PFinal)
         response.status(200).json(paginaProyecto);
     });
+   // pool.release();
 };
 
 //ruta
@@ -32,7 +33,7 @@ app.route("/Proyectos").post(getProyectos);
 //busca un proyecto
 const getDatosProyecto = (request, response) => {
     const id=request.params.id;
-    connection.query("SELECT * FROM Proyecto WHERE IdProyecto=?",
+    pool.query("SELECT * FROM Proyecto WHERE IdProyecto=?",
         [id], 
     (error, results) => {
         if(error)
@@ -40,6 +41,7 @@ const getDatosProyecto = (request, response) => {
         console.log("peticion de proyecto: "+results[0].Nombre);
         response.status(200).json(results);
     });
+   // pool.release();
 };
 
 //ruta
@@ -49,13 +51,14 @@ app.route("/DatosProyecto/:id").get(getDatosProyecto);
 const getNumeroProyectos = (request, response) => {
     const datos = request.body;
     var consulta= crearConsultaProyecto(datos);
-    connection.query(consulta, 
+    pool.query(consulta, 
     (error, results) => {
         if(error)
             throw error;
         console.log("peticion de numero de proyectos");
         response.status(200).json({ NProyectos: results.length });
     });
+    // pool.release();
 };
 
 //ruta
@@ -83,51 +86,66 @@ function crearConsultaProyecto(datos){
 const registrarProyecto = (request, response) => {
     const datos = request.body;
     console.log("registrar proyecto");
-    //vallida que no se encuentre registrado
-    connection.query("SELECT Nombre FROM Proyecto WHERE Nombre=? AND Autor=?",
-     [datos.Nombre,datos.Autor],
-    (error, results) => {
-        if(error){
-            throw error;
-        }
-        if(results.length!=0){
-            response.status(200).json({ "mensaje": "El proyecto ya se encuentra registrado",
-                                        "peticion": "incorrecta"}); 
-        }else{
-        //registra el proyecto
-        const consulta ="INSERT INTO Proyecto (Nombre, Fecha, Autor, Descripcion, Enlace, Imagen, Tipo) VALUES (?,?,?,?,?,?,?)";
-        connection.query(consulta, [datos.Nombre, datos.Fecha, datos.Autor, datos.Descripcion, datos.Enlace, datos.Imagen, datos.Tipo],
-        (error, results) => {
-            if(error){
-                throw error; 
-            }
-        response.status(201).json({ "mensaje": "Proyecto: "+datos.Nombre+" Agregado",
-                                    "peticion": "correcta" });
+    pool.getConnection((err, connection) => {
+        if (err) {
+          reject(err);
+        } else {
 
-        });
-
-            //busca el id del proyecto registrado
-
-            connection.query("SELECT IdProyecto FROM Proyecto WHERE Nombre=?", [datos.Nombre],
+            //vallida que no se encuentre registrado
+            connection.query("SELECT Nombre FROM Proyecto WHERE Nombre=? AND Autor=?",
+             [datos.Nombre,datos.Autor],
             (error, results) => {
                 if(error){
-                    throw error; 
+                    throw error;
+                } 
+                if(results.length!=0){
+                    response.status(200).json({ "mensaje": "El proyecto ya se encuentra registrado",
+                                                "peticion": "incorrecta"}); 
+                }else{
+                //registra el proyecto
+                const consulta ="INSERT INTO Proyecto (Nombre, Fecha, Autor, Descripcion, Enlace, Imagen, Tipo) VALUES (?,?,?,?,?,?,?)";
+                connection.query(consulta, [datos.Nombre, datos.Fecha, datos.Autor, datos.Descripcion, datos.Enlace, datos.Imagen, datos.Tipo],
+                (error, results) => {
+                    if(error){
+                        throw error; 
+                    }
+                response.status(201).json({ "mensaje": "Proyecto: "+datos.Nombre+" Agregado",
+                                            "peticion": "correcta" });
+
+                });
+
+                    //busca el id del proyecto registrado
+
+                    connection.query("SELECT IdProyecto FROM Proyecto WHERE Nombre=?", [datos.Nombre],
+                    (error, results) => {
+                        if(error){
+                            throw error; 
+                        }
+
+                         //registra el ProyectoXAdministrador
+                            const fechaAct=new Date();
+                            connection.query("INSERT INTO ProyectoXAdministrador (IdProyecto, IdAdministrador, Fecha, Descripcion) VALUES (?,?,?,?)", 
+                                [results[0].IdProyecto, datos.IdAdministrador, fechaAct, "Registro Proyecto"],
+                            (error, results) => {
+                            if(error){
+                                    throw error; 
+                            }
+
+                             connection.release();
+                            });
+
+                    });
                 }
 
-                 //registra el ProyectoXAdministrador
-                    const fechaAct=new Date();
-                    connection.query("INSERT INTO ProyectoXAdministrador (IdProyecto, IdAdministrador, Fecha, Descripcion) VALUES (?,?,?,?)", 
-                        [results[0].IdProyecto, datos.IdAdministrador, fechaAct, "Registro Proyecto"],
-                    (error, results) => {
-                    if(error){
-                            throw error; 
-                    }
-                    });
-
             });
-        }
 
-    });
+
+
+
+        }
+      });
+
+   // pool.release();
 };
 
 //ruta
@@ -137,7 +155,7 @@ app.route("/RegistrarProyecto").post(registrarProyecto);
 const modificarProyecto = (request, response) => {
     const id=request.params.id;
     const datos=request.body;
-    connection.query("UPDATE Proyecto SET Nombre=? ,Fecha=? ,Autor=?, Descripcion=?,Enlace=? ,Imagen=? ,Tipo=? WHERE IdProyecto=?",
+    pool.query("UPDATE Proyecto SET Nombre=? ,Fecha=? ,Autor=?, Descripcion=?,Enlace=? ,Imagen=? ,Tipo=? WHERE IdProyecto=?",
     [datos.Nombre, datos.Fecha, datos.Autor, datos.Descripcion, datos.Enlace , datos.Imagen, datos.Tipo, id], 
     (error, results) => {
         if(error)
@@ -146,6 +164,7 @@ const modificarProyecto = (request, response) => {
         response.status(200).json({ "mensaje": "Proyecto: "+datos.Nombre+" Modificado",
                                     "peticion": "correcta" });
     });
+   // pool.release();
 };
 
 //ruta
@@ -154,7 +173,7 @@ app.route("/ModificarProyecto/:id").post(modificarProyecto);
 const EliminarProyecto = (request, response) => {
     const id = request.params.id;
     console.log("eliminar proyecto");
-    connection.query("DELETE FROM Proyecto WHERE IdProyecto = ?", 
+    pool.query("DELETE FROM Proyecto WHERE IdProyecto = ?", 
     [id],
     (error, results) => {
         if(error){
@@ -163,6 +182,7 @@ const EliminarProyecto = (request, response) => {
         }
         response.status(201).json({ "mensaje": "Proyecto: eliminado"});
     });
+   // pool.release();
 };
 
 //ruta

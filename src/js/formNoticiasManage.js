@@ -1,5 +1,4 @@
-const ruta="https://framework-proyectos-programa-production.up.railway.app";
-//const ruta="http://localhost:3000";
+
 cargarNoticiasActuales();
 cargarNoticiasAnteriores();
 validarSesion();
@@ -39,7 +38,7 @@ function verImagenAumentada(id){
 }
 /********************carga de noticias actuales****************************/
 function cargarNoticiasActuales(){
-  fetch(ruta+'/NoticiasActuales')
+  fetch('/NoticiasActuales')
   .then(response => response.json())
   .then(data => {
 
@@ -54,7 +53,7 @@ function cargarNoticiasActuales(){
     }
     var mostrarMas ="";
     if(data[i].Enlace!==null||data[i].Enlace!==""){
-      mostrarMas='<a href="'+data[i].Enlace+'" target="_blank"> ▶ Mas informacion click aqui ...</a>';
+      mostrarMas='<a href="'+data[i].Enlace+'" target="_blank"> Ver más </a>';
     }
       cadenaHTML+=
           '<div class="noticia">'+
@@ -78,8 +77,7 @@ function cargarNoticiasActuales(){
               '<br>'+
               '<a class="negrilla">Descripcion: </a>'+
               '<a>'+data[i].Descripcion+'</a>'+
-            '</div>'+
-            '<div class="noticia_enlace">'+
+              '<br><br>'+
               mostrarMas+
             '</div>'+
           '</div>'+
@@ -92,7 +90,7 @@ function cargarNoticiasActuales(){
 }
 /********************carga de noticias anteriores****************************/
 function cargarNoticiasAnteriores(){
-  fetch(ruta+'/NoticiasAnteriores')
+  fetch('/NoticiasAnteriores')
   .then(response => response.json())
   .then(data => {
 
@@ -107,7 +105,7 @@ function cargarNoticiasAnteriores(){
     }
     var mostrarMas ="";
     if(data[i].Enlace!==null||data[i].Enlace!==""){
-      mostrarMas='<a href="'+data[i].Enlace+'" target="_blank"> ▶ Mas informacion click aqui ...</a>';
+      mostrarMas='<a href="'+data[i].Enlace+'" target="_blank"> Ver más </a>';
     }
       cadenaHTML+=
           '<div class="noticia">'+
@@ -131,8 +129,7 @@ function cargarNoticiasAnteriores(){
               '<br><br>'+
               '<a class="negrilla">Descripcion: </a>'+
               '<a>'+data[i].Descripcion+'</a>'+
-            '</div>'+
-            '<div class="noticia_enlace">'+
+              '<br><br>'+
               mostrarMas+
             '</div>'+
           '</div>'+
@@ -148,7 +145,7 @@ function formModificarNoticia(Id){
   const modal= document.getElementById("modificar_noticia");
 
   //carga los datos de la noticia
-    fetch(ruta+'/DatosNoticia/'+Id)
+    fetch('/DatosNoticia/'+Id)
     .then(response => response.json())
     .then(data => {
       const modal= document.getElementById("modificar_noticia");
@@ -217,7 +214,7 @@ document.getElementById('modificar_noticia_boton').onclick=function(){
      notificacionSpan(span , "La descripcion debe tener maximo 500 caracteres");
   }else {
     
-    var url = ruta+'/ModificarNoticia/'+span.value;
+    var url = '/ModificarNoticia/'+span.value;
     var data = {    Nombre: nombre,
                     Enlace: enlace,
                     Imagen: imagen,
@@ -244,7 +241,7 @@ document.getElementById('modificar_noticia_boton').onclick=function(){
 
 //elimina una noticia
 function eliminarNoticia(Id){
-     var url = ruta+'/EliminarNoticia/'+Id;
+     var url = '/EliminarNoticia/'+Id;
     if(confirm("¿Estás seguro de que deseas eliminar la noticia?")){
       fetch(url, {
           method: 'DELETE', 

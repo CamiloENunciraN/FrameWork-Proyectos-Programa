@@ -1,7 +1,6 @@
 // autor: Camilo Nuncira
 const proyectosPorPagina = 5; //numero de proyectos a mostrar por pagina
-const ruta="https://framework-proyectos-programa-production.up.railway.app";
-//const ruta="http://localhost:3000";
+
 /****************** metodos que cargan la pagina ************/
 validarSesion();
 cargarCombox(); //carga los combos que filtran los proyectos
@@ -24,7 +23,7 @@ function validarSesion(){
 document.getElementById("login_salir").onclick = function() {
 
 var id=localStorage.getItem('Id');
-var url = ruta+'/cerrarSesion';
+var url = '/cerrarSesion';
 var data = { "id": id};
 
     fetch(url, {
@@ -69,7 +68,7 @@ function comboTipo(){
   opcion.text ="Todos";
   combotipo.add(opcion);
 
-  fetch(ruta+'/TipoProyecto')
+  fetch('/TipoProyecto')
   .then(response => response.json())
   .then(data => {
 
@@ -95,7 +94,7 @@ function cargarNumeroProyectos(pagina){
   const tipo = document.getElementById("filtros_tipo").value;
   const orden=document.getElementById('filtros_orden').value;
 
-    var url = ruta+'/numeroProyectos';
+    var url = '/numeroProyectos';
     var data = {    anio: anio,
                     tipo: tipo,
                     orden: orden };
@@ -131,7 +130,7 @@ function getProyectos(pagina){ //pagina corresponde a la pagina que se quiere ca
   const tipo = document.getElementById("filtros_tipo").value;
   const orden=document.getElementById('filtros_orden').value;
 
-    var url = ruta+'/Proyectos';
+    var url = '/Proyectos';
     var data = {    anio: anio,
                     tipo: tipo,
                     orden: orden,
@@ -160,12 +159,12 @@ function getProyectos(pagina){ //pagina corresponde a la pagina que se quiere ca
     if(data[i].Autor===null||data[i].Autor===""){
       data[i].Autor="Desconocido";
     }
-    var enlace ="<a>No hay</a>";
+    var enlace ="<a>No disponible</a>";
     if(data[i].Enlace!==""){
        enlace ='<a href="'+data[i].Enlace+'" target="_blank">'+data[i].Enlace+'</a>';
     }
     if(data[i].Descripcion===null||data[i].Descripcion===""){
-      data[i].Descripcion="No hay";
+      data[i].Descripcion="No disponible";
     }
 
       cadenaHTML+=
@@ -193,10 +192,10 @@ function getProyectos(pagina){ //pagina corresponde a la pagina que se quiere ca
               '<br>'+
               '<a class="negrilla">Tipo: </a>'+
               '<a>'+data[i].Tipo+'</a>'+
-              '<br>'+
+              '<br><br>'+
               '<a class="negrilla">Descripcion: </a>'+
               '<a>'+data[i].Descripcion+'</a>'+
-              '<br>'+
+              '<br><br>'+
               '<a class="negrilla">Enlace: </a>'+
               enlace+
             '</div>'+
@@ -221,7 +220,7 @@ document.getElementById('agregar_proyecto').onclick = function(){
   opcion.text ="Seleccione Tipo";
   combotipo.add(opcion);
 
-  fetch(ruta+'/TipoProyecto')
+  fetch('/TipoProyecto')
   .then(response => response.json())
   .then(data => {
 
@@ -299,7 +298,7 @@ document.getElementById('registrar_proyecto_boton').onclick = function(){
     notificacionSpan(span , "La descripcion debe tener maximo 500 caracteres");
   }else {
     
-    var url = ruta+'/RegistrarProyecto';
+    var url = '/RegistrarProyecto';
     var data = {    Nombre: nombre,
                     Autor: autor,
                     Enlace: enlace,
@@ -318,8 +317,9 @@ document.getElementById('registrar_proyecto_boton').onclick = function(){
     }).then(response => response.json())
     .then(data => { 
       if(data.peticion==='correcta'){
+        const paginaActual=document.getElementById('pagina_actual').value;
         cerrarRegistrarProyecto();
-        cargarNumeroProyectos(1); //recarga el listado de los proyectos
+        cargarNumeroProyectos(paginaActual); //recarga el listado de los proyectos
       }
       mostrarNotificacion(data.mensaje);
     });
@@ -337,7 +337,7 @@ function formModificarProyecto(Id){
   opcion.text ="Seleccione Tipo";
   combotipo.add(opcion);
 
-  fetch(ruta+'/TipoProyecto')
+  fetch('/TipoProyecto')
   .then(response => response.json())
   .then(data => {
 
@@ -349,7 +349,7 @@ function formModificarProyecto(Id){
     }
 
       //carga los datos del proyecto
-    fetch(ruta+'/DatosProyecto/'+Id)
+    fetch('/DatosProyecto/'+Id)
     .then(response => response.json())
     .then(data => {
       const modal= document.getElementById("modificar_proyecto");
@@ -446,7 +446,7 @@ document.getElementById('modificar_proyecto_boton').onclick=function(){
     notificacionSpan(span , "La descripcion debe tener maximo 500 caracteres");
   }else {
     
-    var url = ruta+'/ModificarProyecto/'+span.value;
+    var url = '/ModificarProyecto/'+span.value;
     var data = {    Nombre: nombre,
                     Autor: autor,
                     Enlace: enlace,
@@ -464,8 +464,9 @@ document.getElementById('modificar_proyecto_boton').onclick=function(){
     }).then(response => response.json())
     .then(data => { 
       if(data.peticion==='correcta'){
+        const paginaActual=document.getElementById('pagina_actual').value;
         cerrarModificarProyecto();
-        cargarNumeroProyectos(1); //recarga el listado de los proyectos
+        cargarNumeroProyectos(paginaActual); //recarga el listado de los proyectos
       }
       mostrarNotificacion(data.mensaje);
     });
@@ -475,14 +476,15 @@ document.getElementById('modificar_proyecto_boton').onclick=function(){
 
 //elimina el proyecto seleccionado
 function eliminarProyecto(Id){
-    var url = ruta+'/EliminarProyecto/'+Id;
+    var url = '/EliminarProyecto/'+Id;
     if(confirm("¿Estás seguro de que deseas eliminar el proyecto?")){
       fetch(url, {
           method: 'DELETE', 
       }).then(response => response.json())
       .then(data => { 
+        const paginaActual=document.getElementById('pagina_actual').value;
         mostrarNotificacion(data.mensaje);
-        cargarNumeroProyectos(1); //recarga el listado de los proyectos
+        cargarNumeroProyectos(paginaActual); //recarga el listado de los proyectos
       });
     }
 }
@@ -563,7 +565,7 @@ let span=document.getElementById('registrar_tipo_proyecto_notificacion');
     notificacionSpan(span , "La descripcion debe tener maximo 500 caracteres");
   }else {
     
-    var url = ruta+'/RegistrarTipoProyecto';
+    var url = '/RegistrarTipoProyecto';
     var data = {    Nombre: nombre,
                     Descripcion: descripcion };
 
@@ -594,7 +596,7 @@ document.getElementById('modifica_tipo_proyecto').onclick = function(){
     mostrarNotificacion('Seleccione el tipo de proyecto a modificar');
   }else{
 
-    fetch(ruta+'/DatosTipoProyecto/'+tipo)
+    fetch('/DatosTipoProyecto/'+tipo)
     .then(response => response.json())
     .then(data => {
       const modal= document.getElementById("modificar_tipo_proyecto");
@@ -641,7 +643,7 @@ const tipo=document.getElementById('filtros_tipo').value;
     notificacionSpan(span , "La descripcion debe tener maximo 500 caracteres");
   }else {
     
-    var url = ruta+'/ModificarTipoProyecto/'+tipo;
+    var url = '/ModificarTipoProyecto/'+tipo;
     var data = {    Nombre: nombre,
                     Descripcion: descripcion };
 
@@ -672,7 +674,7 @@ document.getElementById('eliminar_tipo_proyecto').onclick = function(){
   }else{
 
     if(confirm("¿Estás seguro de que deseas eliminar el tipo de proyecto "+tipo+" ?")){
-    var url = ruta+'/EliminarTipoProyecto/'+tipo;
+    var url = '/EliminarTipoProyecto/'+tipo;
 
     fetch(url, {
         method: 'DELETE', 
@@ -690,7 +692,7 @@ document.getElementById('eliminar_tipo_proyecto').onclick = function(){
 /***************** funciones de noticias ***************************/
 //funcion para ultimas noticias/
 function getUltimasNoticias(){
-  fetch(ruta+'/UltimasNoticias')
+  fetch('/UltimasNoticias')
   .then(response => response.json())
   .then(data => {
 
@@ -777,7 +779,7 @@ document.getElementById("registrar_noticia_boton").onclick = function() {
      notificacionSpan(span , "La descripcion debe tener maximo 500 caracteres");
   }else {
 
-    var url = ruta+'/RegistrarNoticia/';
+    var url = '/RegistrarNoticia/';
     var data = {    Nombre: nombre,
                     Enlace: enlace,
                     Imagen: imagen,

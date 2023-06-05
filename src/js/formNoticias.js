@@ -1,5 +1,4 @@
-const ruta="https://framework-proyectos-programa-production.up.railway.app";
-//const ruta="http://localhost:3000";
+
 cargarNoticiasActuales();
 cargarNoticiasAnteriores();
 
@@ -25,7 +24,7 @@ function verImagenAumentada(id){
 }
 /********************carga de noticias****************************/
 function cargarNoticiasActuales(){
-  fetch(ruta+'/NoticiasActuales')
+  fetch('/NoticiasActuales')
   .then(response => response.json())
   .then(data => {
 
@@ -40,58 +39,7 @@ function cargarNoticiasActuales(){
     }
     var mostrarMas ="";
     if(data[i].Enlace!==null){
-      mostrarMas='<a href="'+data[i].Enlace+'" target="_blank"> ▶ Mas informacion click aqui ...</a>';
-    }
-      cadenaHTML+=
-          '<div class="noticia">'+
-          '<div class="noticia_panel_imagen">'+
-            '<img class="noticia_imagen" onclick="verImagenAumentada('+data[i].IdNoticia+
-            ')" id="'+data[i].IdNoticia+'" src="'+data[i].Imagen+'">'+
-          '</div>'+
-          '<div class="noticia_datos">'+
-            '<div class="noticia_contenedor_titulo">'+
-              '<div class="noticia_titulo">'+
-                '<h1 >'+data[i].Nombre+'</h1>'+
-              '</div>'+
-              '<div class="noticia_titulo_botones">'+
-              '</div>'+
-            '</div>'+
-            '<div class="noticia_descripcion">'+
-              '<a class="negrilla">Fecha: </a>'+
-              '<a>'+concadenarFecha(data[i].Fecha)+'</a>'+
-              '<br>'+
-              '<a class="negrilla">Descripcion: </a>'+
-              '<a>'+data[i].Descripcion+'</a>'+
-            '</div>'+
-            '<div class="noticia_enlace">'+
-              mostrarMas+
-            '</div>'+
-          '</div>'+
-        '</div>';
-    }
-
-    div.innerHTML=cadenaHTML;
-
-  });
-}
-/********************carga de noticias anteriores****************************/
-function cargarNoticiasAnteriores(){
-  fetch(ruta+'/NoticiasAnteriores')
-  .then(response => response.json())
-  .then(data => {
-
-    let cadenaHTML="";
-    let div=document.getElementById('noticias_panel_anteriores');
-
-    //concadenacion de los elementos del json
-    for(let i=0;i<data.length;i++){
-    //si no hay imagen coloco una por defecto
-    if(data[i].Imagen===null||data[i].Imagen===""){
-       data[i].Imagen="../iconos/Mal.png";
-    }
-    var mostrarMas ="";
-    if(data[i].Enlace!==null){
-      mostrarMas='<a href="'+data[i].Enlace+'" target="_blank"> ▶ Mas informacion click aqui ...</a>';
+      mostrarMas='<a href="'+data[i].Enlace+'" target="_blank"> Ver más</a>';
     }
       cadenaHTML+=
           '<div class="noticia">'+
@@ -113,8 +61,57 @@ function cargarNoticiasAnteriores(){
               '<br><br>'+
               '<a class="negrilla">Descripcion: </a>'+
               '<a>'+data[i].Descripcion+'</a>'+
+              '<br><br>'+
+              mostrarMas+
             '</div>'+
-            '<div class="noticia_enlace">'+
+          '</div>'+
+        '</div>';
+    }
+
+    div.innerHTML=cadenaHTML;
+
+  });
+}
+/********************carga de noticias anteriores****************************/
+function cargarNoticiasAnteriores(){
+  fetch('/NoticiasAnteriores')
+  .then(response => response.json())
+  .then(data => {
+
+    let cadenaHTML="";
+    let div=document.getElementById('noticias_panel_anteriores');
+
+    //concadenacion de los elementos del json
+    for(let i=0;i<data.length;i++){
+    //si no hay imagen coloco una por defecto
+    if(data[i].Imagen===null||data[i].Imagen===""){
+       data[i].Imagen="../iconos/Mal.png";
+    }
+    var mostrarMas ="";
+    if(data[i].Enlace!==null){
+      mostrarMas='<a href="'+data[i].Enlace+'" target="_blank"> Ver más </a>';
+    }
+      cadenaHTML+=
+          '<div class="noticia">'+
+          '<div class="noticia_panel_imagen">'+
+            '<img class="noticia_imagen" onclick="verImagenAumentada('+data[i].IdNoticia+
+            ')" id="'+data[i].IdNoticia+'" src="'+data[i].Imagen+'">'+
+          '</div>'+
+          '<div class="noticia_datos">'+
+            '<div class="noticia_contenedor_titulo">'+
+              '<div class="noticia_titulo">'+
+                '<h1 >'+data[i].Nombre+'</h1>'+
+              '</div>'+
+              '<div class="noticia_titulo_botones">'+
+              '</div>'+
+            '</div>'+
+            '<div class="noticia_descripcion">'+
+              '<a class="negrilla">Fecha: </a>'+
+              '<a>'+concadenarFecha(data[i].Fecha)+'</a>'+
+              '<br><br>'+
+              '<a class="negrilla">Descripcion: </a>'+
+              '<a>'+data[i].Descripcion+'</a>'+
+              '<br><br>'+
               mostrarMas+
             '</div>'+
           '</div>'+

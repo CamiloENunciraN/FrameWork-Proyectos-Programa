@@ -26,6 +26,8 @@ document.getElementById("titulo").onclick = function() {
 /***********  abrir u ocultar imagen  ****************/
 document.getElementById("imagen_aumentada_div_cerrar").onclick = function() {
   var modal = document.getElementById("imagen_aumentada");
+  var imagenAumentada = document.getElementById("imagen_aumentada_div_grande");
+  imagenAumentada.src = "";
    modal.close();
 };
 

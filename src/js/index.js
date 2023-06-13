@@ -321,6 +321,8 @@ document.getElementById("noticias").onclick = function() {
 /***********  abrir u ocultar imagen Aumentada ****************/
 document.getElementById("imagen_aumentada_div_cerrar").onclick = function() {
   var modal = document.getElementById("imagen_aumentada");
+  var imagenAumentada = document.getElementById("imagen_aumentada_div_grande");
+  imagenAumentada.src = "";
    modal.close();
 };
 
@@ -369,14 +371,14 @@ function concadenarFecha(fecha){
 }
 /************************** Redes ************************/
 document.getElementById("facebook").onclick = function() {
-  window.open('https://facebook.com');
+  window.open('https://www.facebook.com/Ufps.edu.co');
 };
 document.getElementById("twitter").onclick = function() {
-  window.open('https://twitter.com');
+  window.open('https://twitter.com/UFPSCUCUTA');
 };
 document.getElementById("instagram").onclick = function() {
-  window.open('https://instagram.com');
+  window.open('https://www.instagram.com/ufpscucuta');
 };
 document.getElementById("youtube").onclick = function() {
-  window.open('https://youtube.com');
+  window.open('https://www.youtube.com/@ufpscucutatv8254');
 };

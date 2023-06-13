@@ -14,10 +14,8 @@ const getNoticiasActuales = (request, response) => {
     (error, results) => {
         if(error)
             throw error;
-        console.log("peticion de noticias realizada");
         response.status(200).json(results);
     });
-//    pool.release();
 };
 
 //ruta
@@ -30,10 +28,8 @@ const getNoticiasAnteriores = (request, response) => {
     (error, results) => {
         if(error)
             throw error;
-        console.log("peticion de noticias realizada");
         response.status(200).json(results);
     });
-//    pool.release();
 };
 
 //ruta
@@ -47,10 +43,8 @@ const getDatosNoticia = (request, response) => {
     (error, results) => {
         if(error)
             throw error;
-        console.log("peticion de noticia: "+results[0].Nombre);
         response.status(200).json(results);
     });
-//    pool.release();
 };
 
 //ruta
@@ -61,10 +55,8 @@ const getUltimasNoticias = (request, response) => {
     (error, results) => {
         if(error)
             throw error;
-        console.log("peticion de ultimas noticias realizada");
         response.status(200).json(results);
     });
-//    pool.release();
 };
 
 //ruta
@@ -73,7 +65,6 @@ app.route("/UltimasNoticias").get(getUltimasNoticias);
 //registrar noticia
 const registrarNoticia = (request, response) => {
     const datos = request.body;
-    console.log("registrar Noticia");
     pool.getConnection((err, connection) => {
     if (err) {
         reject(err);
@@ -123,10 +114,8 @@ const registrarNoticia = (request, response) => {
                     }
 
                 });
-                }
+            }
       });
-
-//    pool.release();
 };
 
 //ruta
@@ -142,11 +131,9 @@ const modificarNoticia = (request, response) => {
     (error, results) => {
         if(error)
             throw error;
-        console.log("modificar noticia: "+id+" realizado");
         response.status(200).json({ "mensaje": "Noticia: "+datos.Nombre+" Modificado",
                                     "peticion": "correcta" });
     });
-//    pool.release();
 };
 
 //ruta
@@ -155,7 +142,6 @@ app.route("/ModificarNoticia/:id").post(modificarNoticia);
 //eliminar Noticia
 const EliminarNoticia = (request, response) => {
     const id = request.params.id;
-    console.log("eliminar noticia");
     pool.query("DELETE FROM Noticia WHERE IdNoticia = ?", 
     [id],
     (error, results) => {
@@ -165,7 +151,6 @@ const EliminarNoticia = (request, response) => {
         }
         response.status(201).json({ "mensaje": "Noticia: eliminada"});
     });
-//    pool.release();
 };
 
 //ruta

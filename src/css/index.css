@@ -84,9 +84,8 @@ font-family: "Constantia", serif;
 	font-size: 12px;
 }
 #agregar_proyecto{
-	width: 100px;
+	width: 200px;
 	height: 30px;
-	border-radius: 5px;
 	margin-left: auto;
 }
 

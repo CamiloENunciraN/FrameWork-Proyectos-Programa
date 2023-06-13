@@ -7,7 +7,6 @@ const {pool} = require("../database/config.db");
 
 //***************************** funciones  sesion ***********************//
 const iniciarSesion = (request, response) => {
-    console.log('peticion de inicio de sesion');
     const datos = request.body;
     pool.getConnection((err, connection) => {
     if (err) {
@@ -49,7 +48,6 @@ const iniciarSesion = (request, response) => {
                                     "sesion": "Activa",
                                     "Id": bdDatos[0].Id};
 
-                    console.log('sesion iniciada');
                     response.status(200).json(respuesta);
                      connection.release();
                     });
@@ -57,8 +55,6 @@ const iniciarSesion = (request, response) => {
             });
             }
       });
-
-//    pool.release();
 };
 
 //ruta
@@ -66,7 +62,6 @@ app.route("/iniciarSesion").post(iniciarSesion);
 
 
 const cerrarSesion = (request, response) => {
-    console.log('peticion de cierre de sesion');
     const datos = request.body;
     //modificar la sesion guardar llos datos
     //fecha actual
@@ -82,10 +77,8 @@ const cerrarSesion = (request, response) => {
             var respuesta = { "message": "se ha cerrado la sesion",
                                 "sesion": "Inactiva" };
 
-            console.log('sesion cerrada');
             response.status(200).json(respuesta);
             });
-    //    pool.release();
 };
 
 

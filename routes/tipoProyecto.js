@@ -12,10 +12,8 @@ const getTipoProyecto = (request, response) => {
     (error, results) => {
         if(error)
             throw error;
-        console.log("peticion de tipo de proyectos");
         response.status(200).json(results);
     });
-//pool.release();
 };
 
 //ruta
@@ -29,10 +27,8 @@ const getDatosTipoProyecto = (request, response) => {
     (error, results) => {
         if(error)
             throw error;
-        console.log("peticion de tipo de proyecto: "+tipo);
         response.status(200).json(results);
     });
-    //pool.release();
 };
 
 //ruta
@@ -41,7 +37,6 @@ app.route("/DatosTipoProyecto/:tipo").get(getDatosTipoProyecto);
 //registra un tipo de proyecto
 const registrarTipoProyecto = (request, response) => {
     const datos = request.body;
-    console.log("registrar tipo de proyecto");
     pool.getConnection((err, connection) => {
     if (err) {
         reject(err);
@@ -74,8 +69,6 @@ const registrarTipoProyecto = (request, response) => {
                 });
             }
       });
-
-    //pool.release();
 };
 
 //ruta
@@ -90,11 +83,9 @@ const modificarTipoProyecto = (request, response) => {
     (error, results) => {
         if(error)
             throw error;
-        console.log("modifcar tipo de proyecto: "+tipo+" realizada");
         response.status(200).json({ "mensaje": "Tipo Proyecto: "+datos.Nombre+" Modificado",
                                     "peticion": "correcta" });
     });
-    //pool.release();
 };
 
 //ruta
@@ -103,7 +94,6 @@ app.route("/ModificarTipoProyecto/:tipo").post(modificarTipoProyecto);
 //eliminar un tipo de proyecto
 const EliminarTipoProyecto = (request, response) => {
     const tipo = request.params.tipo;
-    console.log("eliminar tipo de proyecto");
     pool.query("DELETE FROM TipoProyecto WHERE Nombre = ?", 
     [tipo],
     (error, results) => {
@@ -111,11 +101,8 @@ const EliminarTipoProyecto = (request, response) => {
             throw error;
             response.status(200).json({ "mensaje": "ha ocurrido un error"});
         }
-
         response.status(201).json({ "mensaje": "Tipo de proyecto: "+tipo+" eliminado"});
-
     });
-    //pool.release();
 };
 
 //ruta

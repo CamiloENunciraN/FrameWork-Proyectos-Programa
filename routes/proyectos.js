@@ -19,12 +19,10 @@ const getProyectos = (request, response) => {
     (error, results) => {
         if(error)
             throw error;
-        console.log("peticion de proyectos realizada");
         var  proyectos = results.map(v => Object.assign({}, v));
         var paginaProyecto = proyectos.slice(PInicial, PFinal)
         response.status(200).json(paginaProyecto);
     });
-   // pool.release();
 };
 
 //ruta
@@ -38,10 +36,8 @@ const getDatosProyecto = (request, response) => {
     (error, results) => {
         if(error)
             throw error;
-        console.log("peticion de proyecto: "+results[0].Nombre);
         response.status(200).json(results);
     });
-   // pool.release();
 };
 
 //ruta
@@ -55,10 +51,8 @@ const getNumeroProyectos = (request, response) => {
     (error, results) => {
         if(error)
             throw error;
-        console.log("peticion de numero de proyectos");
         response.status(200).json({ NProyectos: results.length });
     });
-    // pool.release();
 };
 
 //ruta
@@ -85,7 +79,6 @@ function crearConsultaProyecto(datos){
 //registrar proyecto
 const registrarProyecto = (request, response) => {
     const datos = request.body;
-    console.log("registrar proyecto");
     pool.getConnection((err, connection) => {
         if (err) {
           reject(err);
@@ -113,15 +106,12 @@ const registrarProyecto = (request, response) => {
                                             "peticion": "correcta" });
 
                 });
-
                     //busca el id del proyecto registrado
-
                     connection.query("SELECT IdProyecto FROM Proyecto WHERE Nombre=?", [datos.Nombre],
                     (error, results) => {
                         if(error){
                             throw error; 
                         }
-
                          //registra el ProyectoXAdministrador
                             const fechaAct=new Date();
                             connection.query("INSERT INTO ProyectoXAdministrador (IdProyecto, IdAdministrador, Fecha, Descripcion) VALUES (?,?,?,?)", 
@@ -138,14 +128,8 @@ const registrarProyecto = (request, response) => {
                 }
 
             });
-
-
-
-
         }
       });
-
-   // pool.release();
 };
 
 //ruta
@@ -160,11 +144,9 @@ const modificarProyecto = (request, response) => {
     (error, results) => {
         if(error)
             throw error;
-        console.log("modificar proyecto: "+id+" realizado");
         response.status(200).json({ "mensaje": "Proyecto: "+datos.Nombre+" Modificado",
                                     "peticion": "correcta" });
     });
-   // pool.release();
 };
 
 //ruta
@@ -172,7 +154,6 @@ app.route("/ModificarProyecto/:id").post(modificarProyecto);
 //eliminar proyecto
 const EliminarProyecto = (request, response) => {
     const id = request.params.id;
-    console.log("eliminar proyecto");
     pool.query("DELETE FROM Proyecto WHERE IdProyecto = ?", 
     [id],
     (error, results) => {
@@ -182,7 +163,6 @@ const EliminarProyecto = (request, response) => {
         }
         response.status(201).json({ "mensaje": "Proyecto: eliminado"});
     });
-   // pool.release();
 };
 
 //ruta

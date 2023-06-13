@@ -1,42 +1,59 @@
-# FrameWork-Proyectos-Programa
-## Analisis y diseño de sistemas
+# <center> FrameWork-Proyectos-Programa </center> 
+## <center> Analisis y diseño de sistemas </center> 
 
 
-![N|Solid](https://ingsistemas.cloud.ufps.edu.co/rsc/img/logo_vertical_ingsistemas_ht180.png)
+<center> 
+![N|Solid] (https://ingsistemas.cloud.ufps.edu.co/rsc/img/logo_vertical_ingsistemas_ht180.png)
 
-(https://ingsistemas.ufps.edu.co/)
+https://ingsistemas.ufps.edu.co/
+</center>
 
 **Objetivo general:**  
 Desarrollar un aplicativo Web que permita administrar los proyectos del programa ingenieria de sistemas de la universidad Francisco de Paula Santander.
 
+<hr/>
+
 ## Structure:
 
-ꔖ **Front-end** ꔖꔖ> HTML ꔖꔖ> CSS ꔖꔖ> Javascript
+**Front-end** 
+- HTML 
+- CSS 
+- Javascript
 
-ꔖ **Back-end**  ꔖꔖ> NodeJS
+**Back-end**
+- NodeJS
 
-ꔖ **Data Base** ꔖꔖ> Mysql
+**Data Base**
+- Mysql
+
+<hr/>
 
 ## Instalacion:
 
-necesita NodeJs + NPM
+Necesita Node.js + npm
 
-Comandos:
+### Comandos:
 
-**npm init**
+`npm init`
 
-**npm i express mysql dotenv**
+`npm i express mysql dotenv`
 
-crear un archivo .env en la raiz del proyecto con:
 
-PORT=
 
-DBHOST=
+Crear un archivo **.env** en la raiz del proyecto con:
 
-DBUSER=
+`PORT=`
 
-DBPASS=
+`DBHOST=`
 
-DBNAME=
+`DBUSER=`
 
-### 2023
+`DBPASS=`
+
+`DBNAME=`
+
+`DBPORT=`
+
+<hr/>
+
+## Universidad Francisco de Paula Santander, Cùcuta, 2023
